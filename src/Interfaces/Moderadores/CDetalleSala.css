@@ -1,0 +1,25 @@
+.divContenedorInfoSala{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10%;
+    margin-bottom: 10%;
+}
+
+.contenedorPrincipalSalas{
+    font-size: 50%;
+}
+
+/* #separadorDetalleSala{
+    width: 80%;
+}
+
+.divAbajoIS{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10%;
+    font-size: 50%;
+    margin-top: 10%;
+} */
+

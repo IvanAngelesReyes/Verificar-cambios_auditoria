@@ -1,0 +1,77 @@
+/*Elimina los scrolls pero modifica el contenido (contenedorDerecha)*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#sectionContenedorRC{
+    min-height: 100vh;
+    min-width: 100vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedorPrincipalRC{
+    background:#F5F5F5;
+
+    width: 400px;
+    height: 550px;
+
+    border-radius: 2em;
+    overflow: hidden;
+}
+
+.divArriba{
+    background: #005289;
+    width: 100%;
+    height: 60%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 60%;
+}
+
+.divAbajo{
+    background:#F5F5F5;
+    width: 100%;
+    height: 40%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.divAbajo p{
+    font-size: 60%;
+    text-align: center;
+}
+
+.contenedorPrincipalRC h2{
+    color:white;
+    margin-bottom: 4%;
+}
+
+.contenedorPrincipalRC p{
+    color:gray;
+    margin-bottom: 5%;
+}
+
+.divFormularioRC{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#btnRC{
+    margin-top: 10%;
+    margin-bottom: 5%;
+}

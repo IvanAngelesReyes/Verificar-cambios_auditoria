@@ -1,0 +1,116 @@
+/*
+Pendientes: 
+centrar el elemento en el eje vertical
+cambiar la fuente por la que esta en el documento
+el tamaño debe ser dinamico, tomar el 50% de la pantalla
+corregir colores
+cambiar el tamaño del icono a porcentaje
+*/
+
+/*Elimina los scrolls pero modifica el contenido (contenedorDerecha)*/
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#sectionContenedorL{
+  min-height: 100vh;
+  min-width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedorPrincipalL{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; /*Este no funciona, falta alinear los items verticalmente*/
+  
+
+  /*Define el tamaño que tendra el contenedor. debe ser dinamico*/
+  width: 55%;
+  height: 500px;
+
+}
+
+.contenedorIzquierdaL{
+  background-color: #005289;
+  height: 100%;
+  width: 35%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+
+}
+
+.contenedorDerechaL{
+  background: #F5F5F5;
+  height: 100%;
+  width: 65%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+
+}
+
+.contenedorDerechaL h2{
+  color: #005289;
+  margin-bottom: 5%;
+}
+
+.contenedorDerechaL p{
+  color: gray;
+  margin-bottom: 2.5%;
+  margin-top: 2.5%;
+  font-size: 80%;
+}
+
+
+#contenidoDerechaL a{
+  font-size: 80%;
+}
+
+#contenidoDerechaL{
+  
+  padding: 5%;
+  
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 60%;
+}
+
+#btnIniciar{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#olvidasteContra{
+  font-size: 90%;
+}
+
+#linkRegistroLogin{
+  color:#005289;
+}
+
+#olvidasteContra{
+  color:#005289;
+}
+
+#textoLogin{
+  text-align: center;
+}

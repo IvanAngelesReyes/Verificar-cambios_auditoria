@@ -1,0 +1,134 @@
+/*Elimina los scrolls pero modifica el contenido (contenedorDerecha)*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedorPrincipalReg{
+    display:flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.contenedorIzquierdaReg{
+    background-color: #005289;
+    height: 100%;
+    width: 35%;
+
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; /*Este no funciona, falta alinear los items verticalmente*/
+}
+
+.contenedorDerechaReg{
+    background: #F5F5F5;
+    height: 100%;
+    width: 65%;
+
+    padding: 2%;
+    box-sizing: border-box;
+
+}
+
+#h1Reg{
+    color:#005289;
+    margin-bottom: 3%;
+    font-size: 2rem;
+}
+
+#pReg{
+    color:gray;
+    margin-bottom: 3%;
+    font-size: 1.10rem;
+}
+
+#btnCrearCuentaMR{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+/*#contenidoDerecha h1{
+    display: flex;
+    justify-content: center;
+}
+
+#contenidoDerecha p{
+    display: flex;
+    justify-content: center;
+}*/
+
+#contenidoDerechaReg{
+    margin-top: 5%;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formNR{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formAP{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formAM{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formNR{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formC{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#formReg formContra{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#divUniversidadesReg{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

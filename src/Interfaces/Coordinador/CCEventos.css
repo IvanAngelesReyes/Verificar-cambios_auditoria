@@ -1,0 +1,17 @@
+.titulo{
+    position: fixed;
+    left: 600px;
+    top: 35px;
+}
+
+.ubibotmenu{
+    position: fixed;
+    left: 300px;
+    top: 250px;
+}
+
+.envicorreo{
+    position: fixed;
+    left: 680px;
+    top: 400px;   
+}

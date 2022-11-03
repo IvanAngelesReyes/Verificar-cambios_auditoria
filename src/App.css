@@ -1,0 +1,291 @@
+:root {
+  --background1: #f4f6f9;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/*
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  font-size: calc(10px + 2vmin);
+  color: white;
+  overflow: hidden;
+  */
+.App-header {
+  background-color: var(--background1);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loginBox {
+  border-radius: 10px;
+  position: absolute;
+
+  text-align: center;
+  padding: 60px 32px;
+  width: 370px;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.133);
+
+  border: 1px solid rgb(145, 145, 145);
+  backdrop-filter: blur(3px);
+  box-align: 0 0 6px 0 rgba(29, 29, 29, 00.203);
+
+  color: rgb(51, 51, 51) !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .loginBox {
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    text-align: center;
+    padding: 60px 32px;
+    width: 70%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.133);
+
+    border: 1px solid rgb(145, 145, 145);
+    backdrop-filter: blur(3px);
+    box-align: 0 0 6px 0 rgba(29, 29, 29, 00.203);
+
+    color: rgb(63, 63, 63) !important;
+  }
+}
+
+.boxLoginRegister {
+  border-radius: 10px;
+  position: absolute;
+
+  text-align: center;
+  padding: 5px;
+  width: 700px;
+  height: 500px;
+
+  background: #fff;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 600px) {
+  .boxLoginRegister {
+    border-radius: 10px;
+    position: absolute;
+
+    text-align: center;
+    padding: 5px;
+    width: 360px;
+    height: 500px;
+
+    background: #fff;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+  background: #fff;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+.img-bx {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.5);
+  transform-origin: top;
+}
+
+.img-bx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
+}
+.card-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.card-detail p {
+  color: #444;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.card-sci {
+  position: relative;
+  display: flex;
+  margin-top: 5px;
+}
+
+.sombra3 {
+  box-shadow: 0px 5px 15px 0px rgba(112, 112, 112, 0.2);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.pad2 {
+  margin-top: 20px;
+}
+
+.flygps {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 20px !important;
+}
+.frutiColor {
+  background-color: rgb(226, 243, 253) !important;
+  border-radius: 5px !important;
+  z-index: 3 !important;
+}
+
+.rdw-option-wrapper {
+  border-radius: 5px !important;
+  border-radius: 5px !important ;
+  background-color: rgb(226, 243, 253) !important;
+  border-bottom-color: rgb(226, 243, 253) !important;
+}
+.rdw-option-wrapper:hover {
+  border-radius: 5px !important;
+  background-color: rgb(148, 198, 226) !important;
+  border-bottom-color: rgb(148, 198, 226) !important;
+}
+.rdw-dropdown-selectedtext {
+  color: black !important;
+  border-radius: 5px !important;
+  border-radius: 5px !important;
+  background-color: rgb(226, 243, 253) !important;
+  border-bottom-color: rgb(226, 243, 253) !important;
+}
+.rdw-dropdown-selectedtext:hover {
+  color: black !important;
+  border-radius: 5px !important;
+  background-color: rgb(226, 243, 253) !important;
+  border-bottom-color: rgb(226, 243, 253) !important;
+}
+
+.rdw-option-active {
+  border-radius: 5px !important;
+  background-color: rgb(226, 243, 253) !important;
+  border-bottom-color: rgb(226, 243, 253) !important;
+}
+.rdw-dropdown-wrapper {
+  border-radius: 5px !important;
+}
+
+.dimention {
+  transform: scale(0.7);
+}
+
+.cajitaShow {
+  max-height: 450px !important;
+  margin: 0 0 !important;
+  padding: 0 !important;
+}
+
+.margen_textEditor {
+  width: 100%;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 5px;
+}
+.margen_textEditor .tituloCorreo {
+  width: fit-content;
+  font-size: 18px;
+  margin-top: -10px;
+  margin-left: 5px;
+}
+.margen_textEditor .comentarioCorreo {
+  width: fit-content;
+  font-size: 15px !important;
+  margin-left: 5px;
+}
+
+.margen_textEditor > div {
+  padding: 15px;
+}
+
+.font_textEditor {
+  font-size: 15px;
+}
+
+.Mui-selected {
+  background: #668dc0 !important;
+}
+
+.iconos_Menu .css-i4bv87-MuiSvgIcon-root {
+  color: #ffffff !important;
+}
+
+.tabla1 {
+  background-color: var(--background1) !important;
+  overflow-y: auto;
+}
+
+.comentarioCorreoGeneral {
+  width: fit-content;
+  font-size: 15px;
+  margin-left: 5px;
+}

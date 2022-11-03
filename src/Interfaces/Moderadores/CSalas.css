@@ -1,0 +1,15 @@
+/*Elimina los scrolls pero modifica el contenido (contenedorDerecha)*/
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+.contenedorPrincipalSalas{
+    margin-left: 5%;
+}
+
+.tituloSala{
+    color:#005289;
+    margin-bottom: 3%;
+}
