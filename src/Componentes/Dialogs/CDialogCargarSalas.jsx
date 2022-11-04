@@ -87,7 +87,7 @@ export default function CDialogCargarSalas(props) {
       const csvHeader = vTextCSVTmp
         .slice(0, vTextCSVTmp.indexOf("\n"))
         .split(",");
-      csvHeader[0] = "_ID";
+      csvHeader[0] = "ID";
       //console.log(csvHeader);
       csvHeader.push("Moderador");
       csvHeader.push("Modalidad");
@@ -119,7 +119,7 @@ export default function CDialogCargarSalas(props) {
             switch (vHeaderI) {
               case "":
               case "id":
-                object["_id"] = values[index + vCont];
+                object["id"] = values[index + vCont];
                 break;
               case "moderador":
                 object[vHeaderI] = "";
