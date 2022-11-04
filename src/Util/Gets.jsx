@@ -10,7 +10,6 @@ export async function mGetCoordinadores(setVRegistrosCoordinadores) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    console.log(vResponse);
     setVRegistrosCoordinadores(vResponse);
   });
 }
@@ -61,7 +60,6 @@ export async function mGetModeradores(setVRegistrosModeradores) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    console.log(vResponse);
     setVRegistrosModeradores(vResponse);
   });
 }
@@ -74,7 +72,6 @@ export async function mGetSalas(setVSalas,setvKeySalas) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    //console.log(vResponse);
     setVSalas(vResponse);
     setvKeySalas(Date.now())
   });
@@ -89,7 +86,6 @@ export async function mGetAreaInteres(setvArea) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    console.log(vResponse);
     setvArea(vResponse);
   });
 }
@@ -103,7 +99,6 @@ export async function mGetModeradores2(setVRegistrosModeradores) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    console.log(vResponse);
     setVRegistrosModeradores(vResponse);
   });
 }

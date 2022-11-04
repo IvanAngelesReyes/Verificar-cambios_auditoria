@@ -6,7 +6,7 @@ export async function mEliminarCoordinador(vRegistro) {
     await fetch(
       Variables.v_URL_API2 + "/api/usuarios/eliminar-coordinador/"+vRegistro.uid,
       {
-        method: "PUT",
+        method: "DELETE",
         headers:{
           "Content-Type":"application/json"
         },
@@ -22,7 +22,7 @@ export async function mEliminarCoordinador(vRegistro) {
     await fetch(
       Variables.v_URL_API2 + "/api/usuarios/eliminar-moderador/"+vRegistro.uid,
       {
-        method: "PUT",
+        method: "DELETE",
         headers:{
           "Content-Type":"application/json"
         },

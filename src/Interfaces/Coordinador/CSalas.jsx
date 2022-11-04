@@ -40,8 +40,9 @@ export default function CSalas(props) {
   const [vSalas, setvSalas] = React.useState([]);
 
   const [page, setPage] = React.useState(1);
-  const handleChangePages = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChangePages = (event, value) => {
     setPage(value);
+    setVKey(Date.now())
   };
 
   //////////////////////////
@@ -85,7 +86,8 @@ export default function CSalas(props) {
     return [
       ...new Set(
         await vSalas.map((item) => {
-          return item["Institucion(es)"];
+          console.log(item)
+          return item["institucion(es)"];
         })
       ),
     ];
@@ -126,14 +128,13 @@ export default function CSalas(props) {
   };
 
   function mCuadrosCoordinadores() {
-    return vRegistrosFiltrados[page].map((item) => {
+    return vRegistrosFiltrados[page-1].map((item) => {
       return <CConsultaSalaCuadro vSala={item} />;
     });
   }
 
   function mListasCoordinadores() {
-    return vRegistrosFiltrados[page].map((item) => {
-      //console.log(item);
+    return vRegistrosFiltrados[page-1].map((item) => {
       return <CConsultaSalaLista vSala={item} />;
     });
   }
@@ -145,19 +146,25 @@ export default function CSalas(props) {
       if (vIsFiltro) {
         mfiltroInstituciones([...vSalas]).then((result) => {
           mFiltroOrden([...result]).then((result2) => {
-            console.log(result2)
-            setVRegistrosFiltrados(
-              Metodos.chunckArrayInGroups([...result2], result2.length)
+            Metodos.chunckArrayInGroups([...result2], result2.length).then(
+              result3 => setVRegistrosFiltrados(result3)
             );
-            setVIsFiltro(false);
-            setVKey(Date.now());
-            setvIsCargado(true);
+            
             if (vListaInstituciones.length === 0) {
               mSacarInstitucion([...vSalas]).then((result3) => {
+                console.log(result3);
                 mFiltroOrden([...result3]).then((result4) => {
-                  setVListaInstituciones(result3);
+                  console.log(result4);
+                  setVListaInstituciones(result4);
+                  setVIsFiltro(false);
+                  setVKey(Date.now());
+                  setvIsCargado(true);
                 });
               });
+            } else {
+              setVIsFiltro(false);
+              setVKey(Date.now());
+              setvIsCargado(true);
             }
           });
         });

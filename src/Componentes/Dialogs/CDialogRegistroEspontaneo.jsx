@@ -98,7 +98,7 @@ export default function CDialogDetallesSala(props) {
             divider={<Mui.Divider orientation="horizontal" flexItem />}
             spacing={1}
           >
-            {vSala?.moderador!=="" && (
+            {vSala?.moderador!==undefined && (
               <Mui.TextField
                 disabled
                 label={Variables.v_TEXTOS.moderador_actual}

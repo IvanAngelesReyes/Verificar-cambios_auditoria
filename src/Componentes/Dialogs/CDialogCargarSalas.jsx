@@ -41,13 +41,13 @@ export default function CDialogCargarSalas(props) {
   const [vColumnas, setvColumnas] = React.useState([]);
   const [vFilas, setvFilas] = React.useState([]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    pageSize: number,
-    details: GridCallbackDetails
+    pageSize,
+    details
   ) => {
     setRowsPerPage(pageSize);
     setPage(0);
@@ -64,13 +64,12 @@ export default function CDialogCargarSalas(props) {
   };
   const handleCloseAsignar = () => {
     mCargarSalas(vFilas);
-    Metodos.chunckArrayInGroups(
-      [...vFilas],
-      vFilas.length
-      ).map(items=>{
+    //console.log(vFilas)
+    Metodos.chunckArrayInGroups(vFilas, vFilas.length).then((result) =>
+      result.map((items) => {
         Posts.mAgregarSalas(items);
-        
-    })
+      })
+    );
     /*vFilas.map((item) => {
       Posts.mAgregarSalas(item);
     }); */
@@ -88,8 +87,9 @@ export default function CDialogCargarSalas(props) {
       const csvHeader = vTextCSVTmp
         .slice(0, vTextCSVTmp.indexOf("\n"))
         .split(",");
-      csvHeader[0] = "ID";
+      csvHeader[0] = "_ID";
       //console.log(csvHeader);
+      csvHeader.push("Moderador");
       csvHeader.push("Modalidad");
       csvHeader.push("Estatus");
 
@@ -100,8 +100,8 @@ export default function CDialogCargarSalas(props) {
 
       const vFilasTabla = csvRows.map((i, vIndex) => {
         const values = i.split(",");
-        console.log(vIndex, i);
-        console.log(values);
+        //console.log(vIndex, i);
+        //console.log(values);
 
         const regexInit = '^"';
         const regexFinal = '"$';
@@ -118,9 +118,11 @@ export default function CDialogCargarSalas(props) {
               .toLowerCase();
             switch (vHeaderI) {
               case "":
-                object["id"] = values[index + vCont];
+              case "id":
+                object["_id"] = values[index + vCont];
                 break;
               case "moderador":
+                object[vHeaderI] = "";
               case "correo":
               case "sexo":
               case "celular":
@@ -175,6 +177,7 @@ export default function CDialogCargarSalas(props) {
             }
             return object;
           }, {});
+          console.log(obj)
           return obj;
         } catch (error) {
           console.log("Error :o", error);

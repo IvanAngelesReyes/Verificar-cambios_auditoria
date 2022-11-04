@@ -35,7 +35,7 @@ export default function CSalaActiva(props) {
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
-            width: "100%"
+            width: "100%",
           },
         }}
       >
@@ -47,7 +47,6 @@ export default function CSalaActiva(props) {
           alignItems="stretch"
         >
           <Mui.TextField
-            
             id="standard-read-only-input"
             label="institucion"
             defaultValue={vRegistro["institucion(es)"]}
@@ -57,7 +56,6 @@ export default function CSalaActiva(props) {
             variant="standard"
           />
           <Mui.TextField
-            
             id="standard-read-only-input"
             label="Area"
             defaultValue={vRegistro.area}
@@ -67,16 +65,15 @@ export default function CSalaActiva(props) {
             variant="standard"
           />
           <Mui.TextField
-            
             id="standard-read-only-input"
             label="Sala"
-            defaultValue={vRegistro.sala}
+            defaultValue={vRegistro.salon}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
-          <Mui.Button  variant="contained" onClick={handleClick}>
+          <Mui.Button variant="contained" onClick={handleClick}>
             Cerrar
           </Mui.Button>
         </Mui.Grid>

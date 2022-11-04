@@ -56,12 +56,10 @@ export default function CCoordinador(props) {
   const [vKeySalas, setvKeySalas] = React.useState(Date.now());
   const [vActualizarEstado, setvAcctualizarEstado] = React.useState();
 
-  console.log(vRegistrosModeradores);
-
   const mActualziarCoordinarodes = (vCoordinadoresTmp) => {
     console.log(vCoordinadoresTmp);
     setVRegistrosCoordinadores(vCoordinadoresTmp);
-    //vActualizarEstado();
+    vActualizarEstado();
   };
 
   const mActualizarModeradores = (vModeradoresTmp) => {
@@ -71,14 +69,15 @@ export default function CCoordinador(props) {
   };
 
   const mCargarSalas = (vSalasNuevas) => {
-    setvSalasCargadas([...vSalasCargadas, vSalasNuevas]);
+    setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
+    setvKey(Date.now(0))
   };
 
   const mActualziarSalas = (vSalaActualizada, setvActualizarHome) => {
     console.log(vSalaActualizada);
     setvSalasCargadas(
       vSalasCargadas.map((item) => {
-        return item.id === vSalaActualizada.id ? vSalaActualizada : item;
+        return item._id === vSalaActualizada._id ? vSalaActualizada : item;
       })
     );
     setvActualizarHome(Date.now);

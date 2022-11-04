@@ -50,21 +50,17 @@ export default function CHome(props) {
   const [vSalas, setvSalas] = React.useState([]);
   const [vSalasActivas, setvSalasActivas] = React.useState([]);
   const [vSalasInactivas, setvSalasInactivas] = React.useState([]);
-  const [vIsCargado, setvIsCargado] = React.useState(false);
+  const [vIsCargadoActivo, setvIsCargadoActivo] = React.useState(false);
+  const [vIsCargadoInactivo, setvIsCargadoInactivo] = React.useState(false);
 
   const [pageInactivo, setPageInactivo] = React.useState(1);
-  const handleChangePagesInactivo = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handleChangePagesInactivo = (event, value) => {
+    console.log(value);
     setPageInactivo(value);
     setVKey(Date.now());
   };
   const [pageActivo, setPageActivo] = React.useState(1);
-  const handleChangePagesActivo = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handleChangePagesActivo = (event, value) => {
     setPageActivo(value);
     setVKey(Date.now());
   };
@@ -85,49 +81,49 @@ export default function CHome(props) {
   };
 
   const mSacarActivosInactivos = async (vSalasTmp) => {
-    var vSalasActivasTmp=[]
-    var vSalasInactivasTmp=[]
+    var vSalasActivasTmp = [];
+    var vSalasInactivasTmp = [];
     vSalasTmp.map((item) => {
       if (item.estatus === "Activa") {
         vSalasActivasTmp.push(item);
-      } else {
-        //console.log(item)
+      } else if (item.estatus !== "Cerrada") {
         vSalasInactivasTmp.push(item);
+      } else {
+        //vSalasInactivasTmp.push(item);
       }
     });
-    return [vSalasActivasTmp,vSalasInactivasTmp]
+    return [[...vSalasActivasTmp], [...vSalasInactivasTmp]];
   };
 
   React.useEffect(() => {
     if (vSalas.length > 0) {
       mFiltroOrden([...vSalas]).then((result2) => {
-        console.log("OrdenFinalizado");
-        //console.log(result2)
-        //console.log(result2);
-        //setvSalas(result2);
         mSacarActivosInactivos(result2).then((result3) => {
-          console.log(result3[1])
-          setvSalasActivas(Metodos.chunckArrayInGroups(
-            [...result3[0]],
-            result3[0].length
-          ))
-          setvSalasInactivas(Metodos.chunckArrayInGroups(
-            [...result3[1]],
-            result3[1].length
-          ))
-          console.log(vSalasActivas)
-          setVKey(Date.now());
-          setvIsCargado(true);
+          var [vSalasActivas, vSalasInactivas] = result3;
+          Metodos.chunckArrayInGroups(vSalasActivas, vSalasActivas.length).then(
+            (result4) => {
+              setvSalasActivas(result4);
+              setVKey(Date.now());
+              setvIsCargadoActivo(true);
+            }
+          );
+          Metodos.chunckArrayInGroups(
+            vSalasInactivas,
+            vSalasInactivas.length
+          ).then((result4) => {
+            setvSalasInactivas(result4);
+            setVKey(Date.now());
+            setvIsCargadoInactivo(true);
+          });
         });
       });
     }
     if (vSalasCargadas.length > 0) {
       setvSalas(vSalasCargadas);
-      console.log("cargado");
     } else {
-      setvIsCargado(true);
+      //setvIsCargado(true);
     }
-  }, [vSalasCargadas.length, vSalas.length]);
+  }, [vSalasCargadas, vSalas]);
 
   function mCuadrosSalasActivas(vSalasAvtivas) {
     return vSalasAvtivas.map((item) => (
@@ -167,7 +163,7 @@ export default function CHome(props) {
   }
 
   const mVistaSalasActivas = (vSeleccionarLista) => {
-    if (vIsCargado) {
+    if (vIsCargadoActivo) {
       if (vSalas.length === 0) {
         return (
           <Mui.Typography variant="body1" component="p">
@@ -175,9 +171,6 @@ export default function CHome(props) {
           </Mui.Typography>
         );
       } else {
-        const vSalasActivasFi = vSalas.filter((item) => {
-          return item.estatus === "Activa";
-        });
         if (vSeleccionarLista) {
           if (vSalasActivas.length > 0) {
             return (
@@ -193,10 +186,10 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageActivo}
-                  onChange={setPageActivo}
+                  onChange={handleChangePagesActivo}
                 />
                 <Mui.Stack direction="column" spacing={2}>
-                  {mListasSalasActivas(vSalasActivas[pageActivo])}
+                  {mListasSalasActivas(vSalasActivas[pageActivo - 1])}
                 </Mui.Stack>
                 <Mui.Pagination
                   count={vSalasActivas.length - 1}
@@ -204,7 +197,7 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageActivo}
-                  onChange={setPageActivo}
+                  onChange={handleChangePagesActivo}
                 />
               </Mui.Stack>
             );
@@ -230,10 +223,10 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageActivo}
-                  onChange={setPageActivo}
+                  onChange={handleChangePagesActivo}
                 />
                 <Mui.Grid container spacing={5} justifyContent="center">
-                  {mCuadrosSalasActivas(vSalasActivas[pageActivo])}
+                  {mCuadrosSalasActivas(vSalasActivas[pageActivo - 1])}
                 </Mui.Grid>
                 <Mui.Pagination
                   count={vSalasActivas.length - 1}
@@ -241,7 +234,7 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageActivo}
-                  onChange={setPageActivo}
+                  onChange={handleChangePagesActivo}
                 />
               </Mui.Stack>
             );
@@ -269,7 +262,7 @@ export default function CHome(props) {
   };
 
   const mVistaSalasInactivas = (vSeleccionarLista) => {
-    if (vIsCargado) {
+    if (vIsCargadoInactivo) {
       if (vSalas.length === 0) {
         return (
           <Mui.Typography variant="body1" component="p">
@@ -285,7 +278,7 @@ export default function CHome(props) {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                spacing={0}
+                spacing={1}
               >
                 <Mui.Pagination
                   count={vSalasInactivas.length - 1}
@@ -293,10 +286,10 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageInactivo}
-                  onChange={setPageInactivo}
+                  onChange={handleChangePagesInactivo}
                 />
                 <Mui.Stack direction="column" spacing={2}>
-                  {mListasSalasInactivas(vSalasInactivas[[pageInactivo]])}
+                  {mListasSalasInactivas(vSalasInactivas[pageInactivo - 1])}
                 </Mui.Stack>
                 <Mui.Pagination
                   count={vSalasInactivas.length - 1}
@@ -304,7 +297,7 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageInactivo}
-                  onChange={setPageInactivo}
+                  onChange={handleChangePagesInactivo}
                 />
               </Mui.Stack>
             );
@@ -322,7 +315,7 @@ export default function CHome(props) {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                spacing={0}
+                spacing={1}
               >
                 <Mui.Pagination
                   count={vSalasInactivas.length - 1}
@@ -330,11 +323,19 @@ export default function CHome(props) {
                   showFirstButton
                   showLastButton
                   page={pageInactivo}
-                  onChange={setPageInactivo}
+                  onChange={handleChangePagesInactivo}
                 />
                 <Mui.Grid container spacing={5} justifyContent="center">
-                  {mCuadrosSalasInactivas(vSalasInactivas[[pageInactivo]])}
+                  {mCuadrosSalasInactivas(vSalasInactivas[pageInactivo - 1])}
                 </Mui.Grid>
+                <Mui.Pagination
+                  count={vSalasInactivas.length - 1}
+                  shape="rounded"
+                  showFirstButton
+                  showLastButton
+                  page={pageInactivo}
+                  onChange={handleChangePagesInactivo}
+                />
               </Mui.Stack>
             );
           } else {

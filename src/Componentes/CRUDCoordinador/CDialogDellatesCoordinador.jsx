@@ -139,13 +139,11 @@ export default function CDialogDellatesCoordinador(props) {
       setVIsModoModificar(!vIsModoModificar);
       mCarncelarEdicion();
     } else {
-      let vRegistrosCoordinadoresTmp = [];
-
-      for (let i = 0; i < vRegistrosCoordinadores.length; i++) {
-        if (vRegistrosCoordinadores[i].uid !== vRegistro.uid) {
-          vRegistrosCoordinadoresTmp.push(vRegistrosCoordinadores[i]);
+      let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores.filter(
+        (item) => {
+          return item.uid !== vRegistro.uid;
         }
-      }
+      );
       Deletes.mEliminarCoordinador(vRegistro)
       setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp, true);
       setVIsModoModificado(true);

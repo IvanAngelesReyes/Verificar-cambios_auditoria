@@ -29,7 +29,7 @@ export default function CSalaInactiva(props) {
   }
 
   return (
-    <Mui.Paper sx={{m:1}} elevation={3}>
+    <Mui.Paper sx={{ m: 1 }} elevation={3}>
       <Mui.Box
         sx={{
           display: "flex",
@@ -47,7 +47,13 @@ export default function CSalaInactiva(props) {
           alignItems="center"
           spacing={2}
         >
-          <Mui.Button disabled={vRegistro?.moderador!==""?false:true} variant="contained" onClick={handleClick}>{Variables.v_TEXTOS.abrir_sala}</Mui.Button>
+          <Mui.Button
+            disabled={vRegistro?.moderador !== undefined ? false : true}
+            variant="contained"
+            onClick={handleClick}
+          >
+            {Variables.v_TEXTOS.abrir_sala}
+          </Mui.Button>
           <Mui.TextField
             id="standard-read-only-input"
             label="Institucion"
@@ -69,13 +75,17 @@ export default function CSalaInactiva(props) {
           <Mui.TextField
             id="standard-read-only-input"
             label="Sala"
-            defaultValue={vRegistro.sala}
+            defaultValue={vRegistro.salon}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
-          <CDialogRegistroEspontaneo setVKey={setVKey} vSala={vRegistro} mActualziarSalas={mActualziarSalas} />
+          <CDialogRegistroEspontaneo
+            setVKey={setVKey}
+            vSala={vRegistro}
+            mActualziarSalas={mActualziarSalas}
+          />
         </Mui.Stack>
       </Mui.Box>
     </Mui.Paper>

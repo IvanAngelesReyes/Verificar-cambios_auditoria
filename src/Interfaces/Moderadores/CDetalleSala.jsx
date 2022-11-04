@@ -1,7 +1,7 @@
 import React from 'react'
 import './CDetalleSala.css';
 import MBotonExpo from '../../Componentes/Botones/MBotonExpo.jsx'
-import MBotonAsistencias from '/var/www/moderadores/src/Componentes/Botones/CBotonCuadroLista.jsx'
+//import MBotonAsistencias from '/var/www/moderadores/src/Componentes/Botones/CBotonCuadroLista.jsx'
 
 
 export default function CDetalleSala(props) {

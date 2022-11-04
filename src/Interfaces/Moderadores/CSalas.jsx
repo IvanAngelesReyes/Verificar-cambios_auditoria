@@ -1,8 +1,8 @@
 import React from 'react'
 import './CSalas.css';
 import * as Gets from '../../Util/Gets';
-import MBotonSala from '/var/www/moderadores/src/Componentes/Botones/MBotonSala.jsx'
-import MBotonSalaVirtual from '/var/www/moderadores/src/Componentes/Botones/MBotonSalaVirtual.jsx'
+import MBotonSala from '../../Componentes/Botones/MBotonSala.jsx'
+import MBotonSalaVirtual from '../../Componentes/Botones/MBotonSalaVirtual.jsx'
 
 
 export default function CSalas(props) {

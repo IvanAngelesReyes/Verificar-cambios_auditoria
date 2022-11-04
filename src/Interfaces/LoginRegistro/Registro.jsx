@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import * as Mui from "@mui/material";
 import './Registro.css';
-import CUniversidades from '/var/www/moderadores/src/Componentes/Selects/CUniversidades.jsx';
-import CContra from '/var/www/moderadores/src/Componentes/RegistroModeradores/CContra.jsx';
-import CAreaInteres from '/var/www/moderadores/src/Componentes/Selects/CAreaInteres.jsx';
+import CUniversidades from '../../Componentes/Selects/CUniversidades.jsx';
+import CContra from '../../Componentes/RegistroModeradores/CContra.jsx';
+import CAreaInteres from '../../Componentes/Selects/CAreaInteres.jsx';
 import * as Posts from "../../Util/Posts";
 /*Variables de los componentes de institucion, area y contraseña*/
 
