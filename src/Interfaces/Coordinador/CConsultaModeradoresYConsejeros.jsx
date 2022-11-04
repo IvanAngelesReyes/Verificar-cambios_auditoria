@@ -92,17 +92,17 @@ export default function CConsultaModeradoresYConsejeros(props){
    const mFiltroOrden = async (vRegistros) => {
     if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
       return await vRegistros.sort((a, b) =>
-        a.nombre > b.nombre
+        a.nombre.toLowerCase() > b.nombre.toLowerCase()
           ? 1
-          : a.nombre < b.nombre
+          : a.nombre.toLowerCase() < b.nombre.toLowerCase()
           ? -1
           : 0
       );
     } else {
       return await vRegistros.sort((a, b) =>
-        a.nombre < b.nombre
+        a.nombre.toLowerCase() < b.nombre.toLowerCase()
           ? 1
-          : a.nombre > b.nombre
+          : a.nombre.toLowerCase() > b.nombre.toLowerCase()
           ? -1
           : 0
       );
