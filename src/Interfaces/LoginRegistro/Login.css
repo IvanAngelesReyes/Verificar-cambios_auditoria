@@ -1,8 +1,6 @@
 /*
 Pendientes: 
-centrar el elemento en el eje vertical
 cambiar la fuente por la que esta en el documento
-el tamaño debe ser dinamico, tomar el 50% de la pantalla
 corregir colores
 cambiar el tamaño del icono a porcentaje
 */
@@ -48,10 +46,12 @@ cambiar el tamaño del icono a porcentaje
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
 
+  overflow: hidden;
+
 }
 
 .contenedorDerechaL{
-  background: #F5F5F5;
+  background: #efefef;
   height: 100%;
   width: 65%;
 
@@ -61,6 +61,8 @@ cambiar el tamaño del icono a porcentaje
 
   border-top-right-radius: 2em;
   border-bottom-right-radius: 2em;
+
+  overflow: hidden;
 
 }
 
@@ -73,12 +75,12 @@ cambiar el tamaño del icono a porcentaje
   color: gray;
   margin-bottom: 2.5%;
   margin-top: 2.5%;
-  font-size: 80%;
+  font-size: 100%;
 }
 
 
 #contenidoDerechaL a{
-  font-size: 80%;
+  font-size: 100%;
 }
 
 #contenidoDerechaL{
@@ -91,7 +93,7 @@ cambiar el tamaño del icono a porcentaje
   flex-direction: column;
   align-items: center;
 
-  font-size: 60%;
+  font-size: 90%;
 }
 
 #btnIniciar{
