@@ -1,5 +1,5 @@
 import * as Variables from "../Global/Variables";
-//import { useState } from 'react';
+import CModerador from '../Interfaces/Moderadores/CModerador'
 
 export async function mLoginCoordinador(vLogin){
 
@@ -17,24 +17,19 @@ export async function mLoginCoordinador(vLogin){
   )
     .then((response) => response.json())
     .then(data => {
-      console.log("La respuesta del login de coordinadores fue: "+data.msg)
       respuestacordi = data.msg
-    })
 
-    if(respuestacordi === "Hable con el administrador"){
-      alert("Hable con el administrador");
-    }else{
-      if(respuestacordi === "login ok"){
-        /*Abrir la pagina de coordinadores*/
+      if(respuestacordi === "Usuario / Contraserña incorrectos"){
+        alert("El usuario o contraseña son incorrectos");
       }
-    }
+
+    })
 
 }
 
-export async function mLoginModerador(vLogin,){
+export async function mLoginModerador(vLogin){
 
   let respuesta
-  let usuario
   let consejero
   let estado
 
@@ -50,42 +45,24 @@ export async function mLoginModerador(vLogin,){
   )
     .then((response) => response.json())
     .then(data => {
-      //console.log(data)
-      alert(data.msg)
       respuesta = data.msg
-      usuario = data.vUsuario.nombre
-      consejero = data.vUsuario.consejero
-      estado = data.vUsuario.estado
 
-      /*if(usuario==="Leandro"){
-        mDatDatos(data.vUsuario)
-      }*/
-    })
-
-    if(respuesta === "login ok"){
-      if(estado === true){
-        alert("Inicio de sesion exitoso como moderador");
-        //mDatDatos(usuario)
-        if(consejero === true){
-          alert("Ingreso como consejero")
-          //PONER AQUI VENTANA DE MODERADOR
-          //{()=>setvFrame("registro")}
+      if(respuesta === 'login ok'){
+        estado = data.vUsuario.estado
+        if(estado===true){
+          consejero = data.vUsuario.consejero
+          alert("Inicio de sesion exitoso como moderador");
+          <CModerador/>
+          if(consejero === true){
+            alert("Inicio de sesion exitoso como consejero");
+          }
+        }else{
+          alert("Debe esperar que un coordinador apruebe su solicitud")
         }
       }else{
-        alert("Debe esperar confirmacion para que un coordinador le de permiso de ingresar")
-      }
-    }else{
-      //if(respuesta === "Usuario / Contraserña incorrectos"){
-        alert("El usuario o la contraseña son incorrectos")
-        mLoginCoordinador(vLogin)
-      //}
-    }
-
-    /*console.log("La respuesta fue: " + respuesta)
-    console.log("El nombre de la persona es: " + usuario)
-    console.log("Tiene rol de consejero: " + consejero)
-    console.log("Estado de la persona: " + estado)*/
-
+        alert("El usuario o contraseña son incorrectos");
+      }      
+    })
 }
 
 export async function mAgregarModerador(vRegistroM){
@@ -101,9 +78,8 @@ export async function mAgregarModerador(vRegistroM){
     }
   )
     .then((response) => response.json())
-    .then(data => {
-      console.log(data.msg)});
-    /*alert("Se registro como moderador. Espere para ser aceptado en el programa ")*/
+    .then(data => {console.log(data)});
+    //falta poner un mensaje de error o exito
 }
 
 export async function mAgregarCoordinador(vRegistro) {

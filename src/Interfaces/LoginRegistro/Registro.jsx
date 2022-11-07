@@ -48,7 +48,7 @@ export default function Registro(){
         console.log(vInstitucion);
 
         Posts.mAgregarModerador(vRegistroM);
-        Posts.mEnviarCorreo("1",vCorreo + ",leandrgomez682@gmail.com") /* 2o parametro. Correo al cordinador*/
+        //Posts.mEnviarCorreo("1",vCorreo + ",leandrgomez682@gmail.com")
     }
 
     return(

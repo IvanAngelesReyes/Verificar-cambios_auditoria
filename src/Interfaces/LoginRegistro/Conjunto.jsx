@@ -6,7 +6,7 @@ import RecuperaContra from "./RecuperaContra";
 import CModerador from "../Moderadores/CModerador"
 
 export default function Conjunto() {
-  const [vFrame, setvFrame] = React.useState("login"); // 1: Login, 2: Creacr cuenta, 3 Recuperar contraseña
+  const [vFrame, setvFrame] = React.useState("login");
   
   const mCambiarFrame = () => {
     switch (vFrame) {

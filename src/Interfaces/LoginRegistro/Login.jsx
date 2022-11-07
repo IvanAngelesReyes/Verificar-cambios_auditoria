@@ -4,15 +4,14 @@ import * as MuiIcons from '@mui/icons-material';
 import './Login.css';
 import * as Posts from "../../Util/Posts";
 
-export default function LoginNuevo(props){
+export default function Login(props){
 
     /**Trae los datos de el post de login*/
     //const {respuesta, setRespuesta} = React.useState("");
 
-    const {setvFrame, mDatDatos}=props
+    const {setvFrame}=props
 
     const[vCorreo,setvCorreo] = React.useState("");
-    // const[vPassword,setvPassword] = React.useState("");
 
     const [values, setValues] = React.useState({
         password: '',
@@ -43,13 +42,9 @@ export default function LoginNuevo(props){
         console.log(vCorreo);
         console.log(values.password);
 
+        Posts.mLoginModerador (vLogin);
+        //Posts.mLoginCoordinador(vLogin);
 
-        /* API de registrar moderadores */
-        //Posts.mLoginModerador (vLogin);
-
-        Posts.mLoginCoordinador(vLogin);
-
-        //verificar();
     }
 
     return(
@@ -124,33 +119,4 @@ export default function LoginNuevo(props){
 
         </section>
     );
-}
-
-function verificar(){
-
-     /* Logica para determinar si puede ingresar o no*/
-
-    /* 
-    
-    1. Verificar si es moderador, consejero o coordinador. 
-    para esto llamar a la funcion que se llama Posts.mLoginModerador(vLogin)
-
-    
-    if (mensaje == "login ok"){ significa que el correo y la contraseña coinciden
-      if(estado == true ){
-        llamar ventana de moderador
-      }else{
-        Mostrar mensaje diciendo que debe esperar confirmacion para que un coordinador le de permiso de ingresar
-      }
-    }else{
-      if(mensaje == "Usuario / Passwaord incorrectos - password incorrecta"){
-        MOSTRAR MENSAJE QUE LA CONTRASEÑA ES INCORRECTA
-      }else{
-        if(mensaje == "Usuario / Passwaord incorrectos - correo no valido"){
-          AQUI EL CORREO NO EXISTE DENTRO DE LA BASE DE DATOS
-          LLAMAR API DE COORDINADORES
-        }
-      }
-    }
-    */
 }
