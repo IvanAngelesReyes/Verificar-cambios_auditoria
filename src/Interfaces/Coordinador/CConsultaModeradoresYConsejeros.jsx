@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion: 
 Esta interfaz mostrará una lista con todos los moderadores y consejeros registrados en el sistema.
 
-Numero de metodos: 0
+Numero de metodos: 2
 Componentes relacionados: 
 */
 
