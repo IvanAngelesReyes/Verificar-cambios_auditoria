@@ -21,32 +21,36 @@ import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 import * as Gets from "../../Util/Gets";
 
+import CRedactarCorreos from "./CRedactarCorreos";
+import CConfiguraciones from "./CConfiguraciones";
 import CSalas from "./CSalas";
 import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
-import CConsultaModeradoresYConsejeros from "./CConsultaModeradoresYConsejeros";
+import CUsuarios from "./CUsuarios";
 import CDialogPerfilCoordinador from "../../Componentes/Dialogs/CDialogPerfilCoordinador";
 
-export default function CCoordinador(props) {
+export default function CAdministrador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vCoordinador } = props;
   const vResAltoNav = 0;
 
   const [vContenido, mSetvContenido] = React.useState(
-    Variables.v_MenuCoordinador.item2
+    Variables.v_MenuAdministrador.item2
   );
-
   const [vSalasCargadas, setvSalasCargadas] = React.useState([]);
-
   const [vRegistrosCoordinadores, setVRegistrosCoordinadores] = React.useState(
     []
   );
-
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
+  const [vInstituciones, setVInstituciones] = React.useState([])
+  const [vIsExisteManual, setVIsExisteManual] = React.useState(false)
+  const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false)
+
 
   React.useEffect(() => {
     Gets.mGetCoordinadores(setVRegistrosCoordinadores);
     Gets.mGetModeradores(setVRegistrosModeradores);
-    Gets.mGetSalas(setvSalasCargadas,setvKeySalas);
+    Gets.mGetSalas(setvSalasCargadas, setvKeySalas);
+    Gets.mGetManualFile(setVIsExisteManual);
   }, []);
 
   const [vKey, setvKey] = React.useState(Date.now());
@@ -67,7 +71,7 @@ export default function CCoordinador(props) {
 
   const mCargarSalas = (vSalasNuevas) => {
     setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
-    setvKey(Date.now(0))
+    setvKey(Date.now(0));
   };
 
   const mActualziarSalas = (vSalaActualizada, setvActualizarHome) => {
@@ -92,22 +96,32 @@ export default function CCoordinador(props) {
     return [
       {
         icon: <Icon.AssignmentInd />,
-        texto: Variables.v_MenuCoordinador.item1,
+        texto: Variables.v_MenuAdministrador.item1,
         mAccion: mSetvContenido,
       },
       {
         icon: <Icon.AssistantPhoto />,
-        texto: Variables.v_MenuCoordinador.item2,
-        mAccion: mSetvContenido,
-      },
-      {
-        icon: <Icon.People />,
-        texto: Variables.v_MenuCoordinador.item3,
+        texto: Variables.v_MenuAdministrador.item2,
         mAccion: mSetvContenido,
       },
       {
         icon: <Icon.AccountBalance />,
-        texto: Variables.v_MenuCoordinador.item4,
+        texto: Variables.v_MenuAdministrador.item3,
+        mAccion: mSetvContenido,
+      },
+      {
+        icon: <Icon.Mail />,
+        texto: Variables.v_MenuAdministrador.item4,
+        mAccion: mSetvContenido,
+      },
+      {
+        icon: <Icon.Tune />,
+        texto: Variables.v_MenuAdministrador.item5,
+        mAccion: mSetvContenido,
+      },
+      {
+        icon: <Icon.People />,
+        texto: Variables.v_MenuAdministrador.item6,
         mAccion: mSetvContenido,
       },
     ];
@@ -115,7 +129,7 @@ export default function CCoordinador(props) {
 
   const mContenido = () => {
     switch (vContenido) {
-      case Variables.v_MenuCoordinador.item1:
+      case Variables.v_MenuAdministrador.item1:
         return (
           //onClick = {()=>
           <CDialogPerfilCoordinador
@@ -129,7 +143,7 @@ export default function CCoordinador(props) {
           />
           //}
         );
-      case Variables.v_MenuCoordinador.item2:
+      case Variables.v_MenuAdministrador.item2:
         return (
           <CHome
             key={vKeySalas}
@@ -141,19 +155,7 @@ export default function CCoordinador(props) {
             setvAcctualizarEstado={mActualizarEstado}
           />
         );
-      case Variables.v_MenuCoordinador.item3:
-        return (
-          <CConsultaModeradoresYConsejeros
-            vRegistrosModeradores={vRegistrosModeradores}
-            setVRegistrosModeradores={mActualizarModeradores}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            setvAcctualizarEstado={mActualizarEstado}
-            mRefresaacarPantalla={mRefresaacarPantalla}
-          />
-        );
-      case Variables.v_MenuCoordinador.item4:
+      case Variables.v_MenuAdministrador.item3:
         return (
           <CSalas
             key={vKey}
@@ -163,6 +165,38 @@ export default function CCoordinador(props) {
             vSalasCargadas={vSalasCargadas}
             mCargarSalas={mCargarSalas}
           />
+        );
+      case Variables.v_MenuAdministrador.item4:
+        return (
+          <CRedactarCorreos
+            vAltoNav={vAltoNav}
+            vAnchoNav={vAnchoNav}
+            mSetvFramePrincipal={mSetvFramePrincipal}
+          />
+        );
+      case Variables.v_MenuAdministrador.item5:
+        return (
+          <CConfiguraciones
+            vIsExisteManual={vIsExisteManual}
+            vIsExistePlantilla={vIsExistePlantilla}
+            vAltoNav={vAltoNav}
+            vAnchoNav={vAnchoNav}
+            mSetvFramePrincipal={mSetvFramePrincipal}
+          />
+        );
+      case Variables.v_MenuAdministrador.item6:
+        return (
+          <>
+            <CUsuarios
+              {...props}
+              setvAcctualizarEstado={mActualizarEstado}
+              vRegistrosCoordinadores={vRegistrosCoordinadores}
+              setVRegistrosCoordinadores={mActualziarCoordinarodes}
+              mRefresaacarPantalla={mRefresaacarPantalla}
+              vRegistrosModeradores={vRegistrosModeradores}
+              setVRegistrosModeradores={mActualizarModeradores}
+            />
+          </>
         );
       default:
     }

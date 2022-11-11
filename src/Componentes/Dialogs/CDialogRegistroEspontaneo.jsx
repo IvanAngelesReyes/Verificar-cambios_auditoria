@@ -43,7 +43,7 @@ export default function CDialogDetallesSala(props) {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value) => {
     setOpen(false);
   };
 
@@ -74,7 +74,7 @@ export default function CDialogDetallesSala(props) {
   return (
     <>
       <Mui.Button variant="outlined" onClick={handleClickOpen}>
-        {vSala?.moderador!==""
+        {vSala?.moderador !== undefined && vSala?.moderador.length > 0
           ? Variables.v_TEXTOS.cambiar_moderador_espontaneo
           : Variables.v_TEXTOS.agregar_moderador_espontaneo}
       </Mui.Button>
@@ -98,11 +98,17 @@ export default function CDialogDetallesSala(props) {
             divider={<Mui.Divider orientation="horizontal" flexItem />}
             spacing={1}
           >
-            {vSala?.moderador!==undefined && (
+            {vSala?.moderador !== undefined && (
               <Mui.TextField
                 disabled
                 label={Variables.v_TEXTOS.moderador_actual}
-                value={vSala?.moderador.nombre+" "+vSala?.moderador.apePterno+" "+vSala?.moderador.apeMaterno}
+                value={
+                  vSala?.moderador.nombre +
+                  " " +
+                  vSala?.moderador.apePterno +
+                  " " +
+                  vSala?.moderador.apeMaterno
+                }
               />
             )}
             <Mui.TextField

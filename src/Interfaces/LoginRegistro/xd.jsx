@@ -10,9 +10,26 @@ export default function Xd(props) {
     
   return (
     <div>
-        <Mui.Button onClick={()=>mSetvFramePrincipal(Variables.v_FRFAMES.moderadores)}>Moderadores</Mui.Button>
-        <Mui.Button onClick={()=>mSetvFramePrincipal(Variables.v_FRFAMES.coordinadores)}>Coordinadores</Mui.Button>
-        <Mui.Button onClick={()=>mSetvFramePrincipal(Variables.v_FRFAMES.login)}>Login</Mui.Button>
+      <Mui.Button
+        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.moderadores)}
+      >
+        Moderadores
+      </Mui.Button>
+      <Mui.Button
+        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.coordinadores)}
+      >
+        Coordinadores
+      </Mui.Button>
+      <Mui.Button
+        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.administrador)}
+      >
+        Administrador
+      </Mui.Button>
+      <Mui.Button
+        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.login)}
+      >
+        Login
+      </Mui.Button>
     </div>
-  )
+  );
 }

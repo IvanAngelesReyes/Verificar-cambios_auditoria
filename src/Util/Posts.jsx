@@ -196,3 +196,74 @@ export async function mActualizarRolModerador(vRegistroM){
     .then((response) => response.json())
     .then(console.log);
 }
+
+export async function mGuardarManual(vManual, mObtenerProgreso) {
+  const formData = new FormData();
+  formData.append("manual", vManual);
+
+  const streamProcessor = progressReader(console.log, mObtenerProgreso);
+
+  await fetch(Variables.v_URL_API + "/backend/Manual/CGuardar.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then(streamProcessor)
+    .then((response) => response.text())
+    .then(console.log);
+}
+
+export async function mCrearPlantilla(vPlantilla) {
+  const formData = new FormData();
+  formData.append("plantilla", vPlantilla);
+
+
+  await fetch(
+    Variables.v_URL_API + "/backend/Certificado/CrearVisualizador.php",
+    {
+      method: "POST",
+      body: formData,
+    }
+  )
+    .then((response) => response.text())
+    .then(console.log);
+}
+
+function progressReader(onProgress, mObtenerProgreso) {
+  // 1
+  return (response) => {
+    // 2
+    if (!response.body) return response;
+
+    let loaded = 0;
+    const contentLength = response.headers.get("content-length"); // 3
+    const total = !contentLength ? -1 : parseInt(contentLength, 10);
+
+    const readable = new ReadableStream({
+      start(controller) {
+        const reader = response.body.getReader(); // 4
+        read(); // 5
+
+        function read() {
+          return reader
+            .read() // 6
+            .then(({ done, value }) => {
+              console.log(done);
+              console.log(value);
+              if (done) return controller.close(); // 7
+              loaded += value.byteLength;
+              mObtenerProgreso(loaded)
+              onProgress({ loaded, total }); // 8
+              controller.enqueue(value);
+              return read(); // 9
+            })
+            .catch((error) => {
+              console.error(error);
+              controller.error(error);
+            });
+        }
+      },
+    });
+
+    return new Response(readable); // 10
+  };
+}

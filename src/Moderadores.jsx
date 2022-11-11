@@ -20,6 +20,7 @@ import "./App.css";
 import CModerador from "./Interfaces/Moderadores/CModerador";
 import Xd from "./Interfaces/LoginRegistro/xd";
 import CCoordinador from "./Interfaces/Coordinador/CCoordinador";
+import CAdministrador from "./Interfaces/Administrador/CAdministrador";
 import * as Variables from "./Global/Variables";
 import Conjunto from "./Interfaces/LoginRegistro/Conjunto";
 import Registro from "./Interfaces/LoginRegistro/Registro";
@@ -86,6 +87,14 @@ export default class CModeradores extends Component {
       case Variables.v_FRFAMES.registro:
         return (
           <Registro
+            vAltoNav={this.state.vAltoNav}
+            vAnchoNav={this.state.vAnchoNav}
+            mSetvFramePrincipal={this.mSetvFramePrincipal}
+          />
+        );
+      case Variables.v_FRFAMES.administrador:
+        return (
+          <CAdministrador
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}
             mSetvFramePrincipal={this.mSetvFramePrincipal}

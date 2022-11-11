@@ -18,8 +18,8 @@ import PropTypes from "prop-types";
 import * as Mui from "@mui/material";
 import * as Variables from "../../Global/Variables";
 import * as Gets from "../../Util/Gets";
-import AltaCoordinadores from "../../Componentes/CRUDCoordinador/CAltaCoordinador";
-import ConsultaCoordinadores from "../../Componentes/CRUDCoordinador/CConsultaCoordinador";
+import AltaCoordinadores from "../CRUDCoordinador/CAltaCoordinador";
+import ConsultaCoordinadores from "../CRUDCoordinador/CConsultaCoordinador";
 
 TabPanel.propTypes = {
   children: PropTypes.node,

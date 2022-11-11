@@ -83,7 +83,7 @@ export default function CDialogDellatesCoordinador(props) {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value) => {
     setVKey(Date.now());
     setVIsModoModificar(false);
     mCarncelarEdicion();
@@ -102,7 +102,7 @@ export default function CDialogDellatesCoordinador(props) {
     if (vIsModoModificar) {
       const vRegistroTmp = {
         uid: vRegistro.uid,
-        institucion: vInstitucion,
+        instituciones: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
@@ -156,7 +156,7 @@ export default function CDialogDellatesCoordinador(props) {
     setvNombre(vRegistro.nombre);
     setvCorreo(vRegistro.correo);
     setvContrasenia(vRegistro.contrasenia);
-    setvInstitucion(vRegistro.institucion);
+    setvInstitucion(vRegistro.instituciones);
   };
 
   return (
@@ -252,9 +252,7 @@ export default function CDialogDellatesCoordinador(props) {
                   {Variables.v_TEXTOS.cancelar}
                 </Mui.Button>
               ) : (
-                <CDialogConfirmarEliminacion
-                  vAccionAceptar={mAccionBotonSecundario}
-                />
+                <></>
               )}
 
               <Mui.Button
