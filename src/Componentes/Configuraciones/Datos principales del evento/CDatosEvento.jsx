@@ -4,11 +4,12 @@ import * as Variables from "../../../Global/Variables";
 import * as Posts from "../../../Util/Posts";
 
 export default function CDatosEvento(props) {
-
   const { vIsExisteManual, setOpenAlert, vIsExistePlantilla } = props;
 
   const [vManual, setVManual] = React.useState({
-    url: vIsExisteManual?Variables.v_URL_API+"/backend/Manual/Manual.pdf":"",
+    url: vIsExisteManual
+      ? Variables.v_URL_API + "/backend/Manual/Manual.pdf"
+      : "",
     file: "",
   });
   const [vPantilla, setVPantilla] = React.useState({
@@ -17,6 +18,7 @@ export default function CDatosEvento(props) {
       : "",
     file: "",
   });
+  const [vTextoQr, setVTextoQr] = React.useState("");
 
   const mGetManual = async (e) => {
     e.preventDefault();
@@ -39,14 +41,13 @@ export default function CDatosEvento(props) {
   };
 
   const mObtenerProgreso = (e) => {
-    console.log(e)
-  }
+    console.log(e);
+  };
 
   const enviarManual = () => {
     setOpenAlert();
     Posts.mGuardarManual(vManual.file, mObtenerProgreso);
-  }
-  
+  };
 
   return (
     <>
@@ -59,7 +60,25 @@ export default function CDatosEvento(props) {
           id="outlined-basic"
           variant="outlined"
           sx={{ marginTop: "15px", width: "100%" }}
+          onChange={(e) => setVTextoQr(e.target.value)}
+          value={vTextoQr}
         />
+        <Mui.Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <img
+            src={
+              "https://chart.googleapis.com/chart?cht=qr&chl=" +
+              vTextoQr +
+              "&chs=250x250"
+            }
+            alt=""
+            height="250px"
+          />
+        </Mui.Stack>
         <Mui.Stack
           direction="row"
           justifyContent="flex-end"

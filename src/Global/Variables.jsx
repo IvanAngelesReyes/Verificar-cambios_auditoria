@@ -20,7 +20,7 @@ export const v_FRFAMES = {
   login: "login",
   inicio: "inicio",
   moderadores: "moderadores",
-  coordinadores: "coordinadores",
+  auxiliares: "auxiliares",
   administrador: "administrador",
   registro: "registro",
 };
@@ -147,6 +147,8 @@ export const v_TEXTOS = {
     },
     conf3: {
       text1: "Sobre los datos almacenados",
+      btn1:"Descargar todos los certificados",
+      btn2:"Eliminar toda la información de la base de datos",
     },
     alertExito: "",
   },

@@ -75,7 +75,7 @@ export default class CModeradores extends Component {
             mSetvFramePrincipal={this.mSetvFramePrincipal}
           />
         );
-      case Variables.v_FRFAMES.coordinadores:
+      case Variables.v_FRFAMES.auxiliares:
         return (
           <CCoordinador
             vUsuario={this.state.vUsuario}

@@ -1,13 +1,12 @@
-import React from 'react'
+import React from "react";
 
 import * as Mui from "@mui/material";
 
 import * as Variables from "../../Global/Variables";
 
 export default function Xd(props) {
+  const { mSetvFramePrincipal } = props;
 
-    const {mSetvFramePrincipal}=props
-    
   return (
     <div>
       <Mui.Button
@@ -16,9 +15,9 @@ export default function Xd(props) {
         Moderadores
       </Mui.Button>
       <Mui.Button
-        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.coordinadores)}
+        onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.auxiliares)}
       >
-        Coordinadores
+        auxiliares
       </Mui.Button>
       <Mui.Button
         onClick={() => mSetvFramePrincipal(Variables.v_FRFAMES.administrador)}

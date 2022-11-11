@@ -4,6 +4,7 @@ import * as Icon from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import * as Variables from "../../Global/Variables";
 import CDatosEvento from "../../Componentes/Configuraciones/Datos principales del evento/CDatosEvento";
+import DatosAlmacenados from "../../Componentes/Configuraciones/Sobre los datos almacenados/DatosAlmacenados";
 
 
 export default function CConfiguraciones(props) {
@@ -95,7 +96,9 @@ export default function CConfiguraciones(props) {
               {Variables.v_TEXTOS.configuraciones.conf3.text1}
             </Mui.Typography>
           </Mui.AccordionSummary>
-          <Mui.AccordionDetails></Mui.AccordionDetails>
+          <Mui.AccordionDetails>
+            <DatosAlmacenados/>
+          </Mui.AccordionDetails>
         </Mui.Accordion>
         <Mui.Snackbar
           anchorOrigin={{ vertical, horizontal }}
