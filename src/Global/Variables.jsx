@@ -38,6 +38,7 @@ export const v_MenuAdministrador = {
   item4: "Correos",
   item5: "Configuraciones",
   item6: "Usuarios",
+  item7: "Moderadores y consejeros",
 };
 
 export const v_TEXTOS = {

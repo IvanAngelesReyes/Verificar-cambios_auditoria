@@ -101,13 +101,8 @@ export default function CCoordinador(props) {
         mAccion: mSetvContenido,
       },
       {
-        icon: <Icon.People />,
-        texto: Variables.v_MenuCoordinador.item3,
-        mAccion: mSetvContenido,
-      },
-      {
         icon: <Icon.AccountBalance />,
-        texto: Variables.v_MenuCoordinador.item4,
+        texto: Variables.v_MenuCoordinador.item3,
         mAccion: mSetvContenido,
       },
     ];
@@ -142,18 +137,6 @@ export default function CCoordinador(props) {
           />
         );
       case Variables.v_MenuCoordinador.item3:
-        return (
-          <CConsultaModeradoresYConsejeros
-            vRegistrosModeradores={vRegistrosModeradores}
-            setVRegistrosModeradores={mActualizarModeradores}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            setvAcctualizarEstado={mActualizarEstado}
-            mRefresaacarPantalla={mRefresaacarPantalla}
-          />
-        );
-      case Variables.v_MenuCoordinador.item4:
         return (
           <CSalas
             key={vKey}
