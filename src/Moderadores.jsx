@@ -22,7 +22,6 @@ import Xd from "./Interfaces/LoginRegistro/xd";
 import CCoordinador from "./Interfaces/Coordinador/CCoordinador";
 import * as Variables from "./Global/Variables";
 import Conjunto from "./Interfaces/LoginRegistro/Conjunto";
-import Registro from "./Interfaces/LoginRegistro/Registro";
 
 export default class CModeradores extends Component {
   constructor(props) {
@@ -56,10 +55,8 @@ export default class CModeradores extends Component {
   vCambiarFramePrincipal = () => {
     switch (this.state.vFramePrincipal) {
       case Variables.v_FRFAMES.login:
-        console.log("Login");
         return (
           <Conjunto
-            mDatDatos={this.mDatosUsusuario}
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}
             mSetvFramePrincipal={this.mSetvFramePrincipal}
@@ -78,14 +75,6 @@ export default class CModeradores extends Component {
         return (
           <CCoordinador
             vUsuario={this.state.vUsuario}
-            vAltoNav={this.state.vAltoNav}
-            vAnchoNav={this.state.vAnchoNav}
-            mSetvFramePrincipal={this.mSetvFramePrincipal}
-          />
-        );
-      case Variables.v_FRFAMES.registro:
-        return (
-          <Registro
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}
             mSetvFramePrincipal={this.mSetvFramePrincipal}

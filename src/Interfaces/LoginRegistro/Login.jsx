@@ -7,6 +7,7 @@ import * as Posts from "../../Util/Posts";
 export default function Login(props){
 
     const {setvFrame}=props
+    //const [vFrame, setvFrame] = React.useState('');
 
     const[vCorreo,setvCorreo] = React.useState("");
 
@@ -16,6 +17,7 @@ export default function Login(props){
       });
 
     const [vDatosLogin, setvDatosLogin] = React.useState([]);
+    const [vDatosLoginCoordinador, setvDatosLoginCoordinador] = React.useState([]);
     
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -32,10 +34,6 @@ export default function Login(props){
         event.preventDefault();
     };
 
-    // React.useEffect(() => {
-    //      Posts.prbLoginModerador(vLogin,setvDatosLogin);
-    // }, []);
-
     const handleClick = () => {
         const vLogin = {
             correo: vCorreo,
@@ -45,7 +43,7 @@ export default function Login(props){
         //console.log(vCorreo);
         //console.log(values.password);
 
-        Posts.prbLoginModerador(vLogin,setvDatosLogin);
+        Posts.mLoginModerador(vLogin,setvDatosLogin);
 
         const datosRecuperados ={
             respuesta:vDatosLogin.msg,
@@ -54,24 +52,10 @@ export default function Login(props){
             consejero:vDatosLogin.vUsuario?.consejero
         }
 
+        console.log("Datos del moderador")
         console.log(datosRecuperados)
 
-        if (datosRecuperados.estado===true){
-            if(datosRecuperados.respuesta==='login ok'){
-                if(datosRecuperados.consejero===true){
-                    alert("Inicio de sesion exitoso como consejero")
-                    //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
-                }else{
-                    alert("Inicio de sesion exitoso como moderador")
-                    //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
-                }
-            }else{
-                alert("El usuario o contraseña son incorrectos")
-            }
-        }else{
-            //AQUI DEBE ENTRAR AL LOGIN DE COORDINADORES
-            alert("Debe esperar que un coordinador apruebe su solicitud")
-        }
+        verificaUsuario(datosRecuperados)
 
     }
 
@@ -132,12 +116,16 @@ export default function Login(props){
                         </form>
 
                         {/*Mensaje de Olvidaste tu contraseña*/}
-                        <p id="olvidasteContra" onClick={()=>setvFrame("recuperarc")}>¿Olvidaste tu contraseña?</p>
+                        <p id="olvidasteContra" onClick={
+                            ()=>setvFrame("recuperarc")
+                            }>¿Olvidaste tu contraseña?</p>
 
                         <Mui.Button variant="contained" id="btnIniciar" onClick={handleClick}>Iniciar sesión</Mui.Button>
 
                         <p>¿Quieres formar parte de los moderadores? </p>
-                        <p id='linkRegistroLogin' onClick={()=>setvFrame("registro")}>Registrate aqui</p>
+                        <p id='linkRegistroLogin' onClick={
+                            ()=>setvFrame("registro")
+                            }>Registrate aqui</p>
 
                     </section>
 
@@ -147,4 +135,37 @@ export default function Login(props){
 
         </section>
     );
+}
+
+function verificaUsuario(datosRecuperados){
+    
+    if(datosRecuperados.respuesta===undefined){
+        console.log('UNDEFINED')
+    }else{
+        if(datosRecuperados.respuesta==='login ok'){
+            if(datosRecuperados.estado===true){
+                if(datosRecuperados.consejero===true){
+                    alert("Inicio de sesion exitoso como consejero")
+                    //AQUI DEBE ABRIR LA PAGINA DE MODERADOR CON OPCION DE CONSEJERO
+                }else{
+                    if(datosRecuperados.consejero===false){
+                        //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
+                        alert("Inicio de sesion exitoso como moderador")
+                    }
+                }
+            }else{
+                if(datosRecuperados.estado===false){
+                    alert("Debe esperar respuesta de su coordinador")
+                }
+            }
+        }else{
+            if(datosRecuperados.respuesta==='Usuario / Passwaord incorrectos'
+                && datosRecuperados.estado===undefined
+                && datosRecuperados.consejero===undefined
+                && datosRecuperados.correo===undefined)
+                {
+                    alert("El usuario o contraseña son incorrectos")
+                }
+        }
+    }
 }

@@ -6,6 +6,7 @@ import RecuperaContra from "./RecuperaContra";
 import CModerador from "../Moderadores/CModerador"
 
 export default function Conjunto() {
+
   const [vFrame, setvFrame] = React.useState("login");
   
   const mCambiarFrame = () => {
@@ -17,7 +18,7 @@ export default function Conjunto() {
       case "recuperarc":
         return <RecuperaContra />;
       case "moderador":
-        return <CModerador/>; 
+        return <CModerador vFrame={vFrame} setvFrame={setvFrame}/>; 
       default:
         break;
     }
