@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion:
 Esta interfaz es la opcion "Apertura y cierre de salas" del menú de coordinadores
 
-Numero de metodos: 6
+Numero de metodos: 
 Componentes relacionados: Cuadros/CSalaActiva, Cuadros/CSalaInactiva, CBotonCuadroLista, Listas/CSalaActiva, Listas/CSalaInactiva,
 */
 

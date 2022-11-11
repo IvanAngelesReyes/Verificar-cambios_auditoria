@@ -7,10 +7,10 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-
+Este componente se muestra al eliminar a un coordinador para que la accion sea confirmada.
 
 Numero de metodos: 
-Componentes relacionados: 
+Componentes relacionados: Ninguno
 */
 
 import React from "react";
@@ -18,6 +18,11 @@ import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
+/**
+ * Método principal CDialogDetallesCoordinador
+ * @param {*} props 
+ * @returns 
+ */
 export default function CDialogDellatesCoordinador(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 

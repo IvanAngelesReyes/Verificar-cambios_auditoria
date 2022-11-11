@@ -10,7 +10,7 @@ Descripcion:
 Esta interfaz es la opcion "Coordinadores" del menú de coordinadores
 
 Numero de metodos: 
-Componentes relacionados: CBotonCuadroLista, 
+Componentes relacionados: CBotonCuadroLista, CAltaCoordinador, CConsultaCoordinador
 */
 
 import * as React from "react";
@@ -53,6 +53,11 @@ function TabPanel(props) {
   );
 }
 
+/**
+ * Metodo principal CCRUDCoordinadores
+ * @param {*} props 
+ * @returns 
+ */
 export default function CCRUDCoordinadores(props) {
   const { vRegistrosCoordinadores, setVRegistrosCoordinadores,mRefresaacarPantalla,setvAcctualizarEstado } = props;
 

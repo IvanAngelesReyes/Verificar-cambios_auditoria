@@ -7,7 +7,7 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-
+Componente para la modificacion de los datos del coordinador
 
 Numero de metodos: 
 Componentes relacionados: 
