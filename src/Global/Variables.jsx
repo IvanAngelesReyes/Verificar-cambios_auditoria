@@ -147,8 +147,10 @@ export const v_TEXTOS = {
     },
     conf3: {
       text1: "Sobre los datos almacenados",
-      btn1:"Descargar todos los certificados",
-      btn2:"Eliminar toda la información de la base de datos",
+      btn1: "Descargar todos los certificados",
+      btn2: "Eliminar base de datos",
+      confirmar_eliminacion:
+        "¿Seguro que desea eliminar TODA la información de la base de datos?",
     },
     alertExito: "",
   },

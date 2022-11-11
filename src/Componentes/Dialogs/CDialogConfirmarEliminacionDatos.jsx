@@ -18,7 +18,7 @@ import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
-export default function CDialogConfirmarEliminacionModeradorConsejero(props) {
+export default function CDialogConfirmarEliminacionDatos(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 
   //variables para el alert
@@ -33,18 +33,18 @@ export default function CDialogConfirmarEliminacionModeradorConsejero(props) {
   };
 
   const mAccionBotonPrimario = () => {
-    vAccionAceptar();
+    //vAccionAceptar();
     handleClose();
   };
   const mAccionBotonSecundario = () => {
-    vAccionCancelar();
+    //vAccionCancelar();
     handleClose();
   };
 
   return (
     <>
-      <Mui.Button onClick={handleClickOpen}>
-        {Variables.v_TEXTOS.eliminar}
+      <Mui.Button onClick={handleClickOpen} variant="outlined">
+        {Variables.v_TEXTOS.configuraciones.conf3.btn2}
       </Mui.Button>
 
       <Mui.Dialog onClose={handleClose} open={open} fullWidth={true}>
@@ -56,7 +56,7 @@ export default function CDialogConfirmarEliminacionModeradorConsejero(props) {
               justifyContent="space-between"
               alignItems="center"
             >
-              {Variables.v_TEXTOS.ver_perfil}
+              {Variables.v_TEXTOS.configuraciones.conf3.btn2}
               <Mui.IconButton onClick={() => handleClose()} aria-label="delete">
                 <Icon.Close />
               </Mui.IconButton>
@@ -68,7 +68,7 @@ export default function CDialogConfirmarEliminacionModeradorConsejero(props) {
             spacing={1}
           >
             <Mui.Typography variant="body1" component="p">
-              {Variables.v_TEXTOS.confirmar_eliminacion}
+              {Variables.v_TEXTOS.configuraciones.conf3.confirmar_eliminacion}
             </Mui.Typography>
             <Mui.Grid
               container
