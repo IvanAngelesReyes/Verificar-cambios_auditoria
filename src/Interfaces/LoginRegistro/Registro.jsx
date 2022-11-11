@@ -32,12 +32,13 @@ export default function Registro(){
           apellido_materno: vApellidoM,
           correo: vCorreo,
           password: values.password,
-          area_interes: vArea,
-          area_interes2: vArea2,
+          area_interes_1: vArea,
+          area_interes_2: vArea2,
           institucion: vInstitucion,
           rol: "MODERADOR_ROLE"
         };
-
+        
+        console.log("DATOS INGRESADOS: -------------")
         console.log(vNombre);
         console.log(vApellidoP);
         console.log(vApellidoM);
@@ -46,8 +47,13 @@ export default function Registro(){
         console.log(vArea);
         console.log(vArea2);
         console.log(vInstitucion);
+        console.log("-----------------------------")
 
-        Posts.mAgregarModerador(vRegistroM);
+        if(vArea === vArea2){
+            alert('Ha seleccionado la misma area como opcion. Debe seleccionar areas diferentes para poder continuar con su registro')
+        }else{
+            Posts.mAgregarModerador(vRegistroM);
+        }
         //Posts.mEnviarCorreo("1",vCorreo + ",leandrgomez682@gmail.com")
     }
 
@@ -152,10 +158,7 @@ export default function Registro(){
                         </form>
 
                         <Mui.Button variant="contained" id="btnCrearCuentaMR" onClick={handleClick}>Crear cuenta</Mui.Button>
-
-                        {/* <p>¿Ya tienes una cuenta? <a href="https://www.programadelfin.org.mx/">Inicia sesion aqui</a> </p> */}
                         
-
                     </section>
 
                 </div>

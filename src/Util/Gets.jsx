@@ -77,16 +77,22 @@ export async function mGetSalas(setVSalas,setvKeySalas) {
   });
 }
 
-export async function mGetAreaInteres(setvArea) {
+export async function mGetAreaInteres(setvAreas) {
+
+  //var areas = [];
+
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/area/area-materia",
-    method: "GET",
-    mode: "corps",
+    method: "GET"
   };
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    setvArea(vResponse);
+
+    //for(var i=0; i < vResponse.length;i++){
+    //  areas.push(vResponse[i].area_interes)
+    //}
+    setvAreas(vResponse);
   });
 }
 
@@ -100,5 +106,18 @@ export async function mGetModeradores2(setVRegistrosModeradores) {
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
     setVRegistrosModeradores(vResponse);
+  });
+}
+
+export async function mGetUniversidades(setvUniversidades) {
+
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/universidades/listar-universidades",
+    method: "GET"
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setvUniversidades(vResponse);
   });
 }

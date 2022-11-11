@@ -1,12 +1,25 @@
 import * as Variables from "../Global/Variables";
-import CModerador from '../Interfaces/Moderadores/CModerador'
 
-export async function mLoginCoordinador(vLogin){
-
-  let respuestacordi
+export async function prbLoginModerador(vLogin,setvDatosLogin){
 
   await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/coordinadores",
+    Variables.v_URL_API2 + "/api/auth/login",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vLogin),
+    }
+  )
+    .then(response => response.json())
+    .then(data => setvDatosLogin(data));
+}
+
+/*export async function prbLoginModerador(vLogin,setvDatosLogin){
+
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/login",
     {
       method: "POST",
       headers:{
@@ -17,15 +30,19 @@ export async function mLoginCoordinador(vLogin){
   )
     .then((response) => response.json())
     .then(data => {
-      respuestacordi = data.msg
 
-      if(respuestacordi === "Usuario / Contraserña incorrectos"){
-        alert("El usuario o contraseña son incorrectos");
+      const vResponse= {
+         respuesta:data.msg,
+         estado:data.vUsuario?.estado,
+         consejero:data.vUsuario?.consejero
       }
 
-    })
-
-}
+      console.log(vResponse)
+      setvDatosLogin(vResponse) 
+      //return vResponse   
+    }
+  )
+}*/
 
 export async function mLoginModerador(vLogin){
 
@@ -46,13 +63,13 @@ export async function mLoginModerador(vLogin){
     .then((response) => response.json())
     .then(data => {
       respuesta = data.msg
-
+      console.log("RESPUESTA: " + data.msg)
       if(respuesta === 'login ok'){
         estado = data.vUsuario.estado
         if(estado===true){
           consejero = data.vUsuario.consejero
           alert("Inicio de sesion exitoso como moderador");
-          <CModerador/>
+          //ABRIR LA VENTANA DE MODERADORES
           if(consejero === true){
             alert("Inicio de sesion exitoso como consejero");
           }
@@ -79,7 +96,7 @@ export async function mAgregarModerador(vRegistroM){
   )
     .then((response) => response.json())
     .then(data => {console.log(data)});
-    //falta poner un mensaje de error o exito
+    //.then((response) => response.status)
 }
 
 export async function mAgregarCoordinador(vRegistro) {

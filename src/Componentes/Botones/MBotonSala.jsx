@@ -13,24 +13,33 @@ Numero de metodos: 1
 Componentes relacionados: 
 */
 
-import * as React from 'react';
+import React from 'react';
 import './MBotonSala.css';
+import * as Gets from "../../Util/Gets";
 
-let listaCosa = [{name:"Sala 1", area:"Area 1. Medicina y salud "}, {name:"Sala 2", area:"Area 2"}, {name:"Sala 3", area:"Area 3"}];
+export default function MBotonSala(){
 
-export default function MBotonSala(objeto){
+    const [vSalas, setvSalas] = React.useState([]);
 
-    const elementos = listaCosa.map((item) =>
+    React.useEffect(() => {
+        Gets.mGetSalas(setvSalas);
+      }, []);
 
-    <section id='sectionContenedorBS'>
+    vSalas.map((sala, index) =>{
+        console.log(vSalas)
+    })
+
+    const elementos = vSalas.map((sala,index) =>
+
+        <section id='sectionContenedorBS'>
             <div className='divContenedorBS'>
                 <button className="btnSalaBS">
                     {/* <div className='divImgSala'> */}
                     <img src="https://cdn-icons-png.flaticon.com/512/5602/5602892.png" id="imgBotonBS" height ="40%" width="3%" alt="img_zoom" />
                     {/* </div> */}
                     <div className='divTextoBotonBS'>
-                        <p id="tituloSalaBS">{item.name}</p>
-                        <p id="areaSalaBS">{item.area}</p>
+                        <p id="tituloSalaBS">{vSalas[index].titulo}</p>
+                        <p id="areaSalaBS">{vSalas[index].area}</p>
                     </div>
                 </button>
             </div>            

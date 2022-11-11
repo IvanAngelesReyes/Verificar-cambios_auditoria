@@ -3,17 +3,27 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import * as Gets from "../../Util/Gets";
 
 export default function SelectInstitucion(props) {
   
   const {vInstitucion, setvInstitucion} = props
-
-  // const [vInstitucion, setvInstitucion] = React.useState('');
+  const [vUniversidades, setvUniversidades] = React.useState([]);
 
   const handleChange = (event) => {
     console.log(event.target.value)
     setvInstitucion(event.target.value);
   };
+
+  React.useEffect(() => {
+    Gets.mGetUniversidades(setvUniversidades);
+  }, []);
+
+  // vUniversidades.map((universidad, index) =>{
+  //   let nombreUniversidad = vUniversidades[index].nombre; 
+  //   console.log(nombreUniversidad)
+  // })
+  
 
   return (
     // <div>
@@ -24,14 +34,16 @@ export default function SelectInstitucion(props) {
           id="selectInstitucion"
           value={vInstitucion}
           onChange={handleChange}
-          label="Institucion"
-        >
-          <MenuItem value="">
-            <em>Seleccione una opcion</em>
-          </MenuItem>
-          <MenuItem value={"Universidad Autonoma del Estado de Mexico"}>Universidad Autonoma del Estado de Mexico</MenuItem>
-          <MenuItem value={"Tecnologico de Mexico"}>Tecnologico de Mexico</MenuItem>
-          <MenuItem value={"Universidad Nacional Autonoma de Mexico"}>Universidad Nacional Autonoma de Mexico</MenuItem>
+          label="Institucion">
+
+          <MenuItem value=""><em>Seleccione una opcion</em></MenuItem>
+
+          {
+            vUniversidades.map((universidad, index) => (
+              <MenuItem value={vUniversidades[index].nombre}>{vUniversidades[index].nombre}</MenuItem> 
+            ))
+          }
+          
         </Select>
       </FormControl>
     // </div>

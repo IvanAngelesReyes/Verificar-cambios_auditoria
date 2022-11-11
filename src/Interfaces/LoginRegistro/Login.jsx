@@ -6,9 +6,6 @@ import * as Posts from "../../Util/Posts";
 
 export default function Login(props){
 
-    /**Trae los datos de el post de login*/
-    //const {respuesta, setRespuesta} = React.useState("");
-
     const {setvFrame}=props
 
     const[vCorreo,setvCorreo] = React.useState("");
@@ -17,33 +14,64 @@ export default function Login(props){
         password: '',
         showPassword: false,
       });
-    
-      const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-      };
-    
-      const handleClickShowPassword = () => {
-        setValues({
-          ...values,
-          showPassword: !values.showPassword,
-        });
-      };
-    
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-      };
 
-      const handleClick = () => {
+    const [vDatosLogin, setvDatosLogin] = React.useState([]);
+    
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+    
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values,
+            showPassword: !values.showPassword,
+        });
+    };
+    
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    // React.useEffect(() => {
+    //      Posts.prbLoginModerador(vLogin,setvDatosLogin);
+    // }, []);
+
+    const handleClick = () => {
         const vLogin = {
-          correo: vCorreo,
-          password: values.password
+            correo: vCorreo,
+            password: values.password
         };
 
-        console.log(vCorreo);
-        console.log(values.password);
+        //console.log(vCorreo);
+        //console.log(values.password);
 
-        Posts.mLoginModerador (vLogin);
-        //Posts.mLoginCoordinador(vLogin);
+        Posts.prbLoginModerador(vLogin,setvDatosLogin);
+
+        const datosRecuperados ={
+            respuesta:vDatosLogin.msg,
+            correo: vDatosLogin.vUsuario?.correo,
+            estado:vDatosLogin.vUsuario?.estado,
+            consejero:vDatosLogin.vUsuario?.consejero
+        }
+
+        console.log(datosRecuperados)
+
+        if (datosRecuperados.estado===true){
+            if(datosRecuperados.respuesta==='login ok'){
+                if(datosRecuperados.consejero===true){
+                    alert("Inicio de sesion exitoso como consejero")
+                    //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
+                }else{
+                    alert("Inicio de sesion exitoso como moderador")
+                    //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
+                }
+            }else{
+                alert("El usuario o contraseña son incorrectos")
+            }
+        }else{
+            //AQUI DEBE ENTRAR AL LOGIN DE COORDINADORES
+            alert("Debe esperar que un coordinador apruebe su solicitud")
+        }
 
     }
 
