@@ -28,6 +28,12 @@ export default function CSalaInactiva(props) {
     Puts.mModifcarSalas(vRegistro)
     mActualziarSalas(vRegistro,setVKey)
   }
+  
+//console.log(vRegistro);
+//console.log(vRegistro.id);
+//console.log(vRegistro);
+//console.log(vRegistro?.moderador);
+//console.log(vRegistro?.moderador.length);
 
   return (
     <Mui.Paper elevation={3}>
@@ -49,7 +55,11 @@ export default function CSalaInactiva(props) {
           alignItems="stretch"
         >
           <Mui.Button
-            disabled={vRegistro?.moderador !== undefined ? false : true}
+            disabled={
+              vRegistro?.moderador !== undefined
+                ? false
+                : vRegistro?.moderador.length === 0?false:true
+            }
             variant="contained"
             onClick={handleClick}
           >

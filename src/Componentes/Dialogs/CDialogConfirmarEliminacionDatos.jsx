@@ -1,16 +1,16 @@
 /*
 SmartSoft
-Componente: CDialogDellatesCoordinador
-Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
+Componente: CDialogConfirmarEliminacionModeradorConsejero
+Fecha de creacion: 02/11/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente se muestra al eliminar a un coordinador para que la accion sea confirmada.
+
 
 Numero de metodos: 
-Componentes relacionados: Ninguno
+Componentes relacionados: 
 */
 
 import React from "react";
@@ -18,12 +18,7 @@ import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
-/**
- * Método principal CDialogDetallesCoordinador
- * @param {*} props 
- * @returns 
- */
-export default function CDialogDellatesCoordinador(props) {
+export default function CDialogConfirmarEliminacionDatos(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 
   //variables para el alert
@@ -33,23 +28,23 @@ export default function CDialogDellatesCoordinador(props) {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value) => {
     setOpen(false);
   };
 
   const mAccionBotonPrimario = () => {
-    vAccionAceptar();
+    //vAccionAceptar();
     handleClose();
   };
   const mAccionBotonSecundario = () => {
-    vAccionCancelar();
+    //vAccionCancelar();
     handleClose();
   };
 
   return (
     <>
-      <Mui.Button onClick={handleClickOpen}>
-        {Variables.v_TEXTOS.eliminar}
+      <Mui.Button onClick={handleClickOpen} variant="outlined">
+        {Variables.v_TEXTOS.configuraciones.conf3.btn2}
       </Mui.Button>
 
       <Mui.Dialog onClose={handleClose} open={open} fullWidth={true}>
@@ -61,7 +56,7 @@ export default function CDialogDellatesCoordinador(props) {
               justifyContent="space-between"
               alignItems="center"
             >
-              {Variables.v_TEXTOS.ver_perfil}
+              {Variables.v_TEXTOS.configuraciones.conf3.btn2}
               <Mui.IconButton onClick={() => handleClose()} aria-label="delete">
                 <Icon.Close />
               </Mui.IconButton>
@@ -73,7 +68,7 @@ export default function CDialogDellatesCoordinador(props) {
             spacing={1}
           >
             <Mui.Typography variant="body1" component="p">
-              {Variables.v_TEXTOS.confirmar_eliminacion}
+              {Variables.v_TEXTOS.configuraciones.conf3.confirmar_eliminacion}
             </Mui.Typography>
             <Mui.Grid
               container

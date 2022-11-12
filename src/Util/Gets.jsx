@@ -63,7 +63,8 @@ export async function mGetModeradores(setVRegistrosModeradores) {
     setVRegistrosModeradores(vResponse);
   });
 }
-export async function mGetSalas(setVSalas,setvKeySalas) {
+
+export async function mGetSalas(setVSalas, setvKeySalas) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -71,9 +72,13 @@ export async function mGetSalas(setVSalas,setvKeySalas) {
   };
 
   await axios.request(reqOptions).then(function (response) {
-    let vResponse = response.data;
-    setVSalas(vResponse);
-    setvKeySalas(Date.now())
+    if (response.data.length > 0) {
+      let vResponse = response.data;
+      setVSalas(vResponse);
+    } else {
+      setVSalas([]);
+    }
+    setvKeySalas(Date.now());
   });
 }
 
@@ -114,10 +119,23 @@ export async function mGetUniversidades(setvUniversidades) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/universidades/listar-universidades",
     method: "GET"
-  };
-
+  }
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
     setvUniversidades(vResponse);
-  });
+});
+}
+
+export async function mGetManualFile(setVIsExisteManual) {
+    let reqOptions = {
+      url: Variables.v_URL_API + "/backend/Manual/CExiste.php",
+      method: "GET",
+      mode: "corps",
+    }
+
+    await axios.request(reqOptions).then(function (vResponse) {
+      console.log(vResponse.info);
+      setVIsExisteManual(vResponse.info==="false"?false:true);
+    }
+  )
 }

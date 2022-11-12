@@ -30,7 +30,7 @@ import Typography from '@mui/material/Typography';
 import * as Deletes from "../../Util/Deletes";
 import * as Puts from "../../Util/Puts";
 import CDialogConfirmarCambiarRol from "./CDialogConfirmarCambiarRol";
-import CDialogConfirmarEliminacion from "./CDialogConfirmarEliminacionModeradorConsejero";
+import CDialogConfirmarEliminacion from "./CDialogConfirmarEliminacionDatos";
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

@@ -91,6 +91,7 @@ export default function CDialogCargarSalas(props) {
       //console.log(csvHeader);
       csvHeader.push("Moderador");
       csvHeader.push("Modalidad");
+      csvHeader.push("Url");
       csvHeader.push("Estatus");
 
       const csvRows = vTextCSVTmp
@@ -120,9 +121,10 @@ export default function CDialogCargarSalas(props) {
               case "":
               case "id":
                 object["id"] = values[index + vCont];
+                //object["_id"] = values[index + vCont];
                 break;
               case "moderador":
-                object[vHeaderI] = "";
+                //object[vHeaderI] = "";
               case "correo":
               case "sexo":
               case "celular":
@@ -130,6 +132,9 @@ export default function CDialogCargarSalas(props) {
                 break;
               case "modalidad":
                 object[vHeaderI] = "Presencial";
+                break;
+              case "url":
+                object[vHeaderI] = "";
                 break;
               case "estatus":
                 object[vHeaderI] = "Inactiva";

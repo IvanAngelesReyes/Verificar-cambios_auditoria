@@ -53,7 +53,7 @@ export default function Login(props){
         }
 
         console.log("Datos del moderador")
-        console.log(datosRecuperados)
+        console.log(vDatosLogin)
 
         verificaUsuario(datosRecuperados)
 

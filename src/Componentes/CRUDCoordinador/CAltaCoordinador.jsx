@@ -7,10 +7,10 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-
+Interfaz para el tab alta del CCRUDCoordinadores, es un formulario de registro para nuevo coordinadores.
 
 Numero de metodos: 
-Componentes relacionados: 
+Componentes relacionados: ninguno
 */
 
 import React from "react";
@@ -22,16 +22,25 @@ import * as Posts from "../../Util/Posts";
 
 const vListaInstituciones = ["UNAM", "UAPT", "UEAMEX"];
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <Mui.Alert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+/**
+ * 
+ * @returns 
+ */
 function mInstituciones() {
   return vListaInstituciones.map((item, index) => (
     <Mui.MenuItem value={item}>{item}</Mui.MenuItem>
   ));
 }
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <Mui.Alert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
+/**
+ * 
+ * @param {*} vRegistro 
+ * @returns 
+ */
 function mValidarRegistro(vRegistro) {
   let b = false;
   if (vRegistro.institucion !== "") {
@@ -50,6 +59,15 @@ function mValidarRegistro(vRegistro) {
   return b;
 }
 
+/**
+ * 
+ * @param {*} mSetNombre 
+ * @param {*} setvApePaterno 
+ * @param {*} setvApeMaterno 
+ * @param {*} mSetCorreo 
+ * @param {*} mSetContrasenia 
+ * @param {*} mSetInstitucion 
+ */
 function mLimpiarDatos(
   mSetNombre,
   setvApePaterno,
@@ -68,6 +86,11 @@ function mLimpiarDatos(
   mSetInstitucion("");
 }
 
+/**
+ * 
+ * @param {*} props 
+ * @returns 
+ */
 export default function CAltaCoordinador(props) {
   //variables que recibo en props
   const { vRegistrosCoordinadores, setVRegistrosCoordinadores } = props;

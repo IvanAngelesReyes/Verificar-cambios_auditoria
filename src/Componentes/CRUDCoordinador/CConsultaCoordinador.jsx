@@ -7,10 +7,10 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-
+Interfaz para el tab busqueda del CCRUDCoordinadores, despliega las tarjetas de los coordinadores y las filtra
 
 Numero de metodos: 
-Componentes relacionados: 
+Componentes relacionados: CTarjetaCuadroCoordinador, CTarjetaListaCoordinador, CBotonCuadroLista
 */
 
 import React from "react";

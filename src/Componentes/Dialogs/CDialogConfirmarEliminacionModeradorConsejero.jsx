@@ -18,7 +18,7 @@ import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
-export default function CDialogPerfilConsulta(props) {
+export default function CDialogConfirmarEliminacionModeradorConsejero(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 
   //variables para el alert
@@ -28,7 +28,7 @@ export default function CDialogPerfilConsulta(props) {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value) => {
     setOpen(false);
   };
 
