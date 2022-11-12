@@ -17,7 +17,6 @@ export default function Login(props){
       });
 
     const [vDatosLogin, setvDatosLogin] = React.useState([]);
-    const [vDatosLoginCoordinador, setvDatosLoginCoordinador] = React.useState([]);
     
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
