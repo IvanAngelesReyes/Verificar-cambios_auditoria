@@ -112,3 +112,4 @@ export default class CModeradores extends Component {
     return <div className="App-header">{this.vCambiarFramePrincipal()}</div>;
   }
 }
+
