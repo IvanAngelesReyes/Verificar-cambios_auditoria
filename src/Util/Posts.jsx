@@ -1,7 +1,7 @@
 import * as Variables from "../Global/Variables";
 
 
-export async function mLoginCoordinador(vLogin,setvDatosLoginCoordinador){
+export async function mLoginAdministrador(vLogin,setvDatosLoginCoordinador){
   await fetch(
     Variables.v_URL_API2 + "/api/auth/login/coordinadores",
     {
@@ -31,7 +31,7 @@ export async function mLoginModerador(vLogin,setvDatosLogin){
     .then(data => setvDatosLogin(data));
 }
 
-export async function mAgregarModerador(vRegistroM){
+export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
   console.log(vRegistroM)
   await fetch(
     Variables.v_URL_API2 + "/api/usuarios",
@@ -44,7 +44,7 @@ export async function mAgregarModerador(vRegistroM){
     }
   )
     .then((response) => response.json())
-    .then(data => {console.log(data)});
+    .then(data => setvDatosRegistro(data));
     //.then((response) => response.status)
 }
 

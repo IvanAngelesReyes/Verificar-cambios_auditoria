@@ -18,7 +18,7 @@ export default function Conjunto() {
       case "recuperarc":
         return <RecuperaContra />;
       case "moderador":
-        return <CModerador vFrame={vFrame} setvFrame={setvFrame}/>; 
+        return <CModerador/>; 
       default:
         break;
     }

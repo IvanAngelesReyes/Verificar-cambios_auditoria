@@ -93,9 +93,6 @@ export default function CModerador(props) {
         mSetvFramePrincipal={mSetvFramePrincipal}
       />
 
-
-  
-
       default:
         <p>Esto no se debe de ver</p>;
         break;

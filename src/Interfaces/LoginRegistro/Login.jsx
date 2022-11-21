@@ -4,19 +4,20 @@ import * as MuiIcons from '@mui/icons-material';
 import './Login.css';
 import * as Posts from "../../Util/Posts";
 
+let tipousuario = "";
+
 export default function Login(props){
 
     const {setvFrame}=props
     //const [vFrame, setvFrame] = React.useState('');
 
     const[vCorreo,setvCorreo] = React.useState("");
-
+    const [vDatosLogin, setvDatosLogin] = React.useState([]);
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
       });
 
-    const [vDatosLogin, setvDatosLogin] = React.useState([]);
     
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -39,23 +40,31 @@ export default function Login(props){
             password: values.password
         };
 
-        //console.log(vCorreo);
-        //console.log(values.password);
+        //Validacion de que los campos no esten vacios
+        if(vLogin.correo === "" || vLogin.password===""){
+            alert("Debe rellenar ambos campos")
+        }else{
+            
+            Posts.mLoginModerador(vLogin,setvDatosLogin);
 
-        Posts.mLoginModerador(vLogin,setvDatosLogin);
+            const datosRecuperados ={
+                respuesta:vDatosLogin.msg,
+                correo: vDatosLogin.vUsuario?.correo,
+                estado:vDatosLogin.vUsuario?.estado,
+                consejero:vDatosLogin.vUsuario?.consejero
+            }
 
-        const datosRecuperados ={
-            respuesta:vDatosLogin.msg,
-            correo: vDatosLogin.vUsuario?.correo,
-            estado:vDatosLogin.vUsuario?.estado,
-            consejero:vDatosLogin.vUsuario?.consejero
+            if(datosRecuperados.respuesta === "login ok"){
+                console.log("Datos del moderador")
+                console.log(vDatosLogin)
+                verificaUsuario(datosRecuperados)
+            }else{
+                if(datosRecuperados.respuesta === "Usuario / Contraseña incorrectos"){
+                    //alert("El usuario o contraseña son incorrectos")
+                    Posts.mLoginAdministrador(vLogin,setvDatosLogin);
+                }
+            }
         }
-
-        console.log("Datos del moderador")
-        console.log(vDatosLogin)
-
-        verificaUsuario(datosRecuperados)
-
     }
 
     return(
@@ -119,12 +128,15 @@ export default function Login(props){
                             ()=>setvFrame("recuperarc")
                             }>¿Olvidaste tu contraseña?</p>
 
-                        <Mui.Button variant="contained" id="btnIniciar" onClick={handleClick}>Iniciar sesión</Mui.Button>
+                        <Mui.Button variant="contained" id="btnIniciar" onClick={
+                            handleClick
+                            }>Iniciar sesión</Mui.Button>
 
                         <p>¿Quieres formar parte de los moderadores? </p>
                         <p id='linkRegistroLogin' onClick={
                             ()=>setvFrame("registro")
-                            }>Registrate aqui</p>
+                            }
+                            >Registrate aqui</p>
 
                     </section>
 
@@ -138,18 +150,20 @@ export default function Login(props){
 
 function verificaUsuario(datosRecuperados){
     
-    if(datosRecuperados.respuesta===undefined){
-        console.log('UNDEFINED')
-    }else{
-        if(datosRecuperados.respuesta==='login ok'){
+    //if(datosRecuperados.respuesta===undefined){
+    //    console.log('UNDEFINED')
+    //}else{
+        //if(datosRecuperados.respuesta==='login ok'){
             if(datosRecuperados.estado===true){
                 if(datosRecuperados.consejero===true){
-                    alert("Inicio de sesion exitoso como consejero")
+                    alert("Inicio de sesion exitoso como auxiliar")
+                    tipousuario = "auxiliar"
                     //AQUI DEBE ABRIR LA PAGINA DE MODERADOR CON OPCION DE CONSEJERO
                 }else{
                     if(datosRecuperados.consejero===false){
                         //AQUI DEBE ABRIR LA PAGINA DE MODERADOR
                         alert("Inicio de sesion exitoso como moderador")
+                        tipousuario = "moderador";
                     }
                 }
             }else{
@@ -157,14 +171,20 @@ function verificaUsuario(datosRecuperados){
                     alert("Debe esperar respuesta de su coordinador")
                 }
             }
-        }else{
-            if(datosRecuperados.respuesta==='Usuario / Passwaord incorrectos'
-                && datosRecuperados.estado===undefined
-                && datosRecuperados.consejero===undefined
-                && datosRecuperados.correo===undefined)
-                {
-                    alert("El usuario o contraseña son incorrectos")
-                }
-        }
-    }
+        //}else{
+            //if(datosRecuperados.respuesta==='Usuario / Contraseña incorrectos'
+            //    && datosRecuperados.estado===undefined
+            //    && datosRecuperados.consejero===undefined
+            //    && datosRecuperados.correo===undefined)
+            //    {
+            //        alert("El usuario o contraseña son incorrectos")
+            //    }
+        //}
+    //}
+}
+
+function verificaUsuarioAdmin(datosRecuperados){
+
+    
+
 }

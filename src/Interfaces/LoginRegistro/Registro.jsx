@@ -24,6 +24,7 @@ export default function Registro(){
     const[vArea,setvArea] = useState("");
     const[vArea2,setvArea2] = useState("");
     // const[vPassword,setvPassword] = useState("");
+    const [vDatosRegistro, setvDatosRegistro] = React.useState([]);
 
     const handleClick = () => {
         const vRegistroM = {
@@ -37,7 +38,7 @@ export default function Registro(){
           institucion: vInstitucion,
           rol: "MODERADOR_ROLE"
         };
-        
+
         console.log("DATOS INGRESADOS: -------------")
         console.log(vNombre);
         console.log(vApellidoP);
@@ -49,12 +50,26 @@ export default function Registro(){
         console.log(vInstitucion);
         console.log("-----------------------------")
 
-        if(vArea === vArea2){
-            alert('Ha seleccionado la misma area como opcion. Debe seleccionar areas diferentes para poder continuar con su registro')
-        }else{
-            Posts.mAgregarModerador(vRegistroM);
+        if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,values.password) === true){
+            Posts.mAgregarModerador(vRegistroM,setvDatosRegistro);
+
+            // const respuestaRecuperada ={
+            //     respuesta:vDatosRegistro.errors
+            // }
+
+            // const elementosRespuesta = vDatosRegistro.map((index) =>
+            //       vDatosRegistro.errors[index].msg
+            // );
+
+            if(vDatosRegistro.errors[0].msg === "El email -- " + vCorreo + " -- ya existe" ){
+                alert("El correo ya ha sido registrado previamente")
+            }else{
+                Posts.mAgregarModerador(vRegistroM,setvDatosRegistro);
+            }
+
+            // console.log("RESPUESTA----------")
+            // console.log(vDatosRegistro.errors[0].msg)
         }
-        //Posts.mEnviarCorreo("1",vCorreo + ",leandrgomez682@gmail.com")
     }
 
     return(
@@ -167,4 +182,49 @@ export default function Registro(){
 
         </section>
     );
+}
+
+function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,area2,contrasena){
+    //Validaciones de campos vacios
+    if(nombre === ""){
+        alert("Por favor escriba su nombre en el campo correspondiente")
+        return false;
+    }else{
+        if(apellidop === ""){
+            alert("Por favor escriba su apellido paterno en el campo correspondiente")
+            return false;
+        }else{
+            if(apellidom === ""){
+                alert("Por favor escriba su apellido materno en el campo correspondiente")
+                return false;
+            }else{
+                if(correo === ""){
+                    alert("Por favor escriba su correo en el campo correspondiente")
+                    return false;
+                }else{
+                    if(institucion === ""){
+                        alert("Por favor seleccione una institucion")
+                        return false;
+                    }else{
+                        if(area1 === ""){
+                            alert("Por favor seleccione el area que desea moderar")
+                            return false;
+                        }else{
+                            if(area2 === ""){
+                                alert("Por favor seleccione una segunda opcion de area que desea moderar")
+                                return false;
+                            }else{
+                                if(contrasena === ""){
+                                    alert("Por favor escriba una contraseña para su cuenta en el campo correspondiente")
+                                    return false;
+                                }else{
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
