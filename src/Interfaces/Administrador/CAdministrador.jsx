@@ -27,7 +27,7 @@ import CSalas from "./CSalas";
 import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CUsuarios from "./CUsuarios";
-import CDialogPerfilCoordinador from "../../Componentes/Dialogs/CDialogPerfilCoordinador";
+import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
 import CConsultaModeradoresYConsejeros from "./CConsultaModeradoresYConsejeros";
 
 export default function CAdministrador(props) {
@@ -138,7 +138,7 @@ export default function CAdministrador(props) {
       case Variables.v_MenuAdministrador.item1:
         return (
           //onClick = {()=>
-          <CDialogPerfilCoordinador
+          <CDialogPerfilAdministrador
             setvAcctualizarEstado={mActualizarEstado}
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}

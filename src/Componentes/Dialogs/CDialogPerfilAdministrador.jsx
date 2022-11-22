@@ -75,7 +75,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function CDialogPerfilCoordinador(props) {
+export default function CDialogPerfilAdministrador(props) {
   const {
     vRegistro,
     setVRegistrosCoordinadores,
@@ -121,7 +121,7 @@ export default function CDialogPerfilCoordinador(props) {
             disabled
             margin="dense"
             label="Nombre"
-            value = "Alejandra"
+            value = "Patricia"
             type="name"
             fullWidth
             variant="standard"
@@ -169,11 +169,6 @@ export default function CDialogPerfilCoordinador(props) {
             variant="standard"
           />
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Editar
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </div>
   );

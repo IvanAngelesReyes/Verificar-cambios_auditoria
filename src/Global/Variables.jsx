@@ -186,8 +186,8 @@ export const v_TEXTOS = {
 };
 
 export const v_MenuModeradores = {
-  item1: "Pagina Principal",
-  item2: "Mi perfil",
+  item1: "Mi perfil",
+  item2: "Pagina principal",
   item3: "Mi salas",
   item4: "Consejeros",
 };
