@@ -64,6 +64,32 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   });
 }
 
+export async function mGetConsejeros(setVRegistrosConsejeros) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/consejero/obtener-datos-consejero/636c4d8b1a648eaf2e13931c",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosConsejeros(vResponse);
+  });
+}
+
+export async function mGetAdministradores(setVRegistrosAdministradores) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/admin/obtener",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosAdministradores(vResponse);
+  });
+}
+
 export async function mGetSalas(setVSalas, setvKeySalas) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
@@ -138,4 +164,30 @@ export async function mGetManualFile(setVIsExisteManual) {
       setVIsExisteManual(vResponse.info==="false"?false:true);
     }
   )
+}
+
+export async function mGetModeradoresMismaInstitucion(setVRegistrosModeradoresInstitucion) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosModeradoresInstitucion(vResponse);
+  });
+}
+
+export async function mGetConsejerosMismaInstitucion(setVRegistrosConsejerosInstitucion) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosConsejerosInstitucion(vResponse);
+  });
 }

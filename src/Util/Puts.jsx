@@ -47,6 +47,51 @@ export async function mModificarCoordinador(vRegistro) {
     .then(console.log);
 }
 
+export async function mActualizarConsejero(vRegistro) {
+  await fetch(
+Variables.v_URL_API2 + "/api/consejero/actualizar-consejero/:id"+vRegistro.uid,
+{
+    method: "PUT",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(vRegistro),
+  }
+)
+  .then((response) => response.json())
+  .then(console.log);
+}
+
+export async function mActualizarConsejeroInstitucion(vRegistro) {
+await fetch(
+Variables.v_URL_API2 + "/api/auxiliares/actualizar-consejero-institucion/:id/consejero/:idm?institucion="+vRegistro.uid,
+{
+  method: "PUT",
+  headers:{
+    "Content-Type":"application/json"
+  },
+  body: JSON.stringify(vRegistro),
+}
+)
+.then((response) => response.json())
+.then(console.log);
+}
+
+export async function mActualizarModeradorInstitucion(vRegistro) {
+await fetch(
+Variables.v_URL_API2 + "/api/auxiliares/actualizar-moderador-institucion/:id/moderador/:idm?institucion="+vRegistro.uid,
+{
+  method: "PUT",
+  headers:{
+    "Content-Type":"application/json"
+  },
+  body: JSON.stringify(vRegistro),
+}
+)
+.then((response) => response.json())
+.then(console.log);
+}
+
   export async function mModifcarSalas(vSala) {
 
     await fetch(

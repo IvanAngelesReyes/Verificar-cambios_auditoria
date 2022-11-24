@@ -28,7 +28,6 @@ import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CUsuarios from "./CUsuarios";
 import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
-import CConsultaModeradoresYConsejeros from "./CConsultaModeradoresYConsejeros";
 
 export default function CAdministrador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vCoordinador } = props;
@@ -125,11 +124,6 @@ export default function CAdministrador(props) {
         texto: Variables.v_MenuAdministrador.item6,
         mAccion: mSetvContenido,
       },
-      {
-        icon: <Icon.Groups2 />,
-        texto: Variables.v_MenuAdministrador.item7,
-        mAccion: mSetvContenido,
-      },
     ];
   };
 
@@ -203,18 +197,6 @@ export default function CAdministrador(props) {
               setVRegistrosModeradores={mActualizarModeradores}
             />
           </>
-        );
-      case Variables.v_MenuAdministrador.item7:
-        return (
-          <CConsultaModeradoresYConsejeros
-            vRegistrosModeradores={vRegistrosModeradores}
-            setVRegistrosModeradores={mActualizarModeradores}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            setvAcctualizarEstado={mActualizarEstado}
-            mRefresaacarPantalla={mRefresaacarPantalla}
-          />
         );
       default:
     }

@@ -48,6 +48,54 @@ export async function mAgregarModerador(vRegistroM){
     //.then((response) => response.status)
 }
 
+export async function mAgregarConsejeroEnAuxiliar(vRegistro) {
+
+  await fetch(
+    Variables.v_URL_API2 + "/api/auxiliares/crear-auxiliar",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vRegistro),
+    }
+  )
+    .then((response) => response.json())
+    .then(console.log);
+}
+
+export async function mAgregarConsejeroEnAuxiliarInstitucion(vRegistro) {
+
+  await fetch(
+    Variables.v_URL_API2 + "/api/auxiliares/registrar-consejero-x-institucion/:id?institucion=",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vRegistro),
+    }
+  )
+    .then((response) => response.json())
+    .then(console.log);
+}
+
+export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
+
+  await fetch(
+    Variables.v_URL_API2 + "/api/auxiliares/registrar-moderador-x-institucion/id?institucion=",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vRegistro),
+    }
+  )
+    .then((response) => response.json())
+    .then(console.log);
+}
+
 export async function mAgregarCoordinador(vRegistro) {
 
   await fetch(
