@@ -107,3 +107,19 @@ Variables.v_URL_API2 + "/api/auxiliares/actualizar-moderador-institucion/:id/mod
       .then((response) => response.json())
       .then(console.log);
   }
+
+  export async function mModifcaUrlWhatsapp(vSala) {
+
+    await fetch(
+      Variables.v_URL_API2 + "//backend/Manual/Manual.pdf" + vSala.id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vSala),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }

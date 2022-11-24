@@ -4,7 +4,8 @@ import * as Variables from "../../../Global/Variables";
 import * as Posts from "../../../Util/Posts";
 
 export default function CDatosEvento(props) {
-  const { vIsExisteManual, setOpenAlert, vIsExistePlantilla } = props;
+  const { vIsExisteManual, setOpenAlert, vIsExistePlantilla, vUrlWhatsapp } =
+    props;
 
   const [vManual, setVManual] = React.useState({
     url: vIsExisteManual
@@ -18,7 +19,7 @@ export default function CDatosEvento(props) {
       : "",
     file: "",
   });
-  const [vTextoQr, setVTextoQr] = React.useState("");
+  const [vTextoQr, setVTextoQr] = React.useState(vUrlWhatsapp);
 
   const mGetManual = async (e) => {
     e.preventDefault();
@@ -254,4 +255,16 @@ export default function CDatosEvento(props) {
       <Mui.Divider />
     </>
   );
+}
+
+async function mModifcaUrlWhatsapp(vSala) {
+  await fetch(Variables.v_URL_API2 + "/api/salas/actualizar-sala/" + vSala.id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vSala),
+  })
+    .then((response) => response.json())
+    .then(console.log);
 }

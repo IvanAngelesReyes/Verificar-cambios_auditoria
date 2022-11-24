@@ -9,8 +9,6 @@ import DatosAlmacenados from "../../Componentes/Configuraciones/Sobre los datos 
 
 export default function CConfiguraciones(props) {
 
-  const { vIsExisteManual, vIsExistePlantilla } = props;
-
   const [expanded, setExpanded] = React.useState(false);
 
   const [vIsCargado, setvIsCargado] = React.useState(true);
@@ -69,8 +67,7 @@ export default function CConfiguraciones(props) {
           <Mui.AccordionDetails>
             <CDatosEvento
               setOpenAlert={mAbrirAlerta}
-              vIsExisteManual={vIsExisteManual}
-              vIsExistePlantilla={vIsExistePlantilla}
+              {...props}
             />
           </Mui.AccordionDetails>
         </Mui.Accordion>

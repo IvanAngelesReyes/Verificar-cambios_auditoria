@@ -191,3 +191,17 @@ export async function mGetConsejerosMismaInstitucion(setVRegistrosConsejerosInst
     setVRegistrosConsejerosInstitucion(vResponse);
   });
 }
+
+export async function mGetURLWhatsapp(setVUrlWhatsapp) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/whats/obtener-url",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    console.log(vResponse)
+    setVUrlWhatsapp(vResponse);
+  });
+}

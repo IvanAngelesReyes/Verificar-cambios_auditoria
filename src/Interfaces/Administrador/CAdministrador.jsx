@@ -44,6 +44,7 @@ export default function CAdministrador(props) {
   const [vInstituciones, setVInstituciones] = React.useState([])
   const [vIsExisteManual, setVIsExisteManual] = React.useState(false)
   const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false)
+  const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
 
   React.useEffect(() => {
@@ -51,6 +52,7 @@ export default function CAdministrador(props) {
     Gets.mGetModeradores(setVRegistrosModeradores);
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas);
     Gets.mGetManualFile(setVIsExisteManual);
+    Gets.mGetURLWhatsapp(setVUrlWhatsapp);
   }, []);
 
   const [vKey, setvKey] = React.useState(Date.now());
@@ -177,6 +179,7 @@ export default function CAdministrador(props) {
       case Variables.v_MenuAdministrador.item5:
         return (
           <CConfiguraciones
+            vUrlWhatsapp={vUrlWhatsapp}
             vIsExisteManual={vIsExisteManual}
             vIsExistePlantilla={vIsExistePlantilla}
             vAltoNav={vAltoNav}

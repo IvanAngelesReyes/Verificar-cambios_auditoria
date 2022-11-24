@@ -31,7 +31,7 @@ export default function CSalaInactiva(props) {
   
 //console.log(vRegistro);
 //console.log(vRegistro.id);
-//console.log(vRegistro);
+console.log(vRegistro);
 //console.log(vRegistro?.moderador);
 //console.log(vRegistro?.moderador.length);
 
