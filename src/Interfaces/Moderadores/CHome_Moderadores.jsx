@@ -18,58 +18,41 @@ import * as Icon from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import * as Variables from "../../Global/Variables";
+import * as Gets from "../../Util/Gets";
 
 
 export default function CHome_Moderadores() {
+  const [vManual, setVManual] = React.useState("");
+  const [vWhatsapp, setVWhatsapp] = React.useState("");
+  React.useEffect(() => {
+    Gets.mGetManual(setVManual);
+    Gets.mGetWhatsapp(setVWhatsapp);
+  }, []);
   return (
     <div>
-      <Grid container spacing={8} justifyContent="center" alignItems="center">
-        <Grid item xs={16} md={2}>
-        <a href="https://chat.whatsapp.com/EHHG6CNr1P49Nw7LX5biHh"
-         target="_blank">
-          <Button variant="contained">
-            <Mui.Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={0.5}
-            >
-              <Icon.WhatsApp />
-              {Variables.v_TEXTOS.unetea}
-            </Mui.Stack>
-          </Button>
-          </a>
-        </Grid>
-        <Grid item xs={16} md={2}>
-        <a href="https://drive.google.com/file/d/1s-EpXcOnxIS4k66T447L5V66TQCXem_S/view?usp=share_link"
-         target="_blank">
-          <Button variant="contained">
-            <Mui.Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={0.5}
-            >
-              <Icon.Article />
-              {Variables.v_TEXTOS.manual}
-            </Mui.Stack>
-          </Button>
-          </a>
-        </Grid>
-        <Grid item xs={16} md={2}>
-          <Mui.Typography variant="body1" color='primary' component="h2" align='center'>
-            <Mui.Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={0.5}
-            >
-              <Icon.Email />
-              {Variables.v_TEXTOS.contactar}
-            </Mui.Stack>
-          </Mui.Typography>
-        </Grid>
-      </Grid>
+      {vWhatsapp.length > 0 ? (
+        <img
+        src={
+          "https://chart.googleapis.com/chart?cht=qr&chl=" +
+          vWhatsapp +
+          "&chs=250x250"
+        }
+        alt=""
+        height="250px"
+      />
+        ) : ( 
+        <p>Grupo aun no disponible</p>
+        )}
+     
+      {vManual.length > 0 ? (
+        <iframe
+          style={{ borderRadius: "10px", width: 500, height: 600 }}
+          src={vManual}
+        />
+        ) : ( 
+        <p>Manual aun no disponible</p>
+        )}
+         
     </div>
   );
 }

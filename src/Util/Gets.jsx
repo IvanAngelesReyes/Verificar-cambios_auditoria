@@ -205,3 +205,28 @@ export async function mGetURLWhatsapp(setVUrlWhatsapp) {
     setVUrlWhatsapp(vResponse);
   });
 }
+
+export async function mGetWhatsapp(setVWhatsapp) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/whats/obtener-url",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVWhatsapp(vResponse);
+  });
+}
+export async function mGetManual(setVManual) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/manual/obtener-manual-url",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVManual(vResponse);
+  });
+}
