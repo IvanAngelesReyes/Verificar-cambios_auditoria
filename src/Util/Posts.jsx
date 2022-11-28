@@ -1,9 +1,10 @@
 import * as Variables from "../Global/Variables";
+import * as Metodos from "../Global/Metodos"
 
-
-export async function mLoginAdministrador(vLogin,setvDatosLoginCoordinador){
+//Login de administradores
+export async function mLoginAdmin(vLogin){
   await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/coordinadores",
+    Variables.v_URL_API2 + "/api/admin/agregar",
     {
       method: "POST",
       headers:{
@@ -13,10 +14,59 @@ export async function mLoginAdministrador(vLogin,setvDatosLoginCoordinador){
     }
   )
     .then(response => response.json())
-    .then(data => setvDatosLoginCoordinador(data));
+    .then(data => {
+      let vResponse = data
+      console.log(vResponse)
+      //Metodos.verificaRCoo(vResponse)
+    });
 }
 
-export async function mLoginModerador(vLogin,setvDatosLogin){
+
+
+//Login de auxiliares (antes coordinadores)
+export async function mLoginAuxiliar(vLogin){
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/login/consejero",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vLogin),
+    }
+  )
+    .then(response => response.json())
+    .then(data => {
+      let vResponse = data
+      console.log(vResponse)
+      //Metodos.verificaRCoo(vResponse)
+    });
+}
+
+//Login de consejeros
+export async function mLoginConsejero(vLogin){
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/login/coordinador",
+    {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(vLogin),
+    }
+  )
+  .then(response => response.json())
+  .then(data => 
+    { 
+      let vResponse = data
+      console.log(vResponse)
+      //Metodos.verificaRM(vResponse)
+    });
+    
+}
+
+//Login de moderadores
+export async function mLoginModerador(vLogin){
   await fetch(
     Variables.v_URL_API2 + "/api/auth/login",
     {
@@ -27,12 +77,17 @@ export async function mLoginModerador(vLogin,setvDatosLogin){
       body: JSON.stringify(vLogin),
     }
   )
-    .then(response => response.json())
-    .then(data => setvDatosLogin(data));
+  .then(response => response.json())
+  .then(data => 
+    { 
+      let vResponse = data
+      console.log(vResponse)
+      Metodos.verificaRM(vResponse)
+    });
 }
 
 export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
-  console.log(vRegistroM)
+  //console.log(vRegistroM)
   await fetch(
     Variables.v_URL_API2 + "/api/usuarios",
     {
@@ -45,7 +100,6 @@ export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
   )
     .then((response) => response.json())
     .then(data => setvDatosRegistro(data));
-    //.then((response) => response.status)
 }
 
 export async function mAgregarCoordinador(vRegistro) {

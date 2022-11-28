@@ -81,14 +81,6 @@ export default class CModeradores extends Component {
             mSetvFramePrincipal={this.mSetvFramePrincipal}
           />
         );
-      // case Variables.v_FRFAMES.registro:
-      //   return (
-      //     <Registro
-      //       vAltoNav={this.state.vAltoNav}
-      //       vAnchoNav={this.state.vAnchoNav}
-      //       mSetvFramePrincipal={this.mSetvFramePrincipal}
-      //     />
-      //   );
       case Variables.v_FRFAMES.administrador:
         return (
           <CAdministrador

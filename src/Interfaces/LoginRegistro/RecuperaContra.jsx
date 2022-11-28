@@ -23,7 +23,7 @@ export default function CRecuperaContra(){
 
                     <p>Ingrese el correo que registro dentro de la plataforma</p>
 
-                    <div class="divFormularioRC">
+                    <div className="divFormularioRC">
 
                         {/*Text field del campo de correo*/}
                         <Mui.Box sx={{ display: 'flex', alignItems: 'flex-end',width:'75%' }}>

@@ -18,7 +18,7 @@ export default function Conjunto() {
       case "recuperarc":
         return <RecuperaContra />;
       case "moderador":
-        return <CModerador/>; 
+        return <CModerador/>;
       default:
         break;
     }

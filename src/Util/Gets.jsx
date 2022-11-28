@@ -64,7 +64,7 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   });
 }
 
-export async function mGetSalas(setVSalas, setvKeySalas) {
+export async function mGetSalas(setVSalas) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -78,7 +78,7 @@ export async function mGetSalas(setVSalas, setvKeySalas) {
     } else {
       setVSalas([]);
     }
-    setvKeySalas(Date.now());
+    //setvKeySalas(Date.now());
   });
 }
 

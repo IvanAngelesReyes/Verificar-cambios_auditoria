@@ -5,7 +5,6 @@ import CUniversidades from '../../Componentes/Selects/CUniversidades.jsx';
 import CContra from '../../Componentes/RegistroModeradores/CContra.jsx';
 import CAreaInteres from '../../Componentes/Selects/CAreaInteres.jsx';
 import * as Posts from "../../Util/Posts";
-/*Variables de los componentes de institucion, area y contraseña*/
 
 export default function Registro(){
 
@@ -24,6 +23,8 @@ export default function Registro(){
     const[vArea,setvArea] = useState("");
     const[vArea2,setvArea2] = useState("");
     // const[vPassword,setvPassword] = useState("");
+
+    //Variable que trae los datos de el POST
     const [vDatosRegistro, setvDatosRegistro] = React.useState([]);
 
     const handleClick = () => {
@@ -39,7 +40,7 @@ export default function Registro(){
           rol: "MODERADOR_ROLE"
         };
 
-        console.log("DATOS INGRESADOS: -------------")
+        /*console.log("DATOS INGRESADOS: -------------")
         console.log(vNombre);
         console.log(vApellidoP);
         console.log(vApellidoM);
@@ -48,27 +49,16 @@ export default function Registro(){
         console.log(vArea);
         console.log(vArea2);
         console.log(vInstitucion);
-        console.log("-----------------------------")
+        console.log("-----------------------------")*/
 
         if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,values.password) === true){
-            Posts.mAgregarModerador(vRegistroM,setvDatosRegistro);
-
-            // const respuestaRecuperada ={
-            //     respuesta:vDatosRegistro.errors
-            // }
-
-            // const elementosRespuesta = vDatosRegistro.map((index) =>
-            //       vDatosRegistro.errors[index].msg
-            // );
-
-            if(vDatosRegistro.errors[0].msg === "El email -- " + vCorreo + " -- ya existe" ){
-                alert("El correo ya ha sido registrado previamente")
-            }else{
+            if(validaTamanio(vNombre.length,values.password.length)===true){
                 Posts.mAgregarModerador(vRegistroM,setvDatosRegistro);
+                validaRespuesta(vDatosRegistro,vCorreo);
             }
 
-            // console.log("RESPUESTA----------")
-            // console.log(vDatosRegistro.errors[0].msg)
+            console.log("RESPUESTA----------")
+            console.log(vDatosRegistro)
         }
     }
 
@@ -226,5 +216,71 @@ function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,are
                 }
             }
         }
+    }
+}
+
+function validaTamanio(nombre,contra){
+    if(nombre < 4){
+        alert("Por favor escriba un nombre mayor a 4 letras")
+        return false;
+    }else{
+        if(contra < 8){
+            alert("Por favor escriba una contraseña mayor a 8 digitos")
+            return false;
+        }else{
+            return true;
+        }
+    }
+}
+
+
+function validaRespuesta(vDatosRegistro,vCorreo){
+
+    let arregloErrores = []
+    const numeroErrores = vDatosRegistro.errors?.length;
+
+    //Banderas para tipos de errores
+    let errorCorreo = false;
+    let errorFormato = false;
+    let errorFormatoCorreo = false;
+
+    for(let i=0;i<numeroErrores;i++){
+        arregloErrores[i] = vDatosRegistro.errors[i].msg
+
+        if(arregloErrores[i] === "El email -- " + vCorreo + " -- ya existe"){
+            errorCorreo = true;
+        }
+
+        if(arregloErrores[i] === "se estan ingresando datos no permitidos"){
+            errorFormato = true;
+        }
+
+        if(arregloErrores[i] === "el correo no es valido"){
+            errorFormatoCorreo = true;
+        }
+    }
+
+    //console.log("ARREGLO ERRORES----------")
+    //console.log(arregloErrores)
+
+    if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
+        alert("Su registro se realizo correctamente")
+        return false;
+    }else{
+
+        if(errorFormato === true){
+            alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
+            return true;
+        }else{
+            if(errorCorreo === true ){
+                alert("Este correo ya ha sido registrado previmente. Por favor elija uno diferente")
+                return true;
+            }else{
+                if(errorFormatoCorreo === true){
+                    alert("Verifique que el correo tenga el formato correcto")
+                    return true;
+                }
+            }
+        } 
     }
 }
