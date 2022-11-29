@@ -15,6 +15,8 @@ Componentes relacionados:
 
 export const v_URL_API = "https://api.moderadores.tecnologinc.com";
 export const v_URL_API2 = "https://api2.moderadores.tecnologinc.com";
+//export const v_URL_API = "http://localhost";
+//export const v_URL_API2 = "http://localhost:6061";
 
 export const v_FRFAMES = {
   login: "login",
@@ -63,9 +65,11 @@ export const v_TEXTOS = {
   cargar_salas: "Cargar salas",
   cargar_ponentes: "Cargar ponentes",
   filtrar_por: "Filtrar por:",
+  ordenar_salas_por: "Ordenar salas en:",
   dia: "Día",
   edificio: "Edificio",
   no_salas: "No hay salas cargas.",
+  no_salas_filtro: "No hay salas con este filtro.",
 
   salir: "Salir ",
   nombre: "Nombre",
@@ -183,6 +187,16 @@ export const v_TEXTOS = {
     "¿Seguro que desea eliminar al coordinador seleccionado?",
   confirmar_cambio: "¿Seguro que desea cambiarle el rol al usuario?",
   buscador: "Escribe el nombre del moderador o consejero",
+  crudinstituciones: {
+    agregar: "Agregar una nueva institución",
+    modificar: "Modificar institución",
+    mostrar: "Todas las instituciones",
+    btnAgregar: "Agregar",
+    btnModicar: "Modificar",
+    text1: "Nombre de la institución",
+    text2: "País",
+    text3: "",
+  },
 };
 
 export const v_MenuModeradores = {

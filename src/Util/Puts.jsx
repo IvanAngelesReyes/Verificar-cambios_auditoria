@@ -108,18 +108,46 @@ Variables.v_URL_API2 + "/api/auxiliares/actualizar-moderador-institucion/:id/mod
       .then(console.log);
   }
 
-  export async function mModifcaUrlWhatsapp(vSala) {
+  export async function mModifcaUrlWhatsapp(vUrl) {
 
     await fetch(
-      Variables.v_URL_API2 + "//backend/Manual/Manual.pdf" + vSala.id,
+      Variables.v_URL_API2 + "/api/whats/actualizar-whats-url/:0",
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(vSala),
+        body: JSON.stringify(vUrl),
       }
     )
       .then((response) => response.json())
-      .then(console.log);
+      .then();
   }
+  export async function mModifcaUrlManual(vUrl) {
+
+    await fetch(Variables.v_URL_API2 + "/api/manual/actualizar-manual-url/:0", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vUrl),
+    })
+      .then((response) => response.json())
+      .then(console.log);
+}
+  
+export async function mModificarInstitucion(vRegistro) {
+  await fetch(
+    Variables.v_URL_API2 +
+      "/api/universidades/actualizar-universidades/" +
+      vRegistro._id,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vRegistro),
+    }
+  )
+    .then((response) => response.json())
+}

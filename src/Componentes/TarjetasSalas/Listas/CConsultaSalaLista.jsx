@@ -39,7 +39,7 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={Variables.v_TEXTOS.detalles_sala.texto3}
-              defaultValue={vSala["institucion(es)"]}
+              defaultValue={vSala.instituciones}
               InputProps={{
                 readOnly: true,
               }}
@@ -47,49 +47,49 @@ export default function CConsultaSalaLista(props) {
             />
           </Mui.Grid>
           <Mui.Grid item xs>
-          <Mui.TextField
-            id="standard-read-only-input"
-            label={Variables.v_TEXTOS.detalles_sala.texto1}
-            defaultValue={vSala["salon"]}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="standard"
+            <Mui.TextField
+              id="standard-read-only-input"
+              label={Variables.v_TEXTOS.detalles_sala.texto1}
+              defaultValue={vSala.salon}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="standard"
             />
-            </Mui.Grid>
-            <Mui.Grid item xs>
-          <Mui.TextField
-            id="standard-read-only-input"
-            label={Variables.v_TEXTOS.detalles_sala.texto2}
-            defaultValue={vSala.modalidad}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="standard"
+          </Mui.Grid>
+          <Mui.Grid item xs>
+            <Mui.TextField
+              id="standard-read-only-input"
+              label={Variables.v_TEXTOS.detalles_sala.texto2}
+              defaultValue={vSala.modalidad}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="standard"
             />
-            </Mui.Grid>
-            <Mui.Grid item xs>
-          <Mui.TextField
-            id="standard-read-only-input"
-            label={Variables.v_TEXTOS.detalles_sala.texto6}
-            defaultValue={vSala.fecha}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="standard"
+          </Mui.Grid>
+          <Mui.Grid item xs>
+            <Mui.TextField
+              id="standard-read-only-input"
+              label={Variables.v_TEXTOS.detalles_sala.texto6}
+              defaultValue={vSala.fecha}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="standard"
             />
-            </Mui.Grid>
-            <Mui.Grid item xs>
-          <Mui.TextField
-            id="standard-read-only-input"
-            label={"Estado"}
-            defaultValue={vSala.estatus}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="standard"
-          />
-            </Mui.Grid>
+          </Mui.Grid>
+          <Mui.Grid item xs>
+            <Mui.TextField
+              id="standard-read-only-input"
+              label={"Estado"}
+              defaultValue={vSala.estatus}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="standard"
+            />
+          </Mui.Grid>
           <CDialogDetallesSala vSala={vSala} />
         </Mui.Grid>
       </Mui.Box>

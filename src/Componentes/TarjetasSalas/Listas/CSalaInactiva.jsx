@@ -31,7 +31,7 @@ export default function CSalaInactiva(props) {
   
 //console.log(vRegistro);
 //console.log(vRegistro.id);
-console.log(vRegistro);
+//console.log(vRegistro);
 //console.log(vRegistro?.moderador);
 //console.log(vRegistro?.moderador.length);
 
@@ -58,7 +58,7 @@ console.log(vRegistro);
             disabled={
               vRegistro?.moderador !== undefined
                 ? false
-                : vRegistro?.moderador.length === 0?false:true
+                : vRegistro?.moderador?.length === 0?false:true
             }
             variant="contained"
             onClick={handleClick}
@@ -68,7 +68,7 @@ console.log(vRegistro);
           <Mui.TextField
             id="standard-read-only-input"
             label="institucion"
-            defaultValue={vRegistro["institucion(es)"]}
+            defaultValue={vRegistro.instituciones}
             InputProps={{
               readOnly: true,
             }}

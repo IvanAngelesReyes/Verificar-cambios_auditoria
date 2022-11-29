@@ -34,6 +34,7 @@ export default function CSalas(props) {
     mSetvFramePrincipal,
     vAltoNav,
     vAnchoNav,
+    vInstituciones,
   } = props;
 
   const [vIsCargado, setvIsCargado] = React.useState(false);
@@ -42,7 +43,7 @@ export default function CSalas(props) {
   const [page, setPage] = React.useState(1);
   const handleChangePages = (event, value) => {
     setPage(value);
-    setVKey(Date.now())
+    setVKey(Date.now());
   };
 
   //////////////////////////
@@ -60,13 +61,11 @@ export default function CSalas(props) {
 
   const [vIsFiltro, setVIsFiltro] = React.useState(true);
 
-
-
   const mfiltroInstituciones = async (vRegistros) => {
     return await vRegistros.filter((item) => {
       return vInstitucionSeleccionada === "Todo"
         ? true
-        : item["Institucion(es)"] === vInstitucionSeleccionada;
+        : item.instituciones.trim() === vInstitucionSeleccionada.trim();
     });
   };
 
@@ -82,24 +81,23 @@ export default function CSalas(props) {
     }
   };
 
-  const mSacarInstitucion = async (vSalas) => {
+  const mSacarInstitucion = async (vInstituciones) => {
     return [
       ...new Set(
-        await vSalas.map((item) => {
-          console.log(item)
-          return item["institucion(es)"];
+        await vInstituciones.map((item) => {
+          return item.nombre;
         })
       ),
-    ];
+    ].reverse();
   };
 
   const mVista = () => {
     if (vSalas.length > 0) {
       if (vIsCargado) {
         if (vVistaLista) {
-          return mListasCoordinadores();
+          return mListasSalas();
         } else {
-          return <>{mCuadrosCoordinadores()}</>;
+          return <>{mCuadrosSalas()}</>;
         }
       } else {
         return (
@@ -127,16 +125,32 @@ export default function CSalas(props) {
     setVFiltroOrden(evt.target.value);
   };
 
-  function mCuadrosCoordinadores() {
-    return vRegistrosFiltrados[page-1].map((item) => {
-      return <CConsultaSalaCuadro vSala={item} />;
-    });
+  function mCuadrosSalas() {
+    if (vRegistrosFiltrados.length > 0) {
+      return vRegistrosFiltrados[page - 1].map((item) => {
+        return <CConsultaSalaCuadro vSala={item} />;
+      });
+    } else {
+      return (
+        <Mui.Typography variant="body1" component="p">
+          {Variables.v_TEXTOS.no_salas_filtro}
+        </Mui.Typography>
+      );
+    }
   }
 
-  function mListasCoordinadores() {
-    return vRegistrosFiltrados[page-1].map((item) => {
-      return <CConsultaSalaLista vSala={item} />;
-    });
+  function mListasSalas() {
+    if (vRegistrosFiltrados.length > 0) {
+      return vRegistrosFiltrados[page - 1].map((item) => {
+        return <CConsultaSalaLista vSala={item} />;
+      });
+    } else {
+      return (
+        <Mui.Typography variant="body1" component="p">
+          {Variables.v_TEXTOS.no_salas_filtro}
+        </Mui.Typography>
+      );
+    }
   }
 
   //////////////////////////
@@ -144,29 +158,36 @@ export default function CSalas(props) {
   React.useEffect(() => {
     if (vSalas.length > 0) {
       if (vIsFiltro) {
+        setVRegistrosFiltrados([]);
         mfiltroInstituciones([...vSalas]).then((result) => {
-          mFiltroOrden([...result]).then((result2) => {
-            Metodos.chunckArrayInGroups([...result2], result2.length).then(
-              result3 => setVRegistrosFiltrados(result3)
-            );
-            
-            if (vListaInstituciones.length === 0) {
-              mSacarInstitucion([...vSalas]).then((result3) => {
-                console.log(result3);
-                mFiltroOrden([...result3]).then((result4) => {
-                  console.log(result4);
-                  setVListaInstituciones(result4);
-                  setVIsFiltro(false);
-                  setVKey(Date.now());
-                  setvIsCargado(true);
+          if (result.length > 0) {
+            mFiltroOrden([...result]).then((result2) => {
+              Metodos.chunckArrayInGroups([...result2], result2.length).then(
+                (result3) => setVRegistrosFiltrados(result3)
+              );
+              if (vListaInstituciones.length === 0) {
+                mSacarInstitucion([...vInstituciones]).then((result3) => {
+                  result3.push("Todo")
+                  result3=result3.reverse();
+                  mFiltroOrden([...result3]).then((result4) => {
+                    setVListaInstituciones(result4);
+                    setVIsFiltro(false);
+                    setVKey(Date.now());
+                    setvIsCargado(true);
+                  });
                 });
-              });
-            } else {
-              setVIsFiltro(false);
-              setVKey(Date.now());
-              setvIsCargado(true);
-            }
-          });
+              } else {
+                setVIsFiltro(false);
+                setVKey(Date.now());
+                setvIsCargado(true);
+              }
+            });
+          } else {
+            setVRegistrosFiltrados([]);
+            setVIsFiltro(false);
+            setvIsCargado(true);
+            setVKey(Date.now());
+          }
         });
       }
     }
@@ -183,10 +204,7 @@ export default function CSalas(props) {
       spacing={1}
     >
       <Mui.Stack key={vKey} direction="row" spacing={2}>
-        <CDialogCargarSalas
-          mCargarSalas={mCargarSalas}
-          vAltoNav={vAltoNav}
-        />
+        <CDialogCargarSalas mCargarSalas={mCargarSalas} vAltoNav={vAltoNav} />
         {/*<CDialogCargarPonentes
         disabled={vSalasCargadas.length>0?false:true}
           setvSalasCargadas={setvSalasCargadas}
@@ -231,7 +249,7 @@ export default function CSalas(props) {
           <Mui.Grid item xs={6}>
             <Mui.FormControl>
               <Mui.FormLabel id="radio-buttons-group">
-                {Variables.v_TEXTOS.ordenar_por}
+                {Variables.v_TEXTOS.ordenar_salas_por}
               </Mui.FormLabel>
               <Mui.RadioGroup
                 value={vFiltroOrden}
@@ -289,10 +307,12 @@ export default function CSalas(props) {
             spacing={0}
           >
             <Mui.Pagination
-              count={vRegistrosFiltrados.length-1}
+              count={vRegistrosFiltrados.length - 1}
               shape="rounded"
-              showFirstButton showLastButton
-              page={page} onChange={handleChangePages}
+              showFirstButton
+              showLastButton
+              page={page}
+              onChange={handleChangePages}
             />
             <Mui.Grid
               key={vKey}
@@ -305,10 +325,12 @@ export default function CSalas(props) {
               {mVista()}
             </Mui.Grid>
             <Mui.Pagination
-              count={vRegistrosFiltrados.length-1}
+              count={vRegistrosFiltrados.length - 1}
               shape="rounded"
-              showFirstButton showLastButton
-              page={page} onChange={handleChangePages}
+              showFirstButton
+              showLastButton
+              page={page}
+              onChange={handleChangePages}
             />
           </Mui.Stack>
         </Mui.Box>

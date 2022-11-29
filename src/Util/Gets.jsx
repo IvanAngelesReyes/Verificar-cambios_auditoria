@@ -64,7 +64,7 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   });
 }
 
-export async function mGetConsejeros(setVRegistrosConsejeros) {
+export async function mGetAuxiliares(setVRegistrosAuxiliares) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/consejero/obtener-datos-consejero/636c4d8b1a648eaf2e13931c",
     method: "GET",
@@ -73,7 +73,7 @@ export async function mGetConsejeros(setVRegistrosConsejeros) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    setVRegistrosConsejeros(vResponse);
+    setVRegistrosAuxiliares(vResponse);
   });
 }
 
@@ -217,6 +217,7 @@ export async function mGetWhatsapp(setVWhatsapp) {
     let vResponse = response.data;
     setVWhatsapp(vResponse);
   });
+
 }
 export async function mGetManual(setVManual) {
   let reqOptions = {
@@ -229,4 +230,5 @@ export async function mGetManual(setVManual) {
     let vResponse = response.data;
     setVManual(vResponse);
   });
+  
 }

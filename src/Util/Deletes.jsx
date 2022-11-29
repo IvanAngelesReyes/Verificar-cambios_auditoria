@@ -32,3 +32,19 @@ export async function mEliminarCoordinador(vRegistro) {
       .then((response) => response.json())
       .then(console.log);
   }
+  export async function mEliminarInstitucion(vRegistro) {
+  
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/universidades/eliminar-universidad/" +
+        vRegistro._id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+  }

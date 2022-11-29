@@ -4,11 +4,10 @@ import * as Icon from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import * as Variables from "../../Global/Variables";
 import CDatosEvento from "../../Componentes/Configuraciones/Datos principales del evento/CDatosEvento";
+import CCrudInstituciones from "../../Componentes/Configuraciones/Acerca de las instituciones/CCrudInstituciones";
 import DatosAlmacenados from "../../Componentes/Configuraciones/Sobre los datos almacenados/DatosAlmacenados";
 
-
 export default function CConfiguraciones(props) {
-
   const [expanded, setExpanded] = React.useState(false);
 
   const [vIsCargado, setvIsCargado] = React.useState(true);
@@ -38,7 +37,7 @@ export default function CConfiguraciones(props) {
 
   const mAbrirAlerta = () => {
     setState({ ...state, open: true });
-  }
+  };
 
   if (!vIsCargado) {
     return (
@@ -65,10 +64,7 @@ export default function CConfiguraciones(props) {
             </Mui.Typography>
           </Mui.AccordionSummary>
           <Mui.AccordionDetails>
-            <CDatosEvento
-              setOpenAlert={mAbrirAlerta}
-              {...props}
-            />
+            <CDatosEvento setOpenAlert={mAbrirAlerta} {...props} />
           </Mui.AccordionDetails>
         </Mui.Accordion>
         <Mui.Accordion expanded={expanded === "2"} onChange={handleChange("2")}>
@@ -81,7 +77,9 @@ export default function CConfiguraciones(props) {
               {Variables.v_TEXTOS.configuraciones.conf2.text1}
             </Mui.Typography>
           </Mui.AccordionSummary>
-          <Mui.AccordionDetails></Mui.AccordionDetails>
+          <Mui.AccordionDetails>
+            <CCrudInstituciones setOpenAlert={mAbrirAlerta} {...props} />
+          </Mui.AccordionDetails>
         </Mui.Accordion>
         <Mui.Accordion expanded={expanded === "3"} onChange={handleChange("3")}>
           <Mui.AccordionSummary
@@ -94,7 +92,7 @@ export default function CConfiguraciones(props) {
             </Mui.Typography>
           </Mui.AccordionSummary>
           <Mui.AccordionDetails>
-            <DatosAlmacenados/>
+            <DatosAlmacenados />
           </Mui.AccordionDetails>
         </Mui.Accordion>
         <Mui.Snackbar

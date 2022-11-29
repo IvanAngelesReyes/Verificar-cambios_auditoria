@@ -23,7 +23,7 @@ export default function CConsultaSala(props) {
   const { vSala } = props;
 
   return (
-    <Mui.Paper sx={{ m: "20px",borderRadius:5 }} elevation={3}>
+    <Mui.Paper sx={{ m: "20px", borderRadius: 5 }} elevation={3}>
       <Mui.Box sx={{ padding: 5, width: 300, height: "auto" }}>
         <Mui.Stack
           direction="column"
@@ -36,7 +36,7 @@ export default function CConsultaSala(props) {
             sx={{ width: "100%" }}
             id="standard-read-only-input"
             label={Variables.v_TEXTOS.detalles_sala.texto3}
-            defaultValue={vSala["institucion(es)"]}
+            defaultValue={vSala.instituciones}
             InputProps={{
               readOnly: true,
             }}
@@ -46,7 +46,7 @@ export default function CConsultaSala(props) {
             sx={{ width: "100%" }}
             id="standard-read-only-input"
             label={Variables.v_TEXTOS.detalles_sala.texto1}
-            defaultValue={vSala["salon"]}
+            defaultValue={vSala.salon}
             InputProps={{
               readOnly: true,
             }}

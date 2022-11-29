@@ -37,37 +37,36 @@ export default function CAdministrador(props) {
     Variables.v_MenuAdministrador.item2
   );
   const [vSalasCargadas, setvSalasCargadas] = React.useState([]);
-  const [vRegistrosCoordinadores, setVRegistrosCoordinadores] = React.useState(
-    []
-  );
+  const [vRegistrosAuxiliares, setVRegistrosAuxiliares] = React.useState([]);
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
-  const [vInstituciones, setVInstituciones] = React.useState([])
-  const [vIsExisteManual, setVIsExisteManual] = React.useState(false)
-  const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false)
+  const [vInstituciones, setVInstituciones] = React.useState([]);
+  const [vIsExisteManual, setVIsExisteManual] = React.useState(false);
+  const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false);
   const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
-
   React.useEffect(() => {
-    Gets.mGetCoordinadores(setVRegistrosCoordinadores);
+    Gets.mGetAuxiliares(setVRegistrosAuxiliares);
     Gets.mGetModeradores(setVRegistrosModeradores);
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas);
+    Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
+    
   }, []);
 
   const [vKey, setvKey] = React.useState(Date.now());
   const [vKeySalas, setvKeySalas] = React.useState(Date.now());
   const [vActualizarEstado, setvAcctualizarEstado] = React.useState();
 
-  const mActualziarCoordinarodes = (vCoordinadoresTmp) => {
-    console.log(vCoordinadoresTmp);
-    setVRegistrosCoordinadores(vCoordinadoresTmp);
+  const mActualziarCoordinarodes = (vAuxiliaresTmp) => {
+    console.log(vAuxiliaresTmp);
+    setVRegistrosAuxiliares(vAuxiliaresTmp);
     vActualizarEstado();
   };
 
   const mActualizarModeradores = (vModeradoresTmp) => {
     //console.log(vModeradoresTmp)
-    setVRegistrosCoordinadores(vModeradoresTmp);
+    setVRegistrosAuxiliares(vModeradoresTmp);
     //vActualizarEstado();
   };
 
@@ -139,8 +138,8 @@ export default function CAdministrador(props) {
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
             mSetvFramePrincipal={mSetvFramePrincipal}
-            vRegistrosCoordinadores={vRegistrosCoordinadores}
-            setVRegistrosCoordinadores={mActualziarCoordinarodes}
+            vRegistrosAuxiliares={vRegistrosAuxiliares}
+            setVRegistrosAuxiliares={mActualziarCoordinarodes}
             mRefresaacarPantalla={mRefresaacarPantalla}
           />
           //}
@@ -166,6 +165,7 @@ export default function CAdministrador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
             vSalasCargadas={vSalasCargadas}
             mCargarSalas={mCargarSalas}
+            vInstituciones={vInstituciones}
           />
         );
       case Variables.v_MenuAdministrador.item4:
@@ -179,6 +179,8 @@ export default function CAdministrador(props) {
       case Variables.v_MenuAdministrador.item5:
         return (
           <CConfiguraciones
+            vInstituciones={vInstituciones}
+            setVInstituciones={setVInstituciones}
             vUrlWhatsapp={vUrlWhatsapp}
             vIsExisteManual={vIsExisteManual}
             vIsExistePlantilla={vIsExistePlantilla}
@@ -193,8 +195,8 @@ export default function CAdministrador(props) {
             <CUsuarios
               {...props}
               setvAcctualizarEstado={mActualizarEstado}
-              vRegistrosCoordinadores={vRegistrosCoordinadores}
-              setVRegistrosCoordinadores={mActualziarCoordinarodes}
+              vRegistrosAuxiliares={vRegistrosAuxiliares}
+              setVRegistrosAuxiliares={mActualziarCoordinarodes}
               mRefresaacarPantalla={mRefresaacarPantalla}
               vRegistrosModeradores={vRegistrosModeradores}
               setVRegistrosModeradores={mActualizarModeradores}
