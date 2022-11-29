@@ -53,12 +53,16 @@ export default function Registro(){
 
         if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,values.password) === true){
             if(validaTamanio(vNombre.length,values.password.length)===true){
-                Posts.mAgregarModerador(vRegistroM,setvDatosRegistro);
-                validaRespuesta(vDatosRegistro,vCorreo);
+                
+                Posts.mAgregarModerador(vRegistroM,setvDatosRegistro)
+                //.then(validaRespuesta(vDatosRegistro,vCorreo));
+                
+                //registro(vRegistroM,setvDatosRegistro,vDatosRegistro,vCorreo)
+
             }
 
-            console.log("RESPUESTA----------")
-            console.log(vDatosRegistro)
+            //console.log("RESPUESTA----------")
+            //console.log(vDatosRegistro)
         }
     }
 
@@ -174,6 +178,11 @@ export default function Registro(){
     );
 }
 
+// async function registro(vRegistroM,setvDatosRegistro,vDatosRegistro,vCorreo){
+//     await(Posts.mAgregarModerador(vRegistroM,setvDatosRegistro))
+//     .then(validaRespuesta(vDatosRegistro,vCorreo))
+// }
+
 function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,area2,contrasena){
     //Validaciones de campos vacios
     if(nombre === ""){
@@ -233,7 +242,6 @@ function validaTamanio(nombre,contra){
     }
 }
 
-
 function validaRespuesta(vDatosRegistro,vCorreo){
 
     let arregloErrores = []
@@ -267,7 +275,6 @@ function validaRespuesta(vDatosRegistro,vCorreo){
         alert("Su registro se realizo correctamente")
         return false;
     }else{
-
         if(errorFormato === true){
             alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
             return true;

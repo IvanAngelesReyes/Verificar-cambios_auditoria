@@ -29,15 +29,12 @@ export default function MBotonSala(){
         console.log(vSalas)
     })
 
-    const handleClick = () => {
-        console.log("Obteniendo detalles de la sala")
-      }
 
     const elementos = vSalas.map((sala,index) =>
 
         <section id='sectionContenedorBS'>
             <div className='divContenedorBS'>
-                <button className="btnSalaBS" onClick={()=>(handleClick)}>
+                <button className="btnSalaBS">
                     {/* <div className='divImgSala'> */}
                     <img src="https://cdn-icons-png.flaticon.com/512/5602/5602892.png" id="imgBotonBS" height ="40%" width="3%" alt="img_zoom" />
                     {/* </div> */}
@@ -54,3 +51,4 @@ export default function MBotonSala(){
         elementos
     );
 }
+

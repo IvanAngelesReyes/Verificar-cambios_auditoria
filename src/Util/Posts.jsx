@@ -1,10 +1,28 @@
 import * as Variables from "../Global/Variables";
 import * as Metodos from "../Global/Metodos"
 
+//logins
+export async function mLogins(vLogin){
+
+  let respuestam = await mLoginModerador(vLogin)
+    
+  if( respuestam === "moderadorencontrado" || respuestam === "modconsejeroencontrado"){
+    console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA")
+  }else{
+    if(await mLoginConsejero(vLogin) === "consejeroencontrado"){
+      console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA")
+    }else{
+      if(await mLoginAuxiliar(vLogin) === "auxiliarencontrado"){
+        console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA")
+      }
+    }
+  }
+}
+
 //Login de administradores
 export async function mLoginAdmin(vLogin){
   await fetch(
-    Variables.v_URL_API2 + "/api/admin/agregar",
+    Variables.v_URL_API2 + "/api/auth/login/admin",
     {
       method: "POST",
       headers:{
@@ -17,16 +35,14 @@ export async function mLoginAdmin(vLogin){
     .then(data => {
       let vResponse = data
       console.log(vResponse)
-      //Metodos.verificaRCoo(vResponse)
     });
 }
 
-
-
 //Login de auxiliares (antes coordinadores)
 export async function mLoginAuxiliar(vLogin){
+  let r
   await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/consejero",
+    Variables.v_URL_API2 + "/api/auth/login/coordinador",
     {
       method: "POST",
       headers:{
@@ -40,13 +56,28 @@ export async function mLoginAuxiliar(vLogin){
       let vResponse = data
       console.log(vResponse)
       //Metodos.verificaRCoo(vResponse)
+
+      r = Metodos.verificaRCoo(vResponse)
+
+      console.log("RA: " + r)
+      if(r === "auxiliarencontrado"){
+        r = "auxiliarencontrado"
+      }else{
+        if(r === "auxiliarnoencontrado"){
+          r = "auxiliarnoencontrado" 
+          //await mLoginConsejero(vLogin)
+        }
+      }
+
     });
+    return r
 }
 
 //Login de consejeros
 export async function mLoginConsejero(vLogin){
+  let r
   await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/coordinador",
+    Variables.v_URL_API2 + "/api/auth/login/consejero",
     {
       method: "POST",
       headers:{
@@ -60,13 +91,29 @@ export async function mLoginConsejero(vLogin){
     { 
       let vResponse = data
       console.log(vResponse)
-      //Metodos.verificaRM(vResponse)
+
+      r = Metodos.verificaRC(vResponse)
+
+      console.log("RCj: " + r)
+
+      if(r === "consejeroencontrado"){
+        r = "consejeroencontrado"
+      }else{
+        if(r === "consejeronoencontrado"){
+          r = "consejeronoencontrado" 
+          //await mLoginConsejero(vLogin)
+        }
+      }
+
+
     });
-    
+    return r
 }
 
 //Login de moderadores
 export async function mLoginModerador(vLogin){
+
+  let r;
   await fetch(
     Variables.v_URL_API2 + "/api/auth/login",
     {
@@ -79,15 +126,38 @@ export async function mLoginModerador(vLogin){
   )
   .then(response => response.json())
   .then(data => 
-    { 
+    {
+      console.log(data)
       let vResponse = data
-      console.log(vResponse)
-      Metodos.verificaRM(vResponse)
+      //Metodos.verificaResMod(vResponse);
+      //console.log("::::Resouesta del JSN: " + vResponse.msg)
+      
+      
+
+      r = Metodos.verificaResMod(vResponse)
+
+      console.log("RM: " + r)
+
+      if(r === "moderadorencontrado"){
+        r = "moderadorencontrado"
+        //usuario = "moderadorencontrado"
+      }else{
+        if(r === "moderadornoencontrado"){
+          r = "moderadornoencontrado" 
+          //await mLoginConsejero(vLogin)
+        }
+      }
+
+      // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
+      //   //return "moderadornoencontrado"
+      // }
+
+
     });
+    return r;
 }
 
 export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
-  //console.log(vRegistroM)
   await fetch(
     Variables.v_URL_API2 + "/api/usuarios",
     {
@@ -99,7 +169,12 @@ export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
     }
   )
     .then((response) => response.json())
-    .then(data => setvDatosRegistro(data));
+    .then(data => {
+      let vResponse = data
+      Metodos.verificaRRM(vResponse,vRegistroM.correo);
+      //console.log(data)
+      //setvDatosRegistro(data)
+    });
 }
 
 export async function mAgregarCoordinador(vRegistro) {

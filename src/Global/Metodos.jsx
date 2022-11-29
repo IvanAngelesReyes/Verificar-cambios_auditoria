@@ -47,51 +47,46 @@ export const chunckArrayInGroups = async (arr, size) => {
 };
 
 //Verifica las posibles respuestas que le pueden salir a un moderador
-export function verificaRM(vResponse){
+export function verificaResMod(vResponse){
 
   let respuesta = vResponse.msg
-  //let estado = vResponse.vUsuario?.estado
   let consejero = vResponse.vUsuario?.consejero
 
   console.log("MSG ---> " + respuesta)
   //console.log("ESTADO ---> " + estado)
   console.log("CONSEJERO ---> " + consejero)
 
-  // 1. Verifica si existe o no el correo dentro de moderadores
-  // 2. Verifica si tiene o no autorizacion
-  // 3. Verifica si el usuario y contraseña son correctos
-  // 4. Verifica si es consejero o no
-
-  //alert("ESTE ES EL VALOR DE RESPUESTA --> " + respuesta)
-
   if(respuesta === 'algo salio mal'){
     alert('Algo salio mal')
-  }else{
+  }else
+  {
     if(respuesta === "Usuario / Contraseña incorrectos"){
-        alert("El usuario o contraseña son incorrectos")
+        //alert("El usuario o contraseña son incorrectos")
+        return "moderadornoencontrado"
+        
     }
 
     if(respuesta === "Usuario / Password incorrectos"){
         alert("El usuario o contraseña son incorrectos")
+        //return "moderadornoencontrado"
     }
 
     if(respuesta === "No tiene autorizacion"){
         alert("Debe esperar a que el administrador apruebe su solicitud")
     }else{
-        if(respuesta === "Inicio de sesion correcto"){
-            if(consejero === false){
-                alert("Bienvenido moderador")
-                //LLAMAR LA VENTANA DE MODERADORES
-            }
-            else{
-              alert("Bienvenido consejero")
-                //LLAMAR LA VENTANA DE CONSEJEROS
-            }
-        }
+      if(respuesta === "Inicio de sesion correcto")
+      {
+        if(consejero === false){
+          alert("Bienvenido moderador")
+          return "moderadorencontrado"
+          
+        }else{
+            alert("Bienvenido consejero (desde moderadores)")
+            return "modconsejeroencontrado"
+          }
+      }
     }
   }
-
-  
 };
 
 export function verificaRC(vResponse){
@@ -101,23 +96,28 @@ export function verificaRC(vResponse){
   //console.log("MSG ---> " + respuesta)
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
-      alert("El usuario o contraseña son incorrectos")
+      //alert("El usuario o contraseña son incorrectos")
+      return "consejeronoencontrado"
   }
 
   if(respuesta === "Usuario / Password incorrectos"){
       alert("El usuario o contraseña son incorrectos")
+      //return "consejeronoencontrado"
   }
 
   if(respuesta === "No tiene autorizacion"){
       alert("Debe esperar a que el administrador apruebe su solicitud")
+      return "consejeroencontrado"
   }else{
       if(respuesta === "Inicio de sesion correcto"){
-          alert("Bienvenido consejero")
+          alert("Bienvenido consejero (desde consejero)")
+          return "consejeroencontrado"
           //LLAMAR LA VENTANA DE CONSEJEROS
       }
   }
 };
 
+//Falatn en back end
 export function verificaRCoo(vResponse){
 
   let respuesta = vResponse.msg
@@ -125,19 +125,72 @@ export function verificaRCoo(vResponse){
   //console.log("MSG ---> " + respuesta)
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
-      alert("El usuario o contraseña son incorrectos")
+      //alert("El usuario o contraseña son incorrectos")
+      return "auxiliarnoencontrado"
   }
 
   if(respuesta === "Usuario / Password incorrectos"){
       alert("El usuario o contraseña son incorrectos")
+      //return "auxiliarnoencontrado"
   }
 
   if(respuesta === "No tiene autorizacion"){
       alert("Debe esperar a que el administrador apruebe su solicitud")
   }else{
       if(respuesta === "Inicio de sesion correcto"){
-          alert("Bienvenido consejero")
+          alert("Bienvenido auxiliar")
+          return "auxiliarencontrado"
           //LLAMAR LA VENTANA DE CONSEJEROS
       }
   }
 };
+
+export function verificaRRM(vDatosRegistro,vCorreo){
+
+  let arregloErrores = []
+  const numeroErrores = vDatosRegistro.errors?.length;
+
+  //Banderas para tipos de errores
+  let errorCorreo = false;
+  let errorFormato = false;
+  let errorFormatoCorreo = false;
+
+  for(let i=0;i<numeroErrores;i++){
+      arregloErrores[i] = vDatosRegistro.errors[i].msg
+
+      if(arregloErrores[i] === "El email -- " + vCorreo + " -- ya existe"){
+          errorCorreo = true;
+      }
+
+      if(arregloErrores[i] === "se estan ingresando datos no permitidos"){
+          errorFormato = true;
+      }
+
+      if(arregloErrores[i] === "el correo no es valido"){
+          errorFormatoCorreo = true;
+      }
+  }
+
+  //console.log("ARREGLO ERRORES----------")
+  //console.log(arregloErrores)
+
+  if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
+      alert("Su registro se realizo correctamente")
+      return false;
+  }else{
+      if(errorFormato === true){
+          alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
+          return true;
+      }else{
+          if(errorCorreo === true ){
+              alert("Este correo ya ha sido registrado previmente. Por favor elija uno diferente")
+              return true;
+          }else{
+              if(errorFormatoCorreo === true){
+                  alert("Verifique que el correo tenga el formato correcto")
+                  return true;
+              }
+          }
+      } 
+  }
+}
