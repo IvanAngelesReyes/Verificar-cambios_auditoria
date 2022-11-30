@@ -103,11 +103,7 @@ export default function CDialogDetallesSala(props) {
                 disabled
                 label={Variables.v_TEXTOS.moderador_actual}
                 value={
-                  vSala?.moderador.nombre +
-                  " " +
-                  vSala?.moderador.apePterno +
-                  " " +
-                  vSala?.moderador.apeMaterno
+                  vSala?.moderador
                 }
               />
             )}

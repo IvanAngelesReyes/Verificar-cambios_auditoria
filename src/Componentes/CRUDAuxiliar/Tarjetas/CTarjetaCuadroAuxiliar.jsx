@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CTarjetaCuadroCoordinador
+Componente: CTarjetaCuadroAuxiliar
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
@@ -16,19 +16,23 @@ Componentes relacionados:
 import React from "react";
 import * as Variables from "../../../Global/Variables";
 import * as Mui from "@mui/material";
-import CDialogDetallesCoordinador from "../CDialogDellatesCoordinador";
+import CDialogDetallesAuxiliar from "../CDialogDellatesAuxiliar";
 
-export default function CTarjetaCuadroCoordinador(props) {
-  const {vRegistro, setVRegistrosCoordinadores,vRegistrosCoordinadores, mRefresaacarPantalla} = props;
+export default function CTarjetaCuadroAuxiliar(props) {
+  const {
+    vRegistro,
+    setVRegistrosAuxiliares,
+    vRegistrosAuxiliares,
+    mRefresaacarPantalla,
+  } = props;
 
   return (
-    <Mui.Paper sx={{m:1}} elevation={3}
-    >
+    <Mui.Paper sx={{ m: 1 }} elevation={3}>
       <Mui.Box
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          "& > :not(style)": { 
+          "& > :not(style)": {
             m: 1,
             width: 256,
             height: 256,
@@ -65,9 +69,13 @@ export default function CTarjetaCuadroCoordinador(props) {
             }}
             variant="standard"
           />
-          <CDialogDetallesCoordinador mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosCoordinadores={setVRegistrosCoordinadores} vRegistrosCoordinadores={vRegistrosCoordinadores} vRegistro={vRegistro} />
+          <CDialogDetallesAuxiliar
+            mRefresaacarPantalla={mRefresaacarPantalla}
+            setVRegistrosAuxiliares={setVRegistrosAuxiliares}
+            vRegistrosAuxiliares={vRegistrosAuxiliares}
+            vRegistro={vRegistro}
+          />
         </Mui.Stack>
-        
       </Mui.Box>
     </Mui.Paper>
   );

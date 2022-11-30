@@ -18,8 +18,12 @@
     "html-to-draftjs": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-draft-wysiwyg": "^1.15.0",
     "react-router-dom": "^6.4.3",
+=======
+    "react-draft-wysiwyg": "^1.14.7",
+>>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"

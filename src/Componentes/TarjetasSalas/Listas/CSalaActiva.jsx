@@ -49,7 +49,7 @@ export default function CSalaActiva(props) {
           <Mui.TextField
             id="standard-read-only-input"
             label="institucion"
-            defaultValue={vRegistro["institucion(es)"]}
+            defaultValue={vRegistro.instituciones}
             InputProps={{
               readOnly: true,
             }}

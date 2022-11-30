@@ -2,9 +2,11 @@ import React from "react";
 import * as Mui from "@mui/material";
 import * as Variables from "../../../Global/Variables";
 import * as Posts from "../../../Util/Posts";
+import * as Puts from "../../../Util/Puts";
 
 export default function CDatosEvento(props) {
-  const { vIsExisteManual, setOpenAlert, vIsExistePlantilla } = props;
+  const { vIsExisteManual, setOpenAlert, vIsExistePlantilla, vUrlWhatsapp } =
+    props;
 
   const [vManual, setVManual] = React.useState({
     url: vIsExisteManual
@@ -18,13 +20,12 @@ export default function CDatosEvento(props) {
       : "",
     file: "",
   });
-  const [vTextoQr, setVTextoQr] = React.useState("");
+  const [vTextoQr, setVTextoQr] = React.useState(vUrlWhatsapp);
 
   const mGetManual = async (e) => {
     e.preventDefault();
     const reader = new FileReader();
     reader.onload = async (e1) => {
-      console.log(e1.target);
       setVManual({ url: e1.target.result, file: e.target.files[0] });
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -34,8 +35,8 @@ export default function CDatosEvento(props) {
     const reader = new FileReader();
     reader.onload = async (e1) => {
       console.log(e1.target);
-      setVPantilla({ url: e1.target.result, file: e.target.files[0] });
-      Posts.mCrearPlantilla(e.target.files[0]);
+      //setVPantilla({ url: e1.target.result, file: e.target.files[0] });
+      Posts.mGuardarPlantillaTmp(setVPantilla, e.target.files[0]);
     };
     reader.readAsDataURL(e.target.files[0]);
   };
@@ -46,7 +47,14 @@ export default function CDatosEvento(props) {
 
   const enviarManual = () => {
     setOpenAlert();
+    Puts.mModifcaUrlManual({
+      url: Variables.v_URL_API + "/backend/Manual/Manual.pdf",
+    });
     Posts.mGuardarManual(vManual.file, mObtenerProgreso);
+  };
+  const mGuardarUrlWhatsapp = () => {
+    setOpenAlert();
+    Puts.mModifcaUrlWhatsapp({ url: vTextoQr });
   };
 
   return (
@@ -86,7 +94,7 @@ export default function CDatosEvento(props) {
           spacing={2}
           sx={{ marginTop: "15px", marginBottom: "15px" }}
         >
-          <Mui.Button variant="contained" onClick={() => setOpenAlert()}>
+          <Mui.Button variant="contained" onClick={() => mGuardarUrlWhatsapp()}>
             {Variables.v_TEXTOS.guardar}
           </Mui.Button>
         </Mui.Stack>
@@ -211,10 +219,18 @@ export default function CDatosEvento(props) {
             </Mui.Button>
             {vPantilla.url.length > 0 ? (
               <>
-                {/*<iframe
+                {console.log(
+                  Variables.v_URL_API + "/backend/Certificados" + vPantilla.url
+                )}
+                <iframe
+                  src={
+                    "https://view.officeapps.live.com/op/embed.aspx?src=" +
+                    Variables.v_URL_API +
+                    "/backend/Certificados" +
+                    vPantilla.url
+                  }
                   style={{ borderRadius: "10px", width: 500, height: 600 }}
-                  src={vPantilla.url}
-                /> */}
+                ></iframe>
               </>
             ) : (
               <Mui.Box
@@ -254,4 +270,16 @@ export default function CDatosEvento(props) {
       <Mui.Divider />
     </>
   );
+}
+
+async function mModifcaUrlWhatsapp(vSala) {
+  await fetch(Variables.v_URL_API2 + "/api/salas/actualizar-sala/" + vSala.id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vSala),
+  })
+    .then((response) => response.json())
+    .then(console.log);
 }

@@ -45,10 +45,7 @@ export default function CDialogCargarSalas(props) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    pageSize,
-    details
-  ) => {
+  const handleChangeRowsPerPage = (pageSize, details) => {
     setRowsPerPage(pageSize);
     setPage(0);
   };
@@ -65,10 +62,23 @@ export default function CDialogCargarSalas(props) {
   const handleCloseAsignar = () => {
     mCargarSalas(vFilas);
     //console.log(vFilas)
-    Metodos.chunckArrayInGroups(vFilas, vFilas.length).then((result) =>
-      result.map((items) => {
-        Posts.mAgregarSalas(items);
-      })
+    var vFilasArregladas=[]
+    vFilas.forEach((item) => {
+      if (item.area.length>0) {
+        item.compartido = item.compartido === "si" ? true : false;
+        item.estatus = item.estatus === "Inactiva" ? false : true;
+        item.moderador = item.moderador === "Sin asignar" ? "" : item.moderador;
+        vFilasArregladas.push(item);
+      }
+    });
+    setvFilas(vFilasArregladas);
+    //Posts.mAgregarSalas(vFilasArregladas);
+    
+    Metodos.chunckArrayInGroups(vFilasArregladas, vFilasArregladas.length).then(
+      (result) =>
+        result.map((items) => {
+          Posts.mAgregarSalas(items);
+        })
     );
     /*vFilas.map((item) => {
       Posts.mAgregarSalas(item);
@@ -90,8 +100,6 @@ export default function CDialogCargarSalas(props) {
       csvHeader[0] = "ID";
       //console.log(csvHeader);
       csvHeader.push("Moderador");
-      csvHeader.push("Modalidad");
-      csvHeader.push("Url");
       csvHeader.push("Estatus");
 
       const csvRows = vTextCSVTmp
@@ -124,17 +132,7 @@ export default function CDialogCargarSalas(props) {
                 //object["_id"] = values[index + vCont];
                 break;
               case "moderador":
-                //object[vHeaderI] = "";
-              case "correo":
-              case "sexo":
-              case "celular":
-                object[vHeaderI] = "";
-                break;
-              case "modalidad":
-                object[vHeaderI] = "Presencial";
-                break;
-              case "url":
-                object[vHeaderI] = "";
+                object[vHeaderI] = "Sin asignar";
                 break;
               case "estatus":
                 object[vHeaderI] = "Inactiva";
@@ -148,6 +146,7 @@ export default function CDialogCargarSalas(props) {
                 //console.log(index + vCont)
                 try {
                   if (values[index + vCont].search(regexInit) > -1) {
+                    console.log(values[index + vCont]);
                     let vContenidoFila = values[index + vCont];
                     if (regexF.test(values[index + vCont])) {
                       object[vHeaderI] = vContenidoFila;
@@ -165,6 +164,15 @@ export default function CDialogCargarSalas(props) {
                         }
                       }
                       vFinalizar = false;
+                      if (vContenidoFila.search(regexInit) > -1) {
+                        vContenidoFila = vContenidoFila.substr(1);
+                      }
+                      if (vContenidoFila.search(regexFinal) > -1) {
+                        vContenidoFila = vContenidoFila.substr(
+                          0,
+                          vContenidoFila.length - 1
+                        );
+                      }
                       object[vHeaderI] = vContenidoFila;
                     }
                   } else {
@@ -182,7 +190,7 @@ export default function CDialogCargarSalas(props) {
             }
             return object;
           }, {});
-          console.log(obj)
+          console.log(obj);
           return obj;
         } catch (error) {
           console.log("Error :o", error);

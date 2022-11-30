@@ -64,7 +64,38 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   });
 }
 
+<<<<<<< HEAD
 export async function mGetSalas(setVSalas) {
+=======
+export async function mGetAuxiliares(setVRegistrosAuxiliares) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-auxiliares",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    
+    setVRegistrosAuxiliares(vResponse.vAuxiliar);
+  });
+}
+
+export async function mGetAdministradores(setVRegistrosAdministradores) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/admin/obtener",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosAdministradores(vResponse);
+  });
+}
+
+export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
+>>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -78,7 +109,12 @@ export async function mGetSalas(setVSalas) {
     } else {
       setVSalas([]);
     }
+<<<<<<< HEAD
     //setvKeySalas(Date.now());
+=======
+    setVIsCargandoSalas(false)
+    setvKeySalas(Date.now());
+>>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
   });
 }
 
@@ -138,4 +174,70 @@ export async function mGetManualFile(setVIsExisteManual) {
       setVIsExisteManual(vResponse.info==="false"?false:true);
     }
   )
+}
+
+export async function mGetModeradoresMismaInstitucion(setVRegistrosModeradoresInstitucion) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosModeradoresInstitucion(vResponse);
+  });
+}
+
+export async function mGetConsejerosMismaInstitucion(setVRegistrosConsejerosInstitucion) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosConsejerosInstitucion(vResponse);
+  });
+}
+
+export async function mGetURLWhatsapp(setVUrlWhatsapp) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/whats/obtener-url",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    console.log(vResponse)
+    setVUrlWhatsapp(vResponse);
+  });
+}
+export async function mGetManual(setVManual) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/manual/obtener-manual-url",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVManual(vResponse);
+  });
+  
+}
+export async function mGetUrls(setVManual, setVUrlWhatsapp) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/links/traer-links",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVUrlWhatsapp(vResponse.whatsapp);
+    setVManual(vResponse.manual);
+  });
 }

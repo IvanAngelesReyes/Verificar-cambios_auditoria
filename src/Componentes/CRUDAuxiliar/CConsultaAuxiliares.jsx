@@ -1,33 +1,38 @@
 /*
 SmartSoft
-Componente: CConsultaCoordinador
+Componente: CConsultaAuxiliar
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Interfaz para el tab busqueda del CCRUDCoordinadores, despliega las tarjetas de los coordinadores y las filtra
+Interfaz para el tab busqueda del CCRUDAuxiliares, despliega las tarjetas de los Auxiliares y las filtra
 
 Numero de metodos: 
-Componentes relacionados: CTarjetaCuadroCoordinador, CTarjetaListaCoordinador, CBotonCuadroLista
+Componentes relacionados: CTarjetaCuadroAuxiliar, CTarjetaListaAuxiliar, CBotonCuadroLista
 */
 
 import React from "react";
 
 import * as Mui from "@mui/material";
 import * as Variables from "../../Global/Variables";
-import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
-import TarjetaCuadroCoordinador from "../../Componentes/CRUDCoordinador/Tarjetas/CTarjetaCuadroCoordinador";
-import TarjetaListaCoordinador from "../../Componentes/CRUDCoordinador/Tarjetas/CTarjetaListaCoordinador";
+import BotonCuadroLista from "../Botones/CBotonCuadroLista";
+import TarjetaCuadroAuxiliar from "./Tarjetas/CTarjetaCuadroAuxiliar";
+import TarjetaListaAuxiliar from "./Tarjetas/CTarjetaListaAuxiliar";
 
-const vListaInstituciones = ["Todo", "UNAM", "UAPT", "UEAMEX"];
-
-export default function CConsultaCoordinador(props) {
-  const { vRegistrosCoordinadores,setVRegistrosCoordinadores,mRefresaacarPantalla,setvAcctualizarEstado } = props;
+export default function CConsultaAuxiliar(props) {
+  const {
+    vRegistrosAuxiliares,
+    setVRegistrosAuxiliares,
+    mRefresaacarPantalla,
+    setvAcctualizarEstado,
+    vInstituciones,
+  } = props;
 
   const [vKey, setVKey] = React.useState(Date.now());
 
+  const [vListaInstituciones, setVListaInstituciones] = React.useState([]);
   const [vRegistrosFiltrados, setVRegistrosFiltrados] = React.useState([]);
   const [vVistaLista, setvVistaLista] = React.useState(true);
   const [vInstitucionSeleccionada, setVInstitucionSeleccionada] =
@@ -50,39 +55,55 @@ export default function CConsultaCoordinador(props) {
   const mFiltroOrden = async (vRegistros) => {
     if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
       return await vRegistros.sort((a, b) =>
-        a.nombre > b.nombre
-          ? 1
-          : a.nombre < b.nombre
-          ? -1
-          : 0
+        a.nombre > b.nombre ? 1 : a.nombre < b.nombre ? -1 : 0
       );
     } else {
       return await vRegistros.sort((a, b) =>
-        a.nombre < b.nombre
-          ? 1
-          : a.nombre > b.nombre
-          ? -1
-          : 0
+        a.nombre < b.nombre ? 1 : a.nombre > b.nombre ? -1 : 0
       );
     }
   };
 
-  const mActulizarFiltro=()=>{
-    setVIsFiltro(true)
-  }
+  const mActulizarFiltro = () => {
+    setVIsFiltro(true);
+  };
+
+  const mSacarInstitucion = async (vInstituciones) => {
+    return [
+      ...new Set(
+        await vInstituciones.map((item) => {
+          return item.nombre;
+        })
+      ),
+    ].reverse();
+  };
 
   React.useEffect(() => {
     if (vIsFiltro) {
-      setvAcctualizarEstado(()=>mActulizarFiltro)
-      mfiltroInstituciones([...vRegistrosCoordinadores]).then((result) => {
+      setvAcctualizarEstado(() => mActulizarFiltro);
+      mfiltroInstituciones([...vRegistrosAuxiliares]).then((result) => {
         mFiltroOrden([...result]).then((result2) => {
-          setVRegistrosFiltrados(result2);
-          setVIsFiltro(false);
-          setVKey(Date.now());
+          
+          if (vListaInstituciones.length === 0) {
+            mSacarInstitucion([...vInstituciones]).then((result3) => {
+              result3.push("Todo");
+              result3 = result3.reverse();
+              mFiltroOrden([...result3]).then((result4) => {
+                setVListaInstituciones(result4);
+                setVRegistrosFiltrados(result2);
+                setVIsFiltro(false);
+                setVKey(Date.now());
+              });
+            });
+          } else {
+            setVRegistrosFiltrados(result2);
+            setVIsFiltro(false);
+            setVKey(Date.now());
+          }
         });
       });
-    }
 
+    }
   }, [vIsFiltro]);
 
   const mVista = () => {
@@ -90,7 +111,7 @@ export default function CConsultaCoordinador(props) {
       return (
         <>
           <Mui.Stack key={vKey} direction="column" spacing={2}>
-            {mListasCoordinadores()}
+            {mListasAuxiliares()}
           </Mui.Stack>
         </>
       );
@@ -103,7 +124,7 @@ export default function CConsultaCoordinador(props) {
             spacing={5}
             justifyContent="flex-start"
           >
-            {mCuadrosCoordinadores()}
+            {mCuadrosAuxiliares()}
           </Mui.Grid>
         </>
       );
@@ -115,23 +136,38 @@ export default function CConsultaCoordinador(props) {
     setVFiltroOrden(evt.target.value);
   };
 
-  function mCuadrosCoordinadores() {
+  function mCuadrosAuxiliares() {
     if (vRegistrosFiltrados.length === 0) {
       return <p>No hay info</p>;
     } else {
       return vRegistrosFiltrados.map((item) => {
-        return <TarjetaCuadroCoordinador mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosCoordinadores={vRegistrosCoordinadores} setVRegistrosCoordinadores={setVRegistrosCoordinadores} vRegistro={item} />;
+        return (
+          <TarjetaCuadroAuxiliar
+            mRefresaacarPantalla={mRefresaacarPantalla}
+            vRegistrosAuxiliares={vRegistrosAuxiliares}
+            setVRegistrosAuxiliares={setVRegistrosAuxiliares}
+            vRegistro={item}
+          {...props}
+          />
+        );
       });
     }
   }
 
-  function mListasCoordinadores() {
+  function mListasAuxiliares() {
     if (vRegistrosFiltrados.length === 0) {
       return <p>sin info</p>;
     } else {
       return vRegistrosFiltrados.map((item) => {
-        return <TarjetaListaCoordinador mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosCoordinadores={vRegistrosCoordinadores} setVRegistrosCoordinadores={setVRegistrosCoordinadores}
-         vRegistro={item} />;
+        return (
+          <TarjetaListaAuxiliar
+            mRefresaacarPantalla={mRefresaacarPantalla}
+            vRegistrosAuxiliares={vRegistrosAuxiliares}
+            setVRegistrosAuxiliares={setVRegistrosAuxiliares}
+            vRegistro={item}
+            {...props}
+          />
+        );
       });
     }
   }

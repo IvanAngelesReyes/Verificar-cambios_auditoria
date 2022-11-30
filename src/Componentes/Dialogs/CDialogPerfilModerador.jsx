@@ -75,12 +75,9 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function CDialogPerfilCoordinador(props) {
+export default function CDialogPerfilModerador(props) {
   const {
-    vRegistro,
-    setVRegistrosCoordinadores,
-    vRegistrosCoordinadores,
-    mRefresaacarPantalla,
+    //mRefresaacarPantalla,
   } = props;
   
   const [open, setOpen] = React.useState(true);
@@ -111,7 +108,7 @@ export default function CDialogPerfilCoordinador(props) {
             disabled
             margin="dense"
             label="Institucion"
-            value = "UAEMEX"
+            value = "UNAM"
             fullWidth
             variant="standard"
           />
@@ -121,7 +118,7 @@ export default function CDialogPerfilCoordinador(props) {
             disabled
             margin="dense"
             label="Nombre"
-            value = "Alejandra"
+            value = "Alexandra"
             type="name"
             fullWidth
             variant="standard"

@@ -15,18 +15,18 @@ Componentes relacionados: ninguno
 
 import React from "react";
 import * as Mui from "@mui/material";
-import * as Variables from '../../../Global/Variables'
-import CDialogRegistroEspontaneo from '../../Dialogs/CDialogRegistroEspontaneo'
-import * as Puts from '../../../Util/Puts'
+import * as Variables from "../../../Global/Variables";
+import CDialogRegistroEspontaneo from "../../Dialogs/CDialogRegistroEspontaneo";
+import * as Puts from "../../../Util/Puts";
 
 export default function CSalaInactiva(props) {
-  const { vRegistro,mActualziarSalas,setVKey } = props;
+  const { vRegistro, mActualziarSalas, setVKey } = props;
 
-  const handleClick=()=>{
-    vRegistro.estatus="Activa"
-    Puts.mModifcarSalas(vRegistro)
-    mActualziarSalas(vRegistro,setVKey)
-  }
+  const handleClick = () => {
+    vRegistro.estatus = "Activa";
+    Puts.mModifcarSalas(vRegistro);
+    mActualziarSalas(vRegistro, setVKey);
+  };
 
   return (
     <Mui.Paper sx={{ m: 1 }} elevation={3}>
@@ -48,7 +48,13 @@ export default function CSalaInactiva(props) {
           spacing={2}
         >
           <Mui.Button
-            disabled={vRegistro?.moderador !== undefined ? false : true}
+            disabled={
+              vRegistro?.moderador !== undefined
+                ? false
+                : vRegistro?.moderador?.length === 0
+                ? false
+                : true
+            }
             variant="contained"
             onClick={handleClick}
           >
@@ -57,7 +63,7 @@ export default function CSalaInactiva(props) {
           <Mui.TextField
             id="standard-read-only-input"
             label="Institucion"
-            defaultValue={vRegistro["institucion(es)"]}
+            defaultValue={vRegistro.instituciones}
             InputProps={{
               readOnly: true,
             }}

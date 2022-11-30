@@ -26,6 +26,8 @@ import CMiPerfil from "../Moderadores/CMiPerfil";
 import CHome_Moderadores from "./CHome_Moderadores";
 import ConjuntoSalas from "./ConjuntoSalas";
 import Consejeros from "./CConsejeros";
+import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
+
 
 export default function CModerador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vModeradores,vUsuario } = props;
@@ -64,6 +66,15 @@ export default function CModerador(props) {
     switch (vContenido) {
       case Variables.v_MenuModeradores.item1:
         return (
+          <CDialogPerfilModerador
+        vAltoNav={vAltoNav}
+        vAnchoNav={vAnchoNav}
+        mSetvFramePrincipal={mSetvFramePrincipal}    
+      />
+        );
+
+      case Variables.v_MenuModeradores.item2:
+        return (
           <CHome_Moderadores
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
@@ -77,22 +88,17 @@ export default function CModerador(props) {
         mSetvFramePrincipal={mSetvFramePrincipal}
       />
 
-      case Variables.v_MenuModeradores.item2:
-        return <CMiPerfil
-        vUsuario={vUsuario}
-        vAltoNav={vAltoNav}
-        vAnchoNav={vAnchoNav}
-        mSetvFramePrincipal={mSetvFramePrincipal}
-        
-      />
-
       case Variables.v_MenuModeradores.item4:
         return <Consejeros
         vAltoNav={vAltoNav}
         vAnchoNav={vAnchoNav}
         mSetvFramePrincipal={mSetvFramePrincipal}
       />
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
       default:
         <p>Esto no se debe de ver</p>;
         break;

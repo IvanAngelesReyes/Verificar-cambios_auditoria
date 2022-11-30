@@ -188,7 +188,7 @@ export default function CHome(props) {
                   page={pageActivo}
                   onChange={handleChangePagesActivo}
                 />
-                <Mui.Stack direction="column" spacing={2}>
+                <Mui.Stack direction="column" spacing={2} >
                   {mListasSalasActivas(vSalasActivas[pageActivo - 1])}
                 </Mui.Stack>
                 <Mui.Pagination
@@ -225,7 +225,12 @@ export default function CHome(props) {
                   page={pageActivo}
                   onChange={handleChangePagesActivo}
                 />
-                <Mui.Grid container spacing={5} justifyContent="center">
+                <Mui.Grid
+                  container
+                  spacing={5}
+                  justifyContent="center"
+                  sx={{ width: "100%" }}
+                >
                   {mCuadrosSalasActivas(vSalasActivas[pageActivo - 1])}
                 </Mui.Grid>
                 <Mui.Pagination
@@ -288,7 +293,11 @@ export default function CHome(props) {
                   page={pageInactivo}
                   onChange={handleChangePagesInactivo}
                 />
-                <Mui.Stack direction="column" spacing={2}>
+                <Mui.Stack
+                  direction="column"
+                  spacing={2}
+                  sx={{ width: "100%"}}
+                >
                   {mListasSalasInactivas(vSalasInactivas[pageInactivo - 1])}
                 </Mui.Stack>
                 <Mui.Pagination
@@ -369,7 +378,7 @@ export default function CHome(props) {
       key={vKey}
     >
       <Mui.Stack direction="column" spacing={5}>
-        <Mui.Paper elevation={3} sx={{ p: "10px" }}>
+        <Mui.Paper elevation={3} sx={{ p: "10px"}}>
           <Mui.Stack direction="column" spacing={1}>
             <Mui.Stack
               direction="row"
