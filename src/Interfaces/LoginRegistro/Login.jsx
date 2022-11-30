@@ -7,7 +7,6 @@ import CModerador from "../Moderadores/CModerador";
 import Moderadores from "../../Moderadores";
 import { Navigate, NavLink,useNavigate } from 'react-router-dom';
 
-let respuestapost
 
 export default function Login(props){
 
@@ -48,7 +47,7 @@ export default function Login(props){
         if(verificaCampos(vLogin) === true){
 
             const promise = Posts.mLogins(vLogin)
-            
+
             promise.then((res) => {
                 let vRes = res
                 switch(vRes){
