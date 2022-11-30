@@ -64,9 +64,6 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   });
 }
 
-<<<<<<< HEAD
-export async function mGetSalas(setVSalas) {
-=======
 export async function mGetAuxiliares(setVRegistrosAuxiliares) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/auxiliares/obtener-auxiliares",
@@ -95,7 +92,6 @@ export async function mGetAdministradores(setVRegistrosAdministradores) {
 }
 
 export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
->>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -109,12 +105,7 @@ export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
     } else {
       setVSalas([]);
     }
-<<<<<<< HEAD
     //setvKeySalas(Date.now());
-=======
-    setVIsCargandoSalas(false)
-    setvKeySalas(Date.now());
->>>>>>> 9cf5b46c750e359b90fe43989450f2ab345c5f19
   });
 }
 

@@ -195,7 +195,7 @@ export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(vRegistro),
+      body: JSON.stringify(vRegistroM),
     }
   )
     .then((response) => response.json())
