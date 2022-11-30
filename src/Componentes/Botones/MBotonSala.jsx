@@ -29,6 +29,7 @@ export default function MBotonSala(){
         console.log(vSalas)
     })
 
+
     const elementos = vSalas.map((sala,index) =>
 
         <section id='sectionContenedorBS'>
@@ -50,3 +51,4 @@ export default function MBotonSala(){
         elementos
     );
 }
+

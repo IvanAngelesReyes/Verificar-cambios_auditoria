@@ -93,8 +93,7 @@ export default function CModerador(props) {
         vAltoNav={vAltoNav}
         vAnchoNav={vAnchoNav}
         mSetvFramePrincipal={mSetvFramePrincipal}
-      />
-      
+      />      
       default:
         <p>Esto no se debe de ver</p>;
         break;

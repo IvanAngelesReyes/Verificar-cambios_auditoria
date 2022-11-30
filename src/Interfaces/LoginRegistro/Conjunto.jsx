@@ -4,11 +4,13 @@ import Login from "./Login";
 import Registro from "./Registro";
 import RecuperaContra from "./RecuperaContra";
 import CModerador from "../Moderadores/CModerador"
+//import CCoordinador from "../../Interfaces/Coordinador/CCoordinador"
+//import CAdministrador from "../../Interfaces/Administrador/CAdministrador"
 
 export default function Conjunto() {
 
   const [vFrame, setvFrame] = React.useState("login");
-  
+
   const mCambiarFrame = () => {
     switch (vFrame) {
       case "login":
@@ -18,7 +20,7 @@ export default function Conjunto() {
       case "recuperarc":
         return <RecuperaContra />;
       case "moderador":
-        return <CModerador vFrame={vFrame} setvFrame={setvFrame}/>; 
+        return <CModerador/>;
       default:
         break;
     }

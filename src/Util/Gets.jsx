@@ -105,8 +105,7 @@ export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
     } else {
       setVSalas([]);
     }
-    setVIsCargandoSalas(false)
-    setvKeySalas(Date.now());
+    //setvKeySalas(Date.now());
   });
 }
 

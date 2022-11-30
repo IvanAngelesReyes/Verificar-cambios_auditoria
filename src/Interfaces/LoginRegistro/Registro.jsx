@@ -5,9 +5,10 @@ import CUniversidades from '../../Componentes/Selects/CUniversidades.jsx';
 import CContra from '../../Componentes/RegistroModeradores/CContra.jsx';
 import CAreaInteres from '../../Componentes/Selects/CAreaInteres.jsx';
 import * as Posts from "../../Util/Posts";
-/*Variables de los componentes de institucion, area y contraseña*/
+import { Navigate, NavLink,useNavigate } from 'react-router-dom';
 
 export default function Registro(){
+    const navigate = useNavigate()
 
     /**Trae los datos de la contraseña*/
     const [values, setValues] = React.useState({
@@ -25,6 +26,9 @@ export default function Registro(){
     const[vArea2,setvArea2] = useState("");
     // const[vPassword,setvPassword] = useState("");
 
+    //Variable que trae los datos de el POST
+    const [vDatosRegistro, setvDatosRegistro] = React.useState([]);
+
     const handleClick = () => {
         const vRegistroM = {
           nombre: vNombre,
@@ -37,8 +41,8 @@ export default function Registro(){
           institucion: vInstitucion,
           rol: "MODERADOR_ROLE"
         };
-        
-        console.log("DATOS INGRESADOS: -------------")
+
+        /*console.log("DATOS INGRESADOS: -------------")
         console.log(vNombre);
         console.log(vApellidoP);
         console.log(vApellidoM);
@@ -47,14 +51,21 @@ export default function Registro(){
         console.log(vArea);
         console.log(vArea2);
         console.log(vInstitucion);
-        console.log("-----------------------------")
+        console.log("-----------------------------")*/
 
-        if(vArea === vArea2){
-            alert('Ha seleccionado la misma area como opcion. Debe seleccionar areas diferentes para poder continuar con su registro')
-        }else{
-            Posts.mAgregarModerador(vRegistroM);
+        if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,values.password) === true){
+            if(validaTamanio(vNombre.length,values.password.length)===true){
+                
+                Posts.mAgregarModerador(vRegistroM,setvDatosRegistro)
+                //.then(validaRespuesta(vDatosRegistro,vCorreo));
+                
+                //registro(vRegistroM,setvDatosRegistro,vDatosRegistro,vCorreo)
+
+            }
+
+            //console.log("RESPUESTA----------")
+            //console.log(vDatosRegistro)
         }
-        //Posts.mEnviarCorreo("1",vCorreo + ",leandrgomez682@gmail.com")
     }
 
     return(
@@ -167,4 +178,118 @@ export default function Registro(){
 
         </section>
     );
+}
+
+// async function registro(vRegistroM,setvDatosRegistro,vDatosRegistro,vCorreo){
+//     await(Posts.mAgregarModerador(vRegistroM,setvDatosRegistro))
+//     .then(validaRespuesta(vDatosRegistro,vCorreo))
+// }
+
+function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,area2,contrasena){
+    //Validaciones de campos vacios
+    if(nombre === ""){
+        alert("Por favor escriba su nombre en el campo correspondiente")
+        return false;
+    }else{
+        if(apellidop === ""){
+            alert("Por favor escriba su apellido paterno en el campo correspondiente")
+            return false;
+        }else{
+            if(apellidom === ""){
+                alert("Por favor escriba su apellido materno en el campo correspondiente")
+                return false;
+            }else{
+                if(correo === ""){
+                    alert("Por favor escriba su correo en el campo correspondiente")
+                    return false;
+                }else{
+                    if(institucion === ""){
+                        alert("Por favor seleccione una institucion")
+                        return false;
+                    }else{
+                        if(area1 === ""){
+                            alert("Por favor seleccione el area que desea moderar")
+                            return false;
+                        }else{
+                            if(area2 === ""){
+                                alert("Por favor seleccione una segunda opcion de area que desea moderar")
+                                return false;
+                            }else{
+                                if(contrasena === ""){
+                                    alert("Por favor escriba una contraseña para su cuenta en el campo correspondiente")
+                                    return false;
+                                }else{
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function validaTamanio(nombre,contra){
+    if(nombre < 4){
+        alert("Por favor escriba un nombre mayor a 4 letras")
+        return false;
+    }else{
+        if(contra < 8){
+            alert("Por favor escriba una contraseña mayor a 8 digitos")
+            return false;
+        }else{
+            return true;
+        }
+    }
+}
+
+function validaRespuesta(vDatosRegistro,vCorreo){
+
+    let arregloErrores = []
+    const numeroErrores = vDatosRegistro.errors?.length;
+
+    //Banderas para tipos de errores
+    let errorCorreo = false;
+    let errorFormato = false;
+    let errorFormatoCorreo = false;
+
+    for(let i=0;i<numeroErrores;i++){
+        arregloErrores[i] = vDatosRegistro.errors[i].msg
+
+        if(arregloErrores[i] === "El email -- " + vCorreo + " -- ya existe"){
+            errorCorreo = true;
+        }
+
+        if(arregloErrores[i] === "se estan ingresando datos no permitidos"){
+            errorFormato = true;
+        }
+
+        if(arregloErrores[i] === "el correo no es valido"){
+            errorFormatoCorreo = true;
+        }
+    }
+
+    //console.log("ARREGLO ERRORES----------")
+    //console.log(arregloErrores)
+
+    if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
+        alert("Su registro se realizo correctamente")
+        return false;
+    }else{
+        if(errorFormato === true){
+            alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
+            return true;
+        }else{
+            if(errorCorreo === true ){
+                alert("Este correo ya ha sido registrado previmente. Por favor elija uno diferente")
+                return true;
+            }else{
+                if(errorFormatoCorreo === true){
+                    alert("Verifique que el correo tenga el formato correcto")
+                    return true;
+                }
+            }
+        } 
+    }
 }
