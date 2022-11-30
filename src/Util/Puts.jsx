@@ -1,14 +1,16 @@
 import axios from "axios";
 import * as Variables from "../Global/Variables";
 
-export async function mModificarCoordinador(vRegistro) {
+export async function mModificarAuxiliar(vRegistro) {
 
     await fetch(
-      Variables.v_URL_API2 + "/api/usuarios/actualizar-coordinador/"+vRegistro.uid,
+      Variables.v_URL_API2 +
+        "/api/auxiliares/actualizar-auxiliar/" +
+        vRegistro.uid,
       {
         method: "PUT",
-        headers:{
-          "Content-Type":"application/json"
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(vRegistro),
       }
@@ -19,7 +21,7 @@ export async function mModificarCoordinador(vRegistro) {
 
   export async function mActualizarModerador(vRegistro) {
       await fetch(
-    Variables.v_URL_API2 + "/api/usuarios/ /actualizar-moderador-coordinador/:id"+vRegistro.uid,
+    Variables.v_URL_API2 + "/api/usuarios/ /actualizar-moderador-Auxiliar/:id"+vRegistro.uid,
     {
         method: "PUT",
         headers:{
@@ -34,7 +36,7 @@ export async function mModificarCoordinador(vRegistro) {
 
   export async function mActualizarRolModerador(vRegistro) {
     await fetch(
-  Variables.v_URL_API2 + "/api/usuarios/actualizar-moderador-coordinador/:id"+vRegistro.uid,
+  Variables.v_URL_API2 + "/api/usuarios/actualizar-moderador-Auxiliar/:id"+vRegistro.uid,
   {
       method: "PUT",
       headers:{

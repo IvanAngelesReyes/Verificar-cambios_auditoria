@@ -1,13 +1,13 @@
 /*
 SmartSoft
-Componente: CDialogDellatesCoordinador
+Componente: CDialogDellatesAuxiliar
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente se muestra al eliminar a un coordinador para que la accion sea confirmada.
+Este componente se muestra al eliminar a un Auxiliar para que la accion sea confirmada.
 
 Numero de metodos: 
 Componentes relacionados: Ninguno
@@ -19,11 +19,11 @@ import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
 /**
- * Método principal CDialogDetallesCoordinador
+ * Método principal CDialogDetallesAuxiliar
  * @param {*} props 
  * @returns 
  */
-export default function CDialogDellatesCoordinador(props) {
+export default function CDialogDellatesAuxiliar(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 
   //variables para el alert

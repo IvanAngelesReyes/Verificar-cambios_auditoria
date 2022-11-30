@@ -44,13 +44,17 @@ export default function CAdministrador(props) {
   const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false);
   const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
+  //Varaibles para las esperas de peticiones:
+  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true)
+
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
     Gets.mGetModeradores(setVRegistrosModeradores);
-    Gets.mGetSalas(setvSalasCargadas, setvKeySalas);
+    Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
     Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
+    //Gets.mGetUrls(setVIsExisteManual,setVUrlWhatsapp);
     
   }, []);
 
@@ -166,6 +170,7 @@ export default function CAdministrador(props) {
             vSalasCargadas={vSalasCargadas}
             mCargarSalas={mCargarSalas}
             vInstituciones={vInstituciones}
+            vIsCargandoSalas={vIsCargandoSalas}
           />
         );
       case Variables.v_MenuAdministrador.item4:
@@ -194,6 +199,7 @@ export default function CAdministrador(props) {
           <>
             <CUsuarios
               {...props}
+              vInstituciones={vInstituciones}
               setvAcctualizarEstado={mActualizarEstado}
               vRegistrosAuxiliares={vRegistrosAuxiliares}
               setVRegistrosAuxiliares={mActualziarCoordinarodes}

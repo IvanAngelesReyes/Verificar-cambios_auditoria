@@ -35,6 +35,7 @@ export default function CSalas(props) {
     vAltoNav,
     vAnchoNav,
     vInstituciones,
+    vIsCargandoSalas,
   } = props;
 
   const [vIsCargado, setvIsCargado] = React.useState(false);
@@ -92,30 +93,43 @@ export default function CSalas(props) {
   };
 
   const mVista = () => {
-    if (vSalas.length > 0) {
-      if (vIsCargado) {
-        if (vVistaLista) {
-          return mListasSalas();
+    if (!vIsCargandoSalas) {
+      if (vSalas.length > 0) {
+        if (vIsCargado) {
+          if (vVistaLista) {
+            return mListasSalas();
+          } else {
+            return <>{mCuadrosSalas()}</>;
+          }
         } else {
-          return <>{mCuadrosSalas()}</>;
+          return (
+            <Mui.Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
+              <Mui.CircularProgress />
+            </Mui.Stack>
+          );
         }
       } else {
         return (
-          <Mui.Stack
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-          >
-            <Mui.CircularProgress />
-          </Mui.Stack>
+          <Mui.Typography variant="body1" component="p">
+            {Variables.v_TEXTOS.no_salas}
+          </Mui.Typography>
         );
       }
     } else {
       return (
-        <Mui.Typography variant="body1" component="p">
-          {Variables.v_TEXTOS.no_salas}
-        </Mui.Typography>
+        <Mui.Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <Mui.CircularProgress />
+        </Mui.Stack>
       );
     }
   };
@@ -167,8 +181,8 @@ export default function CSalas(props) {
               );
               if (vListaInstituciones.length === 0) {
                 mSacarInstitucion([...vInstituciones]).then((result3) => {
-                  result3.push("Todo")
-                  result3=result3.reverse();
+                  result3.push("Todo");
+                  result3 = result3.reverse();
                   mFiltroOrden([...result3]).then((result4) => {
                     setVListaInstituciones(result4);
                     setVIsFiltro(false);

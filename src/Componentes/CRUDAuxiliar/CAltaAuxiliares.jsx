@@ -1,13 +1,13 @@
 /*
 SmartSoft
-Componente: CAltaCoordinador
+Componente: CAltaAuxiliar
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Interfaz para el tab alta del CCRUDCoordinadores, es un formulario de registro para nuevo coordinadores.
+Interfaz para el tab alta del CCRUDAuxiliares, es un formulario de registro para nuevo Auxiliares.
 
 Numero de metodos: 
 Componentes relacionados: ninguno
@@ -20,26 +20,37 @@ import * as Variables from "../../Global/Variables";
 import * as Metodos from "../../Global/Metodos";
 import * as Posts from "../../Util/Posts";
 
-const vListaInstituciones = ["UNAM", "UAPT", "UEAMEX"];
-
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <Mui.Alert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
-function mInstituciones() {
-  return vListaInstituciones.map((item, index) => (
-    <Mui.MenuItem value={item}>{item}</Mui.MenuItem>
-  ));
+function mInstituciones(vInstituciones, vRegistrosAuxiliares) {
+  var vInstitucionesTmp = [];
+  vInstituciones.map((item, index) => {
+    var vIsExiste = false;
+    vRegistrosAuxiliares.map((item2) => {
+      if (item2.institucion === item.nombre) {
+        vIsExiste = true;
+        return;
+      }
+    });
+    if (!vIsExiste) {
+      vInstitucionesTmp.push(
+        <Mui.MenuItem value={item.nombre}>{item.nombre}</Mui.MenuItem>
+      );
+    }
+  });
+  return vInstitucionesTmp;
 }
 
 /**
- * 
- * @param {*} vRegistro 
- * @returns 
+ *
+ * @param {*} vRegistro
+ * @returns
  */
 function mValidarRegistro(vRegistro) {
   let b = false;
@@ -60,13 +71,13 @@ function mValidarRegistro(vRegistro) {
 }
 
 /**
- * 
- * @param {*} mSetNombre 
- * @param {*} setvApePaterno 
- * @param {*} setvApeMaterno 
- * @param {*} mSetCorreo 
- * @param {*} mSetContrasenia 
- * @param {*} mSetInstitucion 
+ *
+ * @param {*} mSetNombre
+ * @param {*} setvApePaterno
+ * @param {*} setvApeMaterno
+ * @param {*} mSetCorreo
+ * @param {*} mSetContrasenia
+ * @param {*} mSetInstitucion
  */
 function mLimpiarDatos(
   mSetNombre,
@@ -87,13 +98,14 @@ function mLimpiarDatos(
 }
 
 /**
- * 
- * @param {*} props 
- * @returns 
+ *
+ * @param {*} props
+ * @returns
  */
-export default function CAltaCoordinador(props) {
+export default function CAltaAuxiliar(props) {
   //variables que recibo en props
-  const { vRegistrosCoordinadores, setVRegistrosCoordinadores } = props;
+  const { vRegistrosAuxiliares, setVRegistrosAuxiliares, vInstituciones } =
+    props;
 
   //variables para el alert
   const [state, setState] = React.useState({
@@ -113,41 +125,48 @@ export default function CAltaCoordinador(props) {
   const [vContrasenia, setvContrasenia] = React.useState(
     Metodos.generatePasswordRand(Math.random() * (20 - 5) + 5, "more")
   );
-  const [vInstitucion, setvInstitucion] = React.useState("");
+  const [vInstitucion, setvInstitucion] = React.useState(vInstituciones);
   const [vShowPassword, setvShowPassword] = React.useState(false);
   const [vImagen, setvImagen] = React.useState({ url: "", file: {} });
   //FIN VARIABLES
 
-  //metodos para registrar al coordinador
+  //metodos para registrar al Auxiliar
   const handleClickShowPassword = () => {
     setvShowPassword(!vShowPassword);
   };
   const handleClick = () => {
     const vRegistro = {
-      uid: Date.now(),
+      _id: Date.now(),
       institucion: vInstitucion,
       nombre: vNombre,
       apellido_paterno: vApePaterno,
       apellido_materno: vApeMaterno,
       correo: vCorreo,
-      salas: [],
+      salas: "Esperando sala",
       password: vContrasenia,
       imagen: [],
-      rol: "COORDINADOR_ROLE",
+      rol: "Auxiliar_ROLE",
       estado: true,
     };
 
     if (mValidarRegistro(vRegistro)) {
-      let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores;
-      vRegistrosCoordinadoresTmp.push(vRegistro);
+      let vRegistrosAuxiliaresTmp = vRegistrosAuxiliares;
+      vRegistrosAuxiliaresTmp.push(vRegistro);
 
-      setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp);
+      setVRegistrosAuxiliares(vRegistrosAuxiliaresTmp);
       setState({ ...state, open: true });
-      Posts.mAgregarCoordinador(vRegistro);
+      Posts.mAgregarAuxiliar(vRegistro);
       Posts.mEnviarCorreo("9", vCorreo, vContrasenia);
-      mLimpiarDatos(setvNombre,setvApePaterno,setvApeMaterno, setvCorreo, setvContrasenia, setvInstitucion);
+      mLimpiarDatos(
+        setvNombre,
+        setvApePaterno,
+        setvApeMaterno,
+        setvCorreo,
+        setvContrasenia,
+        setvInstitucion
+      );
     } else {
-      console.log("datos incorrectos, no se registro al coordinador");
+      console.log("datos incorrectos, no se registro al Auxiliar");
     }
   };
 
@@ -211,7 +230,7 @@ export default function CAltaCoordinador(props) {
           label={Variables.v_TEXTOS.institucion}
           onChange={handleChange}
         >
-          {mInstituciones()}
+          {mInstituciones(vInstituciones, vRegistrosAuxiliares)}
         </Mui.Select>
       </Mui.FormControl>
       {/* <Mui.FormControl fullWidth>
@@ -286,7 +305,7 @@ export default function CAltaCoordinador(props) {
           label={Variables.v_TEXTOS.contrasenia}
         />
       </Mui.FormControl>
-      
+
       <Mui.Button
         variant="contained"
         sx={{ width: "wrap" }}
@@ -303,7 +322,7 @@ export default function CAltaCoordinador(props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success">
-          {Variables.v_TEXTOS.alertas.alta_coordinador}
+          {Variables.v_TEXTOS.alertas.alta_Auxiliar}
         </Alert>
       </Mui.Snackbar>
     </Mui.Stack>

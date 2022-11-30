@@ -1,41 +1,64 @@
 import React from "react";
+import PropTypes from "prop-types";
+import * as Mui from "@mui/material";
+import * as Variables from "../../Global/Variables";
 
-import CCRUDCoordinadores from "../../Componentes/Usuarios/CCRUDCoordinadores";
+import CCRUDAuxiliares from "../../Componentes/Usuarios/CCRUDAuxiliares";
 import CConsultaModeradoresYConsejeros from "../../Componentes/Usuarios/CConsultaModeradoresYConsejeros";
 
-export default function CUsuarios(props) {
-  const {
-    mSetvFramePrincipal,
-    vAltoNav,
-    vAnchoNav,
-    setvAcctualizarEstado,
-    vRegistrosCoordinadores,
-    setVRegistrosCoordinadores,
-    mRefresaacarPantalla,
-    vRegistrosModeradores,
-    setVRegistrosModeradores,
-  } = props;
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+function TabPanel(props) {
+  const { children, value, index } = props;
 
   return (
-    <div>
-      <CCRUDCoordinadores
-        setvAcctualizarEstado={setvAcctualizarEstado}
-        vAltoNav={vAltoNav}
-        vAnchoNav={vAnchoNav}
-        mSetvFramePrincipal={mSetvFramePrincipal}
-        vRegistrosCoordinadores={vRegistrosCoordinadores}
-        setVRegistrosCoordinadores={setVRegistrosCoordinadores}
-        mRefresaacarPantalla={mRefresaacarPantalla}
-      />
-      <CConsultaModeradoresYConsejeros
-        vRegistrosModeradores={vRegistrosModeradores}
-        setVRegistrosModeradores={setVRegistrosModeradores}
-        vAltoNav={vAltoNav}
-        vAnchoNav={vAnchoNav}
-        mSetvFramePrincipal={mSetvFramePrincipal}
-        setvAcctualizarEstado={setvAcctualizarEstado}
-        mRefresaacarPantalla={mRefresaacarPantalla}
-      />
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+    >
+      {value === index && (
+        <Mui.Box sx={{ p: 3 }}>
+          <Mui.Typography>{children}</Mui.Typography>
+        </Mui.Box>
+      )}
     </div>
+  );
+}
+
+export default function CUsuarios(props) {
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <Mui.Box sx={{ width: "100%" }}>
+      <Mui.Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Mui.Tabs value={value} onChange={handleChange}>
+          <Mui.Tab label={Variables.v_TEXTOS.usuarios.tab1} {...a11yProps(0)} />
+          <Mui.Tab label={Variables.v_TEXTOS.usuarios.tab2} {...a11yProps(1)} />
+        </Mui.Tabs>
+      </Mui.Box>
+      <TabPanel value={value} index={0}>
+        <CCRUDAuxiliares {...props} />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <CConsultaModeradoresYConsejeros {...props} />
+      </TabPanel>
+    </Mui.Box>
   );
 }

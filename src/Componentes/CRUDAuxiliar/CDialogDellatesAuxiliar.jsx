@@ -1,13 +1,13 @@
 /*
 SmartSoft
-Componente: CDialogDellatesCoordinador
+Componente: CDialogDellatesAuxiliar
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Componente para la modificacion de los datos del coordinador
+Componente para la modificacion de los datos del Auxiliar
 
 Numero de metodos: 
 Componentes relacionados: 
@@ -21,11 +21,26 @@ import * as Deletes from "../../Util/Deletes";
 import * as Puts from "../../Util/Puts";
 import CDialogConfirmarEliminacion from "./CDialogConfirmarEliminacion";
 
-const vListaInstituciones = ["UNAM", "UAPT", "UEAMEX"];
-function mInstituciones() {
-  return vListaInstituciones.map((item, index) => (
-    <Mui.MenuItem value={item}>{item}</Mui.MenuItem>
-  ));
+function mInstituciones(vInstituciones, vRegistrosAuxiliares, vInstitucion) {
+  var vInstitucionesTmp = [];
+  vInstituciones.map((item, index) => {
+    var vIsExiste = false;
+    vRegistrosAuxiliares.map((item2) => {
+      if (item2.institucion === vInstitucion) {
+        return;
+      }
+      if (item2.institucion === item.nombre) {
+        vIsExiste = true;
+        return;
+      }
+    });
+    if (!vIsExiste) {
+      vInstitucionesTmp.push(
+        <Mui.MenuItem value={item.nombre}>{item.nombre}</Mui.MenuItem>
+      );
+    }
+  });
+  return vInstitucionesTmp;
 }
 
 function mValidarRegistro(vRegistro) {
@@ -46,23 +61,29 @@ function mValidarRegistro(vRegistro) {
   return b;
 }
 
-export default function CDialogDellatesCoordinador(props) {
+export default function CDialogDellatesAuxiliar(props) {
   const {
     vRegistro,
-    setVRegistrosCoordinadores,
-    vRegistrosCoordinadores,
+    setVRegistrosAuxiliares,
+    vRegistrosAuxiliares,
     mRefresaacarPantalla,
+    vInstituciones,
   } = props;
 
-
   const [vNombre, setvNombre] = React.useState(vRegistro.nombre);
-  const [vApePaterno, setvApePaterno] = React.useState(vRegistro.apellido_paterno);
-  const [vApeMaterno, setvApeMaterno] = React.useState(vRegistro.apellido_materno);
-  const [vInstitucionProcedencia, setvInstitucionProcedencia] =
-    React.useState(vRegistro.institucionProcedencia);
+  const [vApePaterno, setvApePaterno] = React.useState(
+    vRegistro.apellido_paterno
+  );
+  const [vApeMaterno, setvApeMaterno] = React.useState(
+    vRegistro.apellido_materno
+  );
+  const [vInstitucionProcedencia, setvInstitucionProcedencia] = React.useState(
+    vRegistro.institucionProcedencia
+  );
   const [vCorreo, setvCorreo] = React.useState(vRegistro.correo);
   const [vContrasenia, setvContrasenia] = React.useState(vRegistro.password);
   const [vInstitucion, setvInstitucion] = React.useState(vRegistro.institucion);
+  const [vSalas, setvSalas] = React.useState(vRegistro.salas);
   const [vIsModoModificar, setVIsModoModificar] = React.useState(false);
   const [vIsModoModificado, setVIsModoModificado] = React.useState(false);
 
@@ -102,33 +123,33 @@ export default function CDialogDellatesCoordinador(props) {
     if (vIsModoModificar) {
       const vRegistroTmp = {
         uid: vRegistro.uid,
-        instituciones: vInstitucion,
+        institucion: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
         correo: vCorreo,
-        salas: [],
+        salas: vSalas,
         contrasenia: vContrasenia,
-        imagen: [],
-        rol: "COORDINADOR_ROLE",
+        imagen: "null",
+        rol: "AUXILIAR_ROLE",
         estado: true,
       };
-      
+
       if (mValidarRegistro(vRegistroTmp)) {
-        let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores.map((item) => {
+        let vRegistrosAuxiliaresTmp = vRegistrosAuxiliares.map((item) => {
           if (item.uid === vRegistroTmp.uid) {
             return vRegistroTmp;
           } else {
             return item;
           }
         });
-        console.log(vRegistrosCoordinadoresTmp)
-        Puts.mModificarCoordinador(vRegistroTmp);
-        setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp, true);
+        console.log(vRegistrosAuxiliaresTmp);
+        Puts.mModificarAuxiliar(vRegistroTmp);
+        setVRegistrosAuxiliares(vRegistrosAuxiliaresTmp, true);
         setVIsModoModificado(true);
         setVIsModoModificar(!vIsModoModificar);
       } else {
-        console.log("datos incorrectos, no se registro al coordinador");
+        console.log("datos incorrectos, no se registro al Auxiliar");
       }
     } else {
       setVIsModoModificar(!vIsModoModificar);
@@ -139,13 +160,11 @@ export default function CDialogDellatesCoordinador(props) {
       setVIsModoModificar(!vIsModoModificar);
       mCarncelarEdicion();
     } else {
-      let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores.filter(
-        (item) => {
-          return item.uid !== vRegistro.uid;
-        }
-      );
-      Deletes.mEliminarCoordinador(vRegistro)
-      setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp, true);
+      let vRegistrosAuxiliaresTmp = vRegistrosAuxiliares.filter((item) => {
+        return item.uid !== vRegistro.uid;
+      });
+      Deletes.mEliminarAuxiliar(vRegistro);
+      setVRegistrosAuxiliares(vRegistrosAuxiliaresTmp, true);
       setVIsModoModificado(true);
       setVIsModoModificar(!vIsModoModificar);
       handleClose();
@@ -203,7 +222,11 @@ export default function CDialogDellatesCoordinador(props) {
                 label={Variables.v_TEXTOS.institucion}
                 onChange={handleChange}
               >
-                {mInstituciones()}
+                {mInstituciones(
+                  vInstituciones,
+                  vRegistrosAuxiliares,
+                  vInstitucion
+                )}
               </Mui.Select>
             </Mui.FormControl>
             <Mui.TextField
@@ -214,7 +237,7 @@ export default function CDialogDellatesCoordinador(props) {
               onChange={(evt) => setvNombre(evt.target.value)}
             />
             <Mui.TextField
-            disabled={!vIsModoModificar}
+              disabled={!vIsModoModificar}
               sx={{ width: "100%" }}
               required
               label={Variables.v_TEXTOS.ape_paterno}
@@ -222,7 +245,7 @@ export default function CDialogDellatesCoordinador(props) {
               onChange={(e) => setvApePaterno(e.target.value)}
             />
             <Mui.TextField
-            disabled={!vIsModoModificar}
+              disabled={!vIsModoModificar}
               sx={{ width: "100%" }}
               required
               label={Variables.v_TEXTOS.ape_materno}

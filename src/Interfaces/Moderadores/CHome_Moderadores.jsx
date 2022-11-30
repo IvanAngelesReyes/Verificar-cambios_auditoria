@@ -26,7 +26,7 @@ export default function CHome_Moderadores() {
   const [vWhatsapp, setVWhatsapp] = React.useState("");
   React.useEffect(() => {
     Gets.mGetManual(setVManual);
-    Gets.mGetWhatsapp(setVWhatsapp);
+    Gets.mGetURLWhatsapp(setVWhatsapp);
   }, []);
   return (
     <div>

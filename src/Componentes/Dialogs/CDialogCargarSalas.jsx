@@ -66,6 +66,8 @@ export default function CDialogCargarSalas(props) {
     vFilas.forEach((item) => {
       if (item.area.length>0) {
         item.compartido = item.compartido === "si" ? true : false;
+        item.estatus = item.estatus === "Inactiva" ? false : true;
+        item.moderador = item.moderador === "Sin asignar" ? "" : item.moderador;
         vFilasArregladas.push(item);
       }
     });

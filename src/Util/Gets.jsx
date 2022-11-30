@@ -66,14 +66,15 @@ export async function mGetModeradores(setVRegistrosModeradores) {
 
 export async function mGetAuxiliares(setVRegistrosAuxiliares) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/consejero/obtener-datos-consejero/636c4d8b1a648eaf2e13931c",
+    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-auxiliares",
     method: "GET",
     mode: "corps",
   };
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    setVRegistrosAuxiliares(vResponse);
+    
+    setVRegistrosAuxiliares(vResponse.vAuxiliar);
   });
 }
 
@@ -90,7 +91,7 @@ export async function mGetAdministradores(setVRegistrosAdministradores) {
   });
 }
 
-export async function mGetSalas(setVSalas, setvKeySalas) {
+export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -104,6 +105,7 @@ export async function mGetSalas(setVSalas, setvKeySalas) {
     } else {
       setVSalas([]);
     }
+    setVIsCargandoSalas(false)
     setvKeySalas(Date.now());
   });
 }
@@ -205,20 +207,6 @@ export async function mGetURLWhatsapp(setVUrlWhatsapp) {
     setVUrlWhatsapp(vResponse);
   });
 }
-
-export async function mGetWhatsapp(setVWhatsapp) {
-  let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/whats/obtener-url",
-    method: "GET",
-    mode: "corps",
-  };
-
-  await axios.request(reqOptions).then(function (response) {
-    let vResponse = response.data;
-    setVWhatsapp(vResponse);
-  });
-
-}
 export async function mGetManual(setVManual) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/manual/obtener-manual-url",
@@ -231,4 +219,17 @@ export async function mGetManual(setVManual) {
     setVManual(vResponse);
   });
   
+}
+export async function mGetUrls(setVManual, setVUrlWhatsapp) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/links/traer-links",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVUrlWhatsapp(vResponse.whatsapp);
+    setVManual(vResponse.manual);
+  });
 }

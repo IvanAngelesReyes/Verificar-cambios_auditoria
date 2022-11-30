@@ -1,10 +1,10 @@
 import axios from "axios";
 import * as Variables from "../Global/Variables";
 
-export async function mEliminarCoordinador(vRegistro) {
+export async function mEliminarAuxiliar(vRegistro) {
   
     await fetch(
-      Variables.v_URL_API2 + "/api/usuarios/eliminar-coordinador/"+vRegistro.uid,
+      Variables.v_URL_API2 + "/api/usuarios/eliminar-Auxiliar/"+vRegistro.uid,
       {
         method: "DELETE",
         headers:{

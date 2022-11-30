@@ -84,8 +84,8 @@ export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
     .then(console.log);
 }
 
-export async function mAgregarCoordinador(vRegistro) {
-  await fetch(Variables.v_URL_API2 + "/api/usuarios/coordinador", {
+export async function mAgregarAuxiliar(vRegistro) {
+  await fetch(Variables.v_URL_API2 + "/api/usuarios/Auxiliar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

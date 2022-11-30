@@ -197,6 +197,16 @@ export const v_TEXTOS = {
     text2: "País",
     text3: "",
   },
+  usuarios: {
+    tab1: "Auxiliares",
+    tab2:"moderares y consejeros",
+    auxiliares: {
+      
+    },
+    moderadores_consejeros: {
+      
+    }
+  }
 };
 
 export const v_MenuModeradores = {
