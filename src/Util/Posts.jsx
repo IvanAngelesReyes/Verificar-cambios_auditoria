@@ -1,26 +1,44 @@
 import * as Variables from "../Global/Variables";
-import * as Metodos from "../Global/Metodos"
+import * as Metodos from "../Global/Metodos";
+
+export async function rlogins(vLogin){
+  let rlogins = "nada"
+  rlogins = await mLogins(vLogin)
+  console.log("RLOGINS ---> " +  rlogins)
+  return rlogins
+}
 
 //logins
 export async function mLogins(vLogin){
 
+  //const navigate = useNavigate()
   let respuestam = await mLoginModerador(vLogin)
     
   if( respuestam === "moderadorencontrado" || respuestam === "modconsejeroencontrado"){
     console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA")
+    return respuestam
   }else{
     if(await mLoginConsejero(vLogin) === "consejeroencontrado"){
       console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA")
+      return "ventanaconsejero"
     }else{
       if(await mLoginAuxiliar(vLogin) === "auxiliarencontrado"){
         console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA")
+        return "ventanaauxiliar"
+      }else{
+        if(await mLoginAdmin(vLogin) === "adminencontrado"){
+          console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA")
+          return "ventanaadmin"
+        }
       }
     }
   }
+
 }
 
 //Login de administradores
 export async function mLoginAdmin(vLogin){
+  let r
   await fetch(
     Variables.v_URL_API2 + "/api/auth/login/admin",
     {
@@ -35,7 +53,20 @@ export async function mLoginAdmin(vLogin){
     .then(data => {
       let vResponse = data
       console.log(vResponse)
+
+      r = Metodos.verificaRAdmin(vResponse)
+
+      console.log("RAdmin: " + r)
+      if(r === "adminencontrado"){
+        r = "adminencontrado"
+      }else{
+        if(r === "adminencontrado"){
+          r = "adminencontrado" 
+          //await mLoginConsejero(vLogin)
+        }
+      }
     });
+    return r
 }
 
 //Login de auxiliares (antes coordinadores)
@@ -132,8 +163,6 @@ export async function mLoginModerador(vLogin){
       //Metodos.verificaResMod(vResponse);
       //console.log("::::Resouesta del JSN: " + vResponse.msg)
       
-      
-
       r = Metodos.verificaResMod(vResponse)
 
       console.log("RM: " + r)

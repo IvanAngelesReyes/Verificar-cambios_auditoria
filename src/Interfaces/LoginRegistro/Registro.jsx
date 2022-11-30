@@ -5,8 +5,10 @@ import CUniversidades from '../../Componentes/Selects/CUniversidades.jsx';
 import CContra from '../../Componentes/RegistroModeradores/CContra.jsx';
 import CAreaInteres from '../../Componentes/Selects/CAreaInteres.jsx';
 import * as Posts from "../../Util/Posts";
+import { Navigate, NavLink,useNavigate } from 'react-router-dom';
 
 export default function Registro(){
+    const navigate = useNavigate()
 
     /**Trae los datos de la contraseña*/
     const [values, setValues] = React.useState({

@@ -89,6 +89,34 @@ export function verificaResMod(vResponse){
   }
 };
 
+export function verificaRAdmin(vResponse){
+
+  let respuesta = vResponse.msg
+
+  //console.log("MSG ---> " + respuesta)
+
+  if(respuesta === "Usuario / Contraseña incorrectos"){
+      //alert("El usuario o contraseña son incorrectos")
+      return "adminencontrado"
+  }
+
+  if(respuesta === "Usuario / Password incorrectos"){
+      alert("El usuario o contraseña son incorrectos")
+      //return "consejeronoencontrado"
+  }
+
+  if(respuesta === "No tiene autorizacion"){
+      alert("Debe esperar a que el administrador apruebe su solicitud")
+      return "adminencontrado"
+  }else{
+      if(respuesta === "Inicio de sesion correcto"){
+          alert("Bienvenido administrador")
+          return "adminencontrado"
+          //LLAMAR LA VENTANA DE CONSEJEROS
+      }
+  }
+};
+
 export function verificaRC(vResponse){
 
   let respuesta = vResponse.msg

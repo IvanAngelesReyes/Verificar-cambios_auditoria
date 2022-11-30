@@ -5,10 +5,14 @@ import './Login.css';
 import * as Posts from "../../Util/Posts";
 import CModerador from "../Moderadores/CModerador";
 import Moderadores from "../../Moderadores";
+import { Navigate, NavLink,useNavigate } from 'react-router-dom';
+
+let respuestapost
 
 export default function Login(props){
 
     const {setvFrame}=props
+    const navigate = useNavigate()
 
     const[vCorreo,setvCorreo] = React.useState("");
     const [values, setValues] = React.useState({
@@ -42,11 +46,33 @@ export default function Login(props){
         };
 
         if(verificaCampos(vLogin) === true){
-            
-            Posts.mLogins(vLogin);
-            console.log("/-------------------------/")        
-        }
 
+            const promise = Posts.mLogins(vLogin)
+            
+            promise.then((res) => {
+                let vRes = res
+                switch(vRes){
+                    case "moderadorencontrado":
+                        console.log("ENTRANDO A MODERADOR")
+                        navigate('/moderador')
+                        break;
+                    case "modconsejeroencontrado":
+                        navigate('/moderador')
+                        break;
+                    case "ventanaconsejero":
+                        navigate('/moderador')
+                        break;
+                    case "ventanaauxiliar":
+                        navigate('/auxiliar')
+                        break;
+                    case "ventanaadmin":
+                        navigate('/administrador')
+                        break;    
+                    default:
+                    break;
+                } 
+            })   
+        }
     }
 
     return(
@@ -105,24 +131,27 @@ export default function Login(props){
                             </Mui.Box>
                             </form>
 
-                            <p id="olvidasteContra" onClick={
+                            {/* <p id="olvidasteContra" onClick={
                                 ()=>setvFrame("recuperarc")
-                            }>¿Olvidaste tu contraseña?</p>
+                            }>¿Olvidaste tu contraseña?</p> */}
+                            <NavLink to='/recuperacontra'>¿Olvidaste tu contraseña?</NavLink>
 
                             <Mui.Button variant="contained" id="btnIniciar" onClick={handleClick}>Iniciar sesión</Mui.Button>
 
                             {/* <Mui.Button variant="contained" id="btnPrueba" onClick={setvFrame("moderador")}>Prueba</Mui.Button> */}
 
-                            <button onClick={
-                                ()=>setvFrame("moderador")
+                            {/* <button onClick={
+                                () => navigate('/registro')
                             }
-                            >Boton de prueba</button>
+                            >Boton de prueba</button> */}
 
                             <p>¿Quieres formar parte de los moderadores? </p>
-                            <p id='linkRegistroLogin' onClick={
-                                ()=>setvFrame("registro")
+                            {/* <p id='linkRegistroLogin' onClick={
+                                    redirigeR
                                 }
-                                >Registrate aqui</p>
+                                >Registrate aqui</p> */}
+
+                            <NavLink to='/registro'>Registrate aqui</NavLink>
 
                         </section>
 
