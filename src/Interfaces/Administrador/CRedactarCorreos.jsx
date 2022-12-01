@@ -46,26 +46,29 @@ export default function CRedactarCorreos(props) {
   //Correo 4
   const [c4Asunto, setc4Asunto] = React.useState(null);
   const [c4Contenido, setc4Contenido] = React.useState(null);
+  //Correo 6
+  const [c6Asunto, setc6Asunto] = React.useState(null);
+  const [c6Contenido, setc6Contenido] = React.useState(null);
   //Correo 9
   const [c9Asunto, setc9Asunto] = React.useState(null);
   const [c9Contenido, setc9Contenido] = React.useState(null);
 
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange =
-    (panel) => (event, isExpanded) => {
-      setExpanded(isExpanded ? panel : false);
-      setvKeyCorreos(Date.now());
-    };
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+    setvKeyCorreos(Date.now());
+  };
 
   const [vKeyCorreos, setvKeyCorreos] = React.useState(Date.now());
 
   React.useEffect(() => {
     if (!vIsCargado) {
       Gets.mGetInfoCorreos(1, setc1Asunto, setc1Contenido);
-      Gets.mGetInfoCorreos(3, setc2Asunto, setc2Contenido);
-      Gets.mGetInfoCorreos(4, setc3Asunto, setc3Contenido);
-      Gets.mGetInfoCorreos(6, setc4Asunto, setc4Contenido);
+      Gets.mGetInfoCorreos(2, setc2Asunto, setc2Contenido);
+      Gets.mGetInfoCorreos(3, setc3Asunto, setc3Contenido);
+      Gets.mGetInfoCorreos(4, setc4Asunto, setc4Contenido);
+      Gets.mGetInfoCorreos(6, setc6Asunto, setc6Contenido);
       Gets.mGetInfoCorreos(9, setc9Asunto, setc9Contenido);
     }
     if (
@@ -77,6 +80,8 @@ export default function CRedactarCorreos(props) {
       c3Contenido !== null &&
       c4Asunto !== null &&
       c4Contenido !== null &&
+      c6Asunto !== null &&
+      c6Contenido !== null &&
       c9Asunto !== null &&
       c9Contenido !== null
     ) {
@@ -93,6 +98,8 @@ export default function CRedactarCorreos(props) {
     c3Contenido,
     c4Asunto,
     c4Contenido,
+    c6Asunto,
+    c6Contenido,
     c9Asunto,
     c9Contenido,
   ]);
@@ -192,7 +199,12 @@ export default function CRedactarCorreos(props) {
               key={vKeyCorreos}
               vTitulo=""
               vTituloCuerpoCorreo="Cuerpo del correo"
-              comentarios=""
+              comentarios={
+                <>
+                  <InfoIcon />{" "}
+                  {Variables.v_TEXTOS.redactar_correos.correo2.comentario}
+                </>
+              }
               vValueAsunto={c2Asunto}
               mCambiarValueAsunto={(info) => setc2Asunto(info)}
               vValueCuerpoCorreo={c2Contenido}
@@ -297,6 +309,48 @@ export default function CRedactarCorreos(props) {
               <Mui.Button
                 variant="contained"
                 onClick={() => handleClick("4", c4Asunto, c4Contenido)}
+              >
+                {Variables.v_TEXTOS.guardar}
+              </Mui.Button>
+            </Mui.Stack>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === "6"} onChange={handleChange("6")}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+          >
+            <Typography>
+              {Variables.v_TEXTOS.redactar_correos.correo6.titulo}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <CRedactarCorreo
+              key={vKeyCorreos}
+              vTitulo=""
+              vTituloCuerpoCorreo="Cuerpo del correo"
+              comentarios=""
+              vValueAsunto={c6Asunto}
+              mCambiarValueAsunto={(info) => setc6Asunto(info)}
+              vValueCuerpoCorreo={c6Contenido}
+              mCambiarInfoCuerpoCorreo={(info) => setc6Contenido(info)}
+              comentariosGenerales={
+                <>
+                  <InfoIcon />{" "}
+                  {Variables.v_TEXTOS.redactar_correos.correo6.info}
+                </>
+              }
+            />
+            <Mui.Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={2}
+            >
+              <Mui.Button
+                variant="contained"
+                onClick={() => handleClick("6", c6Asunto, c6Contenido)}
               >
                 {Variables.v_TEXTOS.guardar}
               </Mui.Button>

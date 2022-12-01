@@ -32,8 +32,18 @@ export default function CSalaInactiva(props) {
 //console.log(vRegistro);
 //console.log(vRegistro.id);
 //console.log(vRegistro);
-//console.log(vRegistro?.moderador);
-//console.log(vRegistro?.moderador.length);
+console.log(vRegistro?.moderador);
+console.log(vRegistro?.moderador.length);
+console.log(
+  vRegistro?.moderador !== undefined
+);
+console.log(
+  vRegistro?.moderador !== undefined
+    ? true
+    : vRegistro?.moderador?.length === 0
+    ? false
+    : true
+);
 
   return (
     <Mui.Paper elevation={3}>
@@ -56,9 +66,12 @@ export default function CSalaInactiva(props) {
         >
           <Mui.Button
             disabled={
-              vRegistro?.moderador !== undefined
-                ? false
-                : vRegistro?.moderador?.length === 0?false:true
+              vRegistro?.moderador !== undefined &&
+              vRegistro?.moderador?.length === 0
+                ? true
+                : vRegistro?.moderador?.length === 0
+                ? true
+                : false
             }
             variant="contained"
             onClick={handleClick}

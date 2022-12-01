@@ -49,7 +49,6 @@ export default function CAdministrador(props) {
   const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true)
 
   React.useEffect(() => {
-    console.log(vUsuario);
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
     Gets.mGetModeradores(setVRegistrosModeradores);
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
@@ -57,7 +56,6 @@ export default function CAdministrador(props) {
     Gets.mGetManualFile(setVIsExisteManual);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
     //Gets.mGetUrls(setVIsExisteManual,setVUrlWhatsapp);
-    
   }, []);
 
   const [vKey, setvKey] = React.useState(Date.now());

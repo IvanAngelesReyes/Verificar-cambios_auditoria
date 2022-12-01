@@ -20,6 +20,7 @@ export async function mLogins(vLogin, mSeleccionarFrame) {
       mSeleccionarFrame(respuestam);
     } else {
       if (respuestam.r === "noautorizado") {
+        console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
       } else {
         mLoginConsejero(vLogin).then((respuestam) => {
           if (respuestam.r === "consejeroencontrado") {
@@ -260,9 +261,10 @@ export function mEnviarCorreo(vTipoCorreo, vTo, passwd) {
 
   switch (vTipoCorreo) {
     case "9":
+    case "2":
       formData.append("vTipoCorreo", vTipoCorreo);
       formData.append("vTo", vTo);
-      formData.append("passwd", passwd);
+      formData.append("vPassword", passwd);
       break;
 
     default:
@@ -389,7 +391,7 @@ export async function mCrearInstitucion(vRegistro, mAdd) {
 
 export async function mAgregarModeradorEspontaneo(vRegistroM, mMetodo) {
   console.log(vRegistroM);
-  await fetch(Variables.v_URL_API2 + "/api/usuarios", {
+  await fetch(Variables.v_URL_API2 + "/api/admin/espontaneo", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

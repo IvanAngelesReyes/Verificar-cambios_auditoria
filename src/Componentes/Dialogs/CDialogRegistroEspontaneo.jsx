@@ -72,7 +72,11 @@ export default function CDialogDetallesSala(props) {
     if (mValidarRegistro(vRegistro)) {
       var mAgregarModerador = (vModeradorRegistrado) => {
         vSala.moderador = vModeradorRegistrado.uid;
-        Posts.mEnviarCorreo("2", vModeradorRegistrado, "");
+        Posts.mEnviarCorreo(
+          "2",
+          vModeradorRegistrado.correo,
+          vRegistro.password
+        );
         Puts.mModifcarSalas(vSala);
 
         mActualziarSalas(vSala, setVKey);
@@ -112,13 +116,14 @@ export default function CDialogDetallesSala(props) {
             divider={<Mui.Divider orientation="horizontal" flexItem />}
             spacing={1}
           >
-            {vSala?.moderador !== undefined && (
-              <Mui.TextField
-                disabled
-                label={Variables.v_TEXTOS.moderador_actual}
-                value={vSala?.moderador}
-              />
-            )}
+            {vSala?.moderador !== undefined &&
+              vSala?.moderador.length > 0 &&(
+                <Mui.TextField
+                  disabled
+                  label={Variables.v_TEXTOS.moderador_actual}
+                  value={vSala?.moderador}
+                />
+              )}
             <Mui.TextField
               required
               label={Variables.v_TEXTOS.nombre}
