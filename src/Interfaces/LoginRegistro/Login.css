@@ -103,10 +103,12 @@ cambiar el tamaño del icono a porcentaje
 
 #olvidasteContra{
   font-size: 90%;
+  cursor: pointer;
 }
 
 #linkRegistroLogin{
   color:#005289;
+  cursor: pointer;
 }
 
 #olvidasteContra{

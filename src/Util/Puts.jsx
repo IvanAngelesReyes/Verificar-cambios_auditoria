@@ -97,7 +97,7 @@ Variables.v_URL_API2 + "/api/auxiliares/actualizar-moderador-institucion/:id/mod
   export async function mModifcarSalas(vSala) {
 
     await fetch(
-      Variables.v_URL_API2 + "/api/salas/actualizar-sala/"+vSala.id,
+      Variables.v_URL_API2 + "/api/salas/actualizar-sala/"+vSala._id,
       {
         method: "PUT",
         headers:{

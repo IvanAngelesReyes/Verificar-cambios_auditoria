@@ -2,6 +2,9 @@ import React from "react";
 import * as Mui from "@mui/material";
 import * as Variables from "../../Global/Variables";
 import * as Icon from "@mui/icons-material";
+import * as Metodos from "../../Global/Metodos";
+import * as Posts from "../../Util/Posts";
+import * as Puts from "../../Util/Puts";
 
 function mValidarRegistro(vRegistro) {
   let b = false;
@@ -29,7 +32,7 @@ function mLimpiarDatos(
 }
 
 export default function CDialogDetallesSala(props) {
-  const { vSala, mActualziarSalas,setVKey } = props;
+  const { vSala, mActualziarSalas, setVKey } = props;
   const [open, setOpen] = React.useState(false);
 
   const [vNombre, setvNombre] = React.useState("");
@@ -50,22 +53,33 @@ export default function CDialogDetallesSala(props) {
   const handleClick = () => {
     const vRegistro = {
       id: Date.now(),
-      institucion: "",
+      institucion: vSala.institucion,
       nombre: vNombre,
-      apeParterno: vApePaterno,
-      apeMaterno: vApeMaterno,
-      institucionProcedencia: "",
+      apellido_paterno: vApePaterno,
+      apellido_materno: vApeMaterno,
       correo: vCorreo,
-      salas: [],
-      contrasenia: "",
-      imagen: [],
+      salas: vSala._id,
+      password: Metodos.generatePasswordRand(
+        Math.random() * (20 - 5) + 5,
+        "more"
+      ),
+      imagen: "null",
+      rol: "MODERADOR_ROLE",
+      area_interes_1: "",
+      area_interes_2: "",
+      estado: true,
     };
     if (mValidarRegistro(vRegistro)) {
-      vSala.moderador = vRegistro;
+      var mAgregarModerador = (vModeradorRegistrado) => {
+        vSala.moderador = vModeradorRegistrado.uid;
+        Posts.mEnviarCorreo("2", vModeradorRegistrado, "");
+        Puts.mModifcarSalas(vSala);
 
-      mActualziarSalas(vSala,setVKey);
-      mLimpiarDatos(setvNombre, setvCorreo);
-      handleClose();
+        mActualziarSalas(vSala, setVKey);
+        mLimpiarDatos(setvNombre, setvCorreo);
+        handleClose();
+      };
+      Posts.mAgregarModeradorEspontaneo(vRegistro, mAgregarModerador);
     } else {
       console.log("datos incorrectos, no se registro al coordinador");
     }
@@ -102,9 +116,7 @@ export default function CDialogDetallesSala(props) {
               <Mui.TextField
                 disabled
                 label={Variables.v_TEXTOS.moderador_actual}
-                value={
-                  vSala?.moderador
-                }
+                value={vSala?.moderador}
               />
             )}
             <Mui.TextField
