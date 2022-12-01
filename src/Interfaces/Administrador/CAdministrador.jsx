@@ -142,8 +142,9 @@ export default function CAdministrador(props) {
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
             mSetvFramePrincipal={mSetvFramePrincipal}
-            vRegistrosAuxiliares={vRegistrosAuxiliares}
-            setVRegistrosAuxiliares={mActualziarCoordinarodes}
+            vUsuario={vUsuario}
+            //vRegistrosAuxiliares={vRegistrosAuxiliares}
+            //setVRegistrosAuxiliares={mActualziarCoordinarodes}
             mRefresaacarPantalla={mRefresaacarPantalla}
           />
           //}

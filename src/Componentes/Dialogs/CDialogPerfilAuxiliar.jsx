@@ -86,7 +86,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function CDialogPerfilModerador(props) {
+export default function CDialogPerfilAuxiliar(props) {
   const {
     vUsuario,
     //setVDatosLogin,

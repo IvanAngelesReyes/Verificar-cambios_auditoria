@@ -25,10 +25,10 @@ import CSalas from "./CSalas";
 import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CConsultaModeradoresYConsejeros from "./CConsultaModeradoresYConsejeros";
-import CDialogPerfilCoordinador from "../../Componentes/Dialogs/CDialogPerfilCoordinador";
+import CDialogPerfilAuxiliar from "../../Componentes/Dialogs/CDialogPerfilAuxiliar";
 
 export default function CCoordinador(props) {
-  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vCoordinador } = props;
+  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } = props;
   const vResAltoNav = 0;
 
   const [vContenido, mSetvContenido] = React.useState(
@@ -113,13 +113,14 @@ export default function CCoordinador(props) {
       case Variables.v_MenuCoordinador.item1:
         return (
           //onClick = {()=>
-          <CDialogPerfilCoordinador
+          <CDialogPerfilAuxiliar
             setvAcctualizarEstado={mActualizarEstado}
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
             mSetvFramePrincipal={mSetvFramePrincipal}
-            vRegistrosCoordinadores={vRegistrosCoordinadores}
-            setVRegistrosCoordinadores={mActualziarCoordinarodes}
+            vUsuario={vUsuario}
+            //vRegistrosAuxiliares={vRegistrosAuxiliares}
+            //setVRegistrosAuxiliares={mActualziarCoordinarodes}
             mRefresaacarPantalla={mRefresaacarPantalla}
           />
           //}

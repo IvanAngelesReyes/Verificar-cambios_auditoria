@@ -69,6 +69,9 @@ export default function CModerador(props) {
           <CDialogPerfilModerador
         vAltoNav={vAltoNav}
         vAnchoNav={vAnchoNav}
+        vUsuario={vUsuario}
+        //vDatosLogin={vDatosLogin.vConsultaDataModerador}
+        //setVUsuario={mActualizarLogin}
         mSetvFramePrincipal={mSetvFramePrincipal}    
       />
         );
