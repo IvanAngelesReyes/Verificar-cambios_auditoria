@@ -13,35 +13,38 @@ export async function mLogins(vLogin, mSeleccionarFrame) {
   //const navigate = useNavigate()
   await mLoginModerador(vLogin).then((respuestam) => {
     if (
-      respuestam === "moderadorencontrado" ||
-      respuestam === "modconsejeroencontrado"
+      respuestam.r === "moderadorencontrado" ||
+      respuestam.r === "modconsejeroencontrado"
     ) {
       console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
       mSeleccionarFrame(respuestam);
     } else {
-      mLoginConsejero(vLogin).then((respuestam) => {
-        if (respuestam === "consejeroencontrado") {
-          console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA");
-          respuestam.r = "ventanaconsejero";
-          mSeleccionarFrame(respuestam);
-        } else {
-          mLoginAuxiliar(vLogin).then((respuestam) => {
-            if (respuestam === "auxiliarencontrado") {
-              console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA");
-              respuestam.r = "ventanaauxiliar";
-              mSeleccionarFrame(respuestam);
-            } else {
-              mLoginAdmin(vLogin).then((respuestam) => {
-                if (respuestam.r === "adminencontrado") {
-                  console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
-                  respuestam.r = "ventanaadmin";
-                  mSeleccionarFrame(respuestam);
-                }
-              });
-            }
-          });
-        }
-      });
+      if (respuestam.r === "noautorizado") {
+      } else {
+        mLoginConsejero(vLogin).then((respuestam) => {
+          if (respuestam.r === "consejeroencontrado") {
+            console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA");
+            respuestam.r = "ventanaconsejero";
+            mSeleccionarFrame(respuestam);
+          } else {
+            mLoginAuxiliar(vLogin).then((respuestam) => {
+              if (respuestam.r === "auxiliarencontrado") {
+                console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA");
+                respuestam.r = "ventanaauxiliar";
+                mSeleccionarFrame(respuestam);
+              } else {
+                mLoginAdmin(vLogin).then((respuestam) => {
+                  if (respuestam.r === "adminencontrado") {
+                    console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
+                    respuestam.r = "ventanaadmin";
+                    mSeleccionarFrame(respuestam);
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
     }
   });
 }
@@ -63,7 +66,7 @@ export async function mLoginAdmin(vLogin) {
 
       r.r = Metodos.verificaRAdmin(vResponse);
 
-      console.log("RAdmin: " + r);
+      console.log("RAdmin: " + r.r);
       if (r.r === "adminencontrado") {
         r.usuario = vResponse.vAdmin;
       }
@@ -143,10 +146,15 @@ export async function mLoginModerador(vLogin) {
       r.r = Metodos.verificaResMod(vResponse);
 
       console.log("RM: " + r);
+      if (r.r === "noautorizado") {
 
-      if (r.r === "moderadorencontrado") {
-        r.usuario = vResponse.vModerador;
+      } else {
+        if (r.r === "moderadorencontrado") {
+          r.usuario = vResponse.vModerador;
+        }
       }
+
+      
 
       // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
       //   //return "moderadornoencontrado"

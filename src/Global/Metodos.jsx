@@ -72,7 +72,8 @@ export function verificaResMod(vResponse){
     }
 
     if(respuesta === "No tiene autorizacion"){
-        alert("Debe esperar a que el administrador apruebe su solicitud")
+      alert("Debe esperar a que el administrador apruebe su solicitud")
+      return "noautorizado";
     }else{
       if(respuesta === "Inicio de sesion correcto")
       {
@@ -97,17 +98,17 @@ export function verificaRAdmin(vResponse){
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
       //alert("El usuario o contraseña son incorrectos")
-      return "adminencontrado"
+      return "adminnoencontrado";
   }
 
-  if(respuesta === "Usuario / Password incorrectos"){
-      alert("El usuario o contraseña son incorrectos")
-      //return "consejeronoencontrado"
+  if (respuesta === "Usuario / Contraseña incorrectos") {
+    alert("El usuario o contraseña son incorrectos");
+    return "adminnoencontrado";
   }
 
   if(respuesta === "No tiene autorizacion"){
       alert("Debe esperar a que el administrador apruebe su solicitud")
-      return "adminencontrado"
+      return "noautorizado";
   }else{
       if(respuesta === "Inicio de sesion correcto"){
           alert("Bienvenido administrador")
