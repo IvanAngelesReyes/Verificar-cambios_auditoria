@@ -26,6 +26,7 @@ import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CConsultaModeradoresYConsejeros from "./CConsultaModeradoresYConsejeros";
 import CDialogPerfilAuxiliar from "../../Componentes/Dialogs/CDialogPerfilAuxiliar";
+import CCRUDModeradoresYConsejero from "../Coordinador/CCRUDModeradoresYConsejero";
 
 export default function CCoordinador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } = props;
