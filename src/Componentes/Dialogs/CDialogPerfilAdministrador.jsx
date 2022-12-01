@@ -16,7 +16,7 @@ Componentes relacionados:
 import React from "react";
 
 import * as Mui from "@mui/material";
-//import * as Variables from "../../Global/Variables";
+import * as Variables from "../../Global/Variables";
 
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';

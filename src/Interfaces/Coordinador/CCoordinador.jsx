@@ -137,18 +137,21 @@ export default function CCoordinador(props) {
             setvAcctualizarEstado={mActualizarEstado}
           />
         );
-      case Variables.v_MenuCoordinador.item3:
-        return (
-          <CSalas
-            key={vKey}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            vSalasCargadas={vSalasCargadas}
-            mCargarSalas={mCargarSalas}
-          />
-        );
-      default:
+        case Variables.v_MenuCoordinador.item3:
+          return (
+            <>
+              <CCRUDModeradoresYConsejero
+                {...props}
+                setvAcctualizarEstado={mActualizarEstado}
+                vRegistrosCoordinadores={vRegistrosCoordinadores}
+                setVRegistrosCoordinadores={mActualziarCoordinarodes}
+                mRefresaacarPantalla={mRefresaacarPantalla}
+                vRegistrosModeradores={vRegistrosModeradores}
+                setVRegistrosModeradores={mActualizarModeradores}
+              />
+            </>
+          );
+        default:
     }
   };
 
