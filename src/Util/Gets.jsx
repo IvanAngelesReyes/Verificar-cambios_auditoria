@@ -261,6 +261,20 @@ export async function mGetModerador(mSetDatos, vUid) {
     mSetDatos(vResponse.vConsultaDataModerador);
   });
 }
+
+export async function mGetConsejeros(setVRegistrosConsejeros) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/consejero/obtener-datos-consejeros",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosConsejeros(vResponse);
+  });
+}
+
 export async function mGetCertificado(vNombre) {
   await fetch(
     Variables.v_URL_API +

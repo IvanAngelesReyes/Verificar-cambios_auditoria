@@ -39,6 +39,7 @@ export default function CAdministrador(props) {
   const [vSalasCargadas, setvSalasCargadas] = React.useState([]);
   const [vRegistrosAuxiliares, setVRegistrosAuxiliares] = React.useState([]);
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
+  const [vRegistrosConsejeros, setVRegistrosConsejeros] = React.useState([]);
   const [vInstituciones, setVInstituciones] = React.useState([]);
   const [vIsExisteManual, setVIsExisteManual] = React.useState(false);
   const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false);
@@ -50,6 +51,7 @@ export default function CAdministrador(props) {
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
     Gets.mGetModeradores(setVRegistrosModeradores);
+    Gets.mGetConsejeros(setVRegistrosConsejeros);
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
     Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
@@ -73,6 +75,13 @@ export default function CAdministrador(props) {
     setVRegistrosAuxiliares(vModeradoresTmp);
     //vActualizarEstado();
   };
+
+  const mActualizarConsejeros = (vConsejerosTmp) => {
+    //console.log(vModeradoresTmp)
+    setVRegistrosAuxiliares(vConsejerosTmp);
+    //vActualizarEstado();
+  };
+
 
   const mCargarSalas = (vSalasNuevas) => {
     setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
