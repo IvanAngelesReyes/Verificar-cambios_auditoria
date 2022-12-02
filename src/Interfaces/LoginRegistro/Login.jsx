@@ -3,10 +3,7 @@ import * as Mui from "@mui/material";
 import * as MuiIcons from '@mui/icons-material';
 import './Login.css';
 import * as Posts from "../../Util/Posts";
-import CModerador from "../Moderadores/CModerador";
-import Moderadores from "../../Moderadores";
 import { Navigate, NavLink,useNavigate } from 'react-router-dom';
-
 
 export default function Login(props){
 

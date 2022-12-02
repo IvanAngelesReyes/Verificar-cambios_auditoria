@@ -188,12 +188,11 @@ export async function mLoginModerador(vLogin){
 
 export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
   await fetch(
-    Variables.v_URL_API2 +
-      "/api/auxiliares/registrar-consejero-x-institucion/:id?institucion=",
+    Variables.v_URL_API2 + "/api/usuarios",
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+      headers:{
+        "Content-Type":"application/json"
       },
       body: JSON.stringify(vRegistroM),
     }
@@ -206,6 +205,7 @@ export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
       //setvDatosRegistro(data)
     });
 }
+
 
 export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
   await fetch(

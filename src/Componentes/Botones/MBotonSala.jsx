@@ -7,48 +7,46 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Boton mediante el que se accede a la informacion de una sala, por ahora este es el componente de sala virtual
+Boton mediante el que se accede a la informacion de una sala
 
 Numero de metodos: 1
 Componentes relacionados: 
 */
 
 import React from 'react';
+import CDetalleSala from '../../Interfaces/Moderadores/CDetalleSala';
+import ConjuntoSalas from '../../Interfaces/Moderadores/ConjuntoSalas';
 import './MBotonSala.css';
-import * as Gets from "../../Util/Gets";
 
-export default function MBotonSala(){
+export default function MBotonSala(props){
 
-    const [vSalas, setvSalas] = React.useState([]);
+    const {setvFrame}=props
+    //console.log(props)
 
-    React.useEffect(() => {
-        Gets.mGetSalas(setvSalas);
-      }, []);
+    const handleClick = () => {
+        console.log("Detalles de la sala----------")
+        console.log(props)
+        //const cambiar = () =>setvFrame("detallesalas")
+        //props.setvFrame("detallesalas")
+        console.log("-----------------------------");
+        //setvFrame("detallesalas")
+        
+    }
 
-    vSalas.map((sala, index) =>{
-        console.log(vSalas)
-    })
-
-
-    const elementos = vSalas.map((sala,index) =>
-
+    return(
         <section id='sectionContenedorBS'>
             <div className='divContenedorBS'>
-                <button className="btnSalaBS">
-                    {/* <div className='divImgSala'> */}
+                <button onClick={()=>setvFrame("detallesalas")}>Detalles</button>
+                <button className="btnSalaBS" onClick = {handleClick} >
                     <img src="https://cdn-icons-png.flaticon.com/512/5602/5602892.png" id="imgBotonBS" height ="40%" width="3%" alt="img_zoom" />
-                    {/* </div> */}
                     <div className='divTextoBotonBS'>
-                        <p id="tituloSalaBS">{vSalas[index].titulo}</p>
-                        <p id="areaSalaBS">{vSalas[index].area}</p>
+                        <p id="tituloSalaBS">{props.nombreSala}</p>
+                        <p id="areaSalaBS">{props.areaSala}</p>
                     </div>
                 </button>
             </div>            
         </section>
     );
 
-    return(
-        elementos
-    );
 }
 

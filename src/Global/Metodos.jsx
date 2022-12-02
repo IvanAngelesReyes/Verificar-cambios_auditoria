@@ -1,3 +1,5 @@
+import Gets from "../Util/Gets"
+
 export const generatePasswordRand = (length, type) => {
   let characters = "";
   switch (type) {

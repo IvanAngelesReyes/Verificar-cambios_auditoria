@@ -6,6 +6,7 @@ import RecuperaContra from './Interfaces/LoginRegistro/RecuperaContra'
 import CModerador from "./Interfaces/Moderadores/CModerador";
 import CCoordinador from "./Interfaces/Coordinador/CCoordinador";
 import CAdministrador from "./Interfaces/Administrador/CAdministrador";
+import CDetalleSala from "./Interfaces/Moderadores/CDetalleSala";
 
 export default function Main(){
 
@@ -18,6 +19,7 @@ export default function Main(){
                 <Route path='/moderador' element={<CModerador/>}/>
                 <Route path='/auxiliar' element={<CCoordinador/>}/>
                 <Route path='/administrador' element={<CAdministrador/>}/>
+                <Route path='/detallesala' element={<CDetalleSala/>}/>
             </Routes>
         </BrowserRouter>
     );
