@@ -90,7 +90,7 @@ export default function CConsultaSalaLista(props) {
               variant="standard"
             />
           </Mui.Grid>
-          <CDialogDetallesSala vSala={vSala} />
+          {/*<CDialogDetallesSala vSala={vSala} /> */}
         </Mui.Grid>
       </Mui.Box>
     </Mui.Paper>

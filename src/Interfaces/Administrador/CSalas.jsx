@@ -24,6 +24,7 @@ import CConsultaSalaLista from "../../Componentes/TarjetasSalas/Listas/CConsulta
 import CDialogCargarSalas from "../../Componentes/Dialogs/CDialogCargarSalas";
 import CDialogCargarPonentes from "../../Componentes/Dialogs/CDialogCargarPonentes";
 
+import * as Gets from "../../Util/Gets";
 import * as Variables from "../../Global/Variables";
 import * as Metodos from "../../Global/Metodos";
 
@@ -36,6 +37,9 @@ export default function CSalas(props) {
     vAnchoNav,
     vInstituciones,
     vIsCargandoSalas,
+    setvSalasCargadas,
+    setVIsCargandoSalas,
+    setvKeyS,
   } = props;
 
   const [vIsCargado, setvIsCargado] = React.useState(false);

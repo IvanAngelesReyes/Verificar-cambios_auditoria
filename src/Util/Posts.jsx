@@ -308,19 +308,19 @@ export async function mGuardarManual(vManual, mObtenerProgreso) {
     .then();
 }
 
-export async function mCrearPlantilla(vPlantilla) {
+export async function mGuardarPlantilla(vPlantilla) {
   const formData = new FormData();
   formData.append("plantilla", vPlantilla);
 
   await fetch(
-    Variables.v_URL_API + "/backend/Certificado/CrearVisualizador.php",
+    Variables.v_URL_API + "/backend/Certificado/CGuardarCertificado.php",
     {
       method: "POST",
       body: formData,
     }
   )
     .then((response) => response.text())
-    .then();
+    .then(console.log);
 }
 export async function mGuardarPlantillaTmp(setVPantilla, vPlantilla) {
   const formData = new FormData();

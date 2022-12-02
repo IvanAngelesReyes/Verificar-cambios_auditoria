@@ -82,7 +82,7 @@ export default function CConsultaSala(props) {
             }}
             variant="standard"
           />
-          <CDialogDetallesSala vSala={vSala} />
+          {/*<CDialogDetallesSala vSala={vSala} /> */}
         </Mui.Stack>
       </Mui.Box>
     </Mui.Paper>

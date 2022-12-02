@@ -54,6 +54,7 @@ export default function CAdministrador(props) {
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
     Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
+    Gets.mGetCertificadoFile(setVIsExistePlantilla);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
     //Gets.mGetUrls(setVIsExisteManual,setVUrlWhatsapp);
   }, []);
@@ -160,6 +161,7 @@ export default function CAdministrador(props) {
             mActualziarSalas={mActualziarSalas}
             setvAcctualizarEstado={mActualizarEstado}
             setVIsCargandoSalas={setVIsCargandoSalas}
+            vIsCargandoSalas={vIsCargandoSalas}
           />
         );
       case Variables.v_MenuAdministrador.item3:
@@ -173,6 +175,9 @@ export default function CAdministrador(props) {
             mCargarSalas={mCargarSalas}
             vInstituciones={vInstituciones}
             vIsCargandoSalas={vIsCargandoSalas}
+            setVIsCargandoSalas={setVIsCargandoSalas}
+            setvSalasCargadas={setvSalasCargadas}
+            setvKeyS={setvKey}
           />
         );
       case Variables.v_MenuAdministrador.item4:

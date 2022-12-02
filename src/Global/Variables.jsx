@@ -184,6 +184,9 @@ export const v_TEXTOS = {
       exito: "Configuración guardado correctamente.",
       error: "Error al guardar la configuración.",
     },
+    datosAlmacenados: {
+      eliminado:"Los datos fueron eliminados correctamente."
+    }
   },
   busqueda_por: "Buscar por:",
   ordenar_por: "Ordenar nombre en:",
@@ -209,6 +212,12 @@ export const v_TEXTOS = {
     auxiliares: {},
     moderadores_consejeros: {},
   },
+
+  datosAlmacenados: {
+    alertas: {
+      
+    }
+  }
 };
 
 export const v_MenuModeradores = {
