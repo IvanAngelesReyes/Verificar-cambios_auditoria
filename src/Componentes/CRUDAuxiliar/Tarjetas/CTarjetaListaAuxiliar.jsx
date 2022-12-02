@@ -9,8 +9,8 @@ Modificaciones:
 Descripcion:
 
 
-Numero de metodos: 
-Componentes relacionados: 
+Numero de metodos: 1
+Componentes relacionados: CDialogDellatesAuxiliar
 */
 
 import React from "react";
