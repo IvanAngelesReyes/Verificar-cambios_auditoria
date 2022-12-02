@@ -223,16 +223,16 @@ export async function mGetURLWhatsapp(setVUrlWhatsapp) {
     setVUrlWhatsapp(vResponse);
   });
 }
-export async function mGetManual(setVManual) {
+export async function mGetManual(setVUrlManual) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/manual/obtener-manual-url",
+    url: Variables.v_URL_API2 + "/api/manual/manual-obtener-url",
     method: "GET",
     mode: "corps",
   };
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    setVManual(vResponse);
+    setVUrlManual(vResponse.url);
   });
 }
 export async function mGetUrls(setVManual, setVUrlWhatsapp) {
