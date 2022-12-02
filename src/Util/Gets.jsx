@@ -313,3 +313,24 @@ export async function mGetCertificados() {
     }
   });
 }
+
+
+export async function mGetModeradoresSinAceptar(setvModeradores) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/usuarios/obtener-moderador-noaceptado",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    if (response.data.vConsultaDataModerador.length > 0) {
+      let vResponse = response.data;
+      console.log(vResponse.vConsultaDataModerador);
+      setvModeradores(vResponse.vConsultaDataModerador);
+    } else {
+      console.log("No trae datos");
+      setvModeradores([]);
+    }
+    //setvKeySalas(Date.now());
+  });
+}
