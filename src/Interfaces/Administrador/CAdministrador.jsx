@@ -1,16 +1,16 @@
 /*
 SmartSoft
-Componente: CCoordinador
+Componente: CAdministrador
 Fecha de creacion: 19/10/2022, Autorizó: Leandro Gómez Flores, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente...
 
-Numero de metodos: 3
-Componentes relacionados: CRedactarCorreos
+
+Numero de metodos: 1
+Componentes relacionados: CRedactarCorreos, CConfiguraciones, CSalas, CHome, CDesktop, CUsuarios, CDialogPerfilAdministrador
 */
 
 import React from "react";

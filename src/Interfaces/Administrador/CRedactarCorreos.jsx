@@ -7,10 +7,9 @@ Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente...
 
-Numero de metodos: 10
-Componentes relacionados: 
+Numero de metodos: 1
+Componentes relacionados: CRedactarCorreo
 */
 
 import * as React from "react";
