@@ -1,31 +1,25 @@
 /*
 SmartSoft
-Componente: CSalaActiva
-Fecha de creacion: 20/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
+Componente: CTarjetaCuadroCoordinador
+Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente muestra una breve descripcion de la sala que se encuentra activa al coordinador de moderacion
 
-Numero de metodos: 0
-Componentes relacionados: ninguno
+
+Numero de metodos: 
+Componentes relacionados: 
 */
 
 import React from "react";
-
+import * as Variables from "../../../Global/Variables";
 import * as Mui from "@mui/material";
-import * as Puts from '../../../Util/Puts'
+import CDialogDetallesConsejero from "../CDialogDellatesConsejero";
 
-export default function CSalaActiva(props) {
-  const { vRegistro,mActualziarSalas,setVKey } = props;
-
-  const handleClick=()=>{
-    vRegistro.estado="Cerrada"
-    Puts.mModifcarSalas(vRegistro)
-    mActualziarSalas(vRegistro,setVKey)
-  }
+export default function CTarjetaCuadroConsejero(props) {
+  const {vRegistro, setVRegistrosCoordinadores,vRegistrosCoordinadores, mRefresaacarPantalla} = props;
 
   return (
     <Mui.Paper sx={{m:1}} elevation={3}
@@ -48,34 +42,32 @@ export default function CSalaActiva(props) {
           spacing={2}
         >
           <Mui.TextField
-            id="standard-read-only-input"
-            label="Institucion"
-            defaultValue={vRegistro.instituciones}
+            label={Variables.v_TEXTOS.institucion}
+            defaultValue={vRegistro.institucion}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
           <Mui.TextField
-            id="standard-read-only-input"
-            label="Area"
-            defaultValue={vRegistro.area}
+            label={Variables.v_TEXTOS.nombre}
+            defaultValue={vRegistro.nombre}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
           <Mui.TextField
-            id="standard-read-only-input"
-            label="Sala"
-            defaultValue={vRegistro.sala}
+            label={Variables.v_TEXTOS.correo}
+            defaultValue={vRegistro.correo}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
-          <Mui.Button variant="contained" onClick={handleClick}>Cerrar</Mui.Button>
+          <CDialogDetallesConsejero mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosCoordinadores={setVRegistrosCoordinadores} vRegistrosCoordinadores={vRegistrosCoordinadores} vRegistro={vRegistro} />
         </Mui.Stack>
+        
       </Mui.Box>
     </Mui.Paper>
   );

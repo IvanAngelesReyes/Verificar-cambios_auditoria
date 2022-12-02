@@ -105,7 +105,8 @@ export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
     } else {
       setVSalas([]);
     }
-    //setvKeySalas(Date.now());
+    setvKeySalas(Date.now());
+    setVIsCargandoSalas(false);
   });
 }
 
@@ -230,5 +231,18 @@ export async function mGetUrls(setVManual, setVUrlWhatsapp) {
     let vResponse = response.data;
     setVUrlWhatsapp(vResponse.whatsapp);
     setVManual(vResponse.manual);
+  });
+}
+
+export async function mGetModerador(mSetDatos,vUid) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/usuarios/obtener-datos-moderador/"+vUid,
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    mSetDatos(vResponse.vConsultaDataModerador);
   });
 }

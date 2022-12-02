@@ -76,7 +76,7 @@ export default function CConsultaSala(props) {
             sx={{ width: "100%" }}
             id="standard-read-only-input"
             label={"Estado"}
-            defaultValue={vSala.estatus}
+            defaultValue={vSala.estado}
             InputProps={{
               readOnly: true,
             }}

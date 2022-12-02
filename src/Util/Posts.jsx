@@ -1,192 +1,182 @@
 import * as Variables from "../Global/Variables";
 import * as Metodos from "../Global/Metodos";
 
-export async function rlogins(vLogin){
-  let rlogins = "nada"
-  rlogins = await mLogins(vLogin)
-  console.log("RLOGINS ---> " +  rlogins)
-  return rlogins
+export async function rlogins(vLogin) {
+  let rlogins = "nada";
+  rlogins = await mLogins(vLogin);
+  console.log("RLOGINS ---> " + rlogins);
+  return rlogins;
 }
 
 //logins
-export async function mLogins(vLogin){
-
+export async function mLogins(vLogin, mSeleccionarFrame) {
   //const navigate = useNavigate()
-  let respuestam = await mLoginModerador(vLogin)
-    
-  if( respuestam === "moderadorencontrado" || respuestam === "modconsejeroencontrado"){
-    console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA")
-    return respuestam
-  }else{
-    if(await mLoginConsejero(vLogin) === "consejeroencontrado"){
-      console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA")
-      return "ventanaconsejero"
-    }else{
-      if(await mLoginAuxiliar(vLogin) === "auxiliarencontrado"){
-        console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA")
-        return "ventanaauxiliar"
-      }else{
-        if(await mLoginAdmin(vLogin) === "adminencontrado"){
-          console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA")
-          return "ventanaadmin"
-        }
+  await mLoginModerador(vLogin).then((respuestam) => {
+    if (
+      respuestam.r === "moderadorencontrado" ||
+      respuestam.r === "modconsejeroencontrado"
+    ) {
+      console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
+      mSeleccionarFrame(respuestam);
+    } else {
+      if (respuestam.r === "noautorizado") {
+        console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
+      } else {
+        mLoginConsejero(vLogin).then((respuestam) => {
+          if (respuestam.r === "consejeroencontrado") {
+            console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA");
+            respuestam.r = "ventanaconsejero";
+            mSeleccionarFrame(respuestam);
+          } else {
+            mLoginAuxiliar(vLogin).then((respuestam) => {
+              if (respuestam.r === "auxiliarencontrado") {
+                console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA");
+                respuestam.r = "ventanaauxiliar";
+                mSeleccionarFrame(respuestam);
+              } else {
+                mLoginAdmin(vLogin).then((respuestam) => {
+                  if (respuestam.r === "adminencontrado") {
+                    console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
+                    respuestam.r = "ventanaadmin";
+                    mSeleccionarFrame(respuestam);
+                  }
+                });
+              }
+            });
+          }
+        });
       }
     }
-  }
-
+  });
 }
 
 //Login de administradores
-export async function mLoginAdmin(vLogin){
-  let r
-  await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/admin",
-    {
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(vLogin),
-    }
-  )
-    .then(response => response.json())
-    .then(data => {
-      let vResponse = data
-      console.log(vResponse)
+export async function mLoginAdmin(vLogin) {
+  let r = { usuario: "", r: "" };
+  await fetch(Variables.v_URL_API2 + "/api/auth/login/admin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let vResponse = data;
+      console.log(vResponse);
 
-      r = Metodos.verificaRAdmin(vResponse)
+      r.r = Metodos.verificaRAdmin(vResponse);
 
-      console.log("RAdmin: " + r)
-      if(r === "adminencontrado"){
-        r = "adminencontrado"
-      }else{
-        if(r === "adminencontrado"){
-          r = "adminencontrado" 
-          //await mLoginConsejero(vLogin)
-        }
+      console.log("RAdmin: " + r.r);
+      if (r.r === "adminencontrado") {
+        r.usuario = vResponse.vAdmin;
       }
     });
-    return r
+  return r;
 }
 
 //Login de auxiliares (antes coordinadores)
-export async function mLoginAuxiliar(vLogin){
-  let r
-  await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/coordinador",
-    {
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(vLogin),
-    }
-  )
-    .then(response => response.json())
-    .then(data => {
-      let vResponse = data
-      console.log(vResponse)
+export async function mLoginAuxiliar(vLogin) {
+  let r = { usuario: "", r: "" };
+  await fetch(Variables.v_URL_API2 + "/api/auth/login/coordinador", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let vResponse = data;
+      console.log(vResponse);
       //Metodos.verificaRCoo(vResponse)
 
-      r = Metodos.verificaRCoo(vResponse)
+      r.r = Metodos.verificaRCoo(vResponse);
 
-      console.log("RA: " + r)
-      if(r === "auxiliarencontrado"){
-        r = "auxiliarencontrado"
-      }else{
-        if(r === "auxiliarnoencontrado"){
-          r = "auxiliarnoencontrado" 
-          //await mLoginConsejero(vLogin)
-        }
+      console.log("RA: " + r);
+      if (r.r === "auxiliarencontrado") {
+        r.usuario = vResponse.vAuxiliar;
       }
-
     });
-    return r
+  return r;
 }
 
 //Login de consejeros
-export async function mLoginConsejero(vLogin){
-  let r
-  await fetch(
-    Variables.v_URL_API2 + "/api/auth/login/consejero",
-    {
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(vLogin),
-    }
-  )
-  .then(response => response.json())
-  .then(data => 
-    { 
-      let vResponse = data
-      console.log(vResponse)
+export async function mLoginConsejero(vLogin) {
+  let r = { usuario: "", r: "" };
+  await fetch(Variables.v_URL_API2 + "/api/auth/login/consejero", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let vResponse = data;
+      console.log(vResponse);
 
-      r = Metodos.verificaRC(vResponse)
+      r.r = Metodos.verificaRC(vResponse);
 
-      console.log("RCj: " + r)
+      console.log("RCj: " + r);
 
-      if(r === "consejeroencontrado"){
-        r = "consejeroencontrado"
-      }else{
-        if(r === "consejeronoencontrado"){
-          r = "consejeronoencontrado" 
-          //await mLoginConsejero(vLogin)
-        }
+      if (r.r === "consejeroencontrado") {
+        r.usuario = vResponse.vConsejero;
       }
-
-
     });
-    return r
+  return r;
 }
 
 //Login de moderadores
-export async function mLoginModerador(vLogin){
-
-  let r;
-  await fetch(
-    Variables.v_URL_API2 + "/api/auth/login",
-    {
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(vLogin),
-    }
-  )
-  .then(response => response.json())
-  .then(data => 
-    {
-      console.log(data)
-      let vResponse = data
+export async function mLoginModerador(vLogin) {
+  let r = { usuario: "", r: "" };
+  await fetch(Variables.v_URL_API2 + "/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      let vResponse = data;
       //Metodos.verificaResMod(vResponse);
       //console.log("::::Resouesta del JSN: " + vResponse.msg)
-      
-      r = Metodos.verificaResMod(vResponse)
 
-      console.log("RM: " + r)
+      r.r = Metodos.verificaResMod(vResponse);
 
-      if(r === "moderadorencontrado"){
-        r = "moderadorencontrado"
-        //usuario = "moderadorencontrado"
-      }else{
-        if(r === "moderadornoencontrado"){
-          r = "moderadornoencontrado" 
-          //await mLoginConsejero(vLogin)
+      console.log("RM: " + r);
+      if (r.r === "noautorizado") {
+
+      } else {
+        if (r.r === "moderadorencontrado") {
+          r.usuario = vResponse.vModerador;
         }
       }
+
+      
 
       // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
       //   //return "moderadornoencontrado"
       // }
-
-
     });
-    return r;
+  return r;
 }
 
-export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
+export async function mAgregarConsejeroEnAuxiliar(vRegistro) {
+  await fetch(Variables.v_URL_API2 + "/api/auxiliares/crear-auxiliar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vRegistro),
+  })
+    .then((response) => response.json())
+    .then(console.log);
+}
+
+export async function mAgregarModerador(vRegistroM, setvDatosRegistro) {
   await fetch(
     Variables.v_URL_API2 + "/api/usuarios",
     {
@@ -198,9 +188,9 @@ export async function mAgregarModerador(vRegistroM,setvDatosRegistro){
     }
   )
     .then((response) => response.json())
-    .then(data => {
-      let vResponse = data
-      Metodos.verificaRRM(vResponse,vRegistroM.correo);
+    .then((data) => {
+      let vResponse = data;
+      Metodos.verificaRRM(vResponse, vRegistroM.correo);
       //console.log(data)
       //setvDatosRegistro(data)
     });
@@ -271,9 +261,10 @@ export function mEnviarCorreo(vTipoCorreo, vTo, passwd) {
 
   switch (vTipoCorreo) {
     case "9":
+    case "2":
       formData.append("vTipoCorreo", vTipoCorreo);
       formData.append("vTo", vTo);
-      formData.append("passwd", passwd);
+      formData.append("vPassword", passwd);
       break;
 
     default:
@@ -331,7 +322,7 @@ export async function mCrearPlantilla(vPlantilla) {
     .then((response) => response.text())
     .then();
 }
-export async function mGuardarPlantillaTmp(setVPantilla,vPlantilla) {
+export async function mGuardarPlantillaTmp(setVPantilla, vPlantilla) {
   const formData = new FormData();
   formData.append("plantilla", vPlantilla);
 
@@ -396,4 +387,21 @@ export async function mCrearInstitucion(vRegistro, mAdd) {
   )
     .then((response) => response.json())
     .then(mAdd);
+}
+
+export async function mAgregarModeradorEspontaneo(vRegistroM, mMetodo) {
+  console.log(vRegistroM);
+  await fetch(Variables.v_URL_API2 + "/api/admin/espontaneo", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vRegistroM),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      mMetodo(data.vUsuario);
+    });
+  //.then((response) => response.status)
 }

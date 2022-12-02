@@ -28,7 +28,7 @@ export default class CModeradores extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vFramePrincipal: "Variables.v_FRFAMES.login",
+      vFramePrincipal: Variables.v_FRFAMES.login,
       vAltoNav: window.innerHeight,
       vAnchoNav: window.innerWidth,
       vUsuario: {},
@@ -45,13 +45,10 @@ export default class CModeradores extends Component {
     this.setState({ vAnchoNav: window.innerWidth - 50 });
   }
 
-  mSetvFramePrincipal = (vFramePrincipal) => {
-    this.setState({ vFramePrincipal });
+  mSetvFramePrincipal = (vFramePrincipal, vUsuario) => {
+    this.setState({ vFramePrincipal, vUsuario });
   };
 
-  mDatosUsusuario(vUsuario) {
-    this.setState({ vUsuario: vUsuario });
-  }
 
   vCambiarFramePrincipal = () => {
     switch (this.state.vFramePrincipal) {
@@ -79,11 +76,13 @@ export default class CModeradores extends Component {
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}
             mSetvFramePrincipal={this.mSetvFramePrincipal}
+            mDatosUsusuario={this.mDatosUsusuario}
           />
         );
       case Variables.v_FRFAMES.administrador:
         return (
           <CAdministrador
+            vUsuario={this.state.vUsuario}
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}
             mSetvFramePrincipal={this.mSetvFramePrincipal}

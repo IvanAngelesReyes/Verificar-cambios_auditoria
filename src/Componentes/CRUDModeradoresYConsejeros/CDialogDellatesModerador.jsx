@@ -1,53 +1,43 @@
 /*
 SmartSoft
-Componente: CDialogPerfilCoordinador
-Fecha de creacion: 20/10/2022, Autorizó: Alejandra Patricia Chaparro Matias 
+Componente: CDialogDellatesCoordinador
+Fecha de creacion: 20/11/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
     Fecha               Folio
 
-Descripcion: 
-Esta interfaz mostrará el perfil del coordinador con sus respectivos datos.
+Descripcion:
+Componente para la modificacion de los datos del coordinador
 
-Numero de metodos: 0
+Numero de metodos: 
 Componentes relacionados: 
 */
 
 import React from "react";
 import * as Mui from "@mui/material";
-import * as Variables from "../../Global/Variables";
-
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import * as Icon from "@mui/icons-material";
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
+import * as Variables from "../../Global/Variables";
+import * as Deletes from "../../Util/Deletes";
 import * as Puts from "../../Util/Puts";
+import CDialogConfirmarEliminacion from "./CDialogConfirmarEliminacion";
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
+const vListaInstituciones = ["UNAM", "UAPT", "UEAMEX"];
+function mInstituciones() {
+  return vListaInstituciones.map((item, index) => (
+    <Mui.MenuItem value={item}>{item}</Mui.MenuItem>
+  ));
+}
 
-function mValidarDato(vDatos) {
+function mValidarRegistro(vRegistro) {
   let b = false;
-  if (vDatos.institucion !== "") {
-    if (vDatos.nombre !== "") {
+  if (vRegistro.institucion !== "") {
+    if (vRegistro.nombre !== "") {
       if (
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
-          vDatos.correo
+          vRegistro.correo
         )
       ) {
-        if (vDatos.contrasenia !== "") {
+        if (vRegistro.contrasenia !== "") {
           b = true;
         }
       }
@@ -56,54 +46,26 @@ function mValidarDato(vDatos) {
   return b;
 }
 
-export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
-
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
-export default function CDialogPerfilModerador(props) {
+export default function CDialogDellatesCoordinador(props) {
   const {
-    vUsuario,
-    //setVDatosLogin,
+    vRegistro,
+    setVRegistrosCoordinadores,
+    vRegistrosCoordinadores,
     mRefresaacarPantalla,
   } = props;
 
-  const [vNombre, setvNombre] = React.useState(vUsuario.nombre);
-  const [vApePaterno, setvApePaterno] = React.useState(vUsuario.apellido_paterno);
-  const [vApeMaterno, setvApeMaterno] = React.useState(vUsuario.apellido_materno);
-  const [vCorreo, setvCorreo] = React.useState(vUsuario.correo);
-  const [vContrasenia, setvContrasenia] = React.useState(vUsuario.password);
-  
-  const [open, setOpen] = React.useState(true);
+
+  const [vNombre, setvNombre] = React.useState(vRegistro.nombre);
+  const [vApePaterno, setvApePaterno] = React.useState(vRegistro.apellido_paterno);
+  const [vApeMaterno, setvApeMaterno] = React.useState(vRegistro.apellido_materno);
+  const [vInstitucionProcedencia, setvInstitucionProcedencia] =
+    React.useState(vRegistro.institucionProcedencia);
+  const [vCorreo, setvCorreo] = React.useState(vRegistro.correo);
+  const [vContrasenia, setvContrasenia] = React.useState(vRegistro.password);
+  const [vInstitucion, setvInstitucion] = React.useState(vRegistro.institucion);
   const [vIsModoModificar, setVIsModoModificar] = React.useState(false);
   const [vIsModoModificado, setVIsModoModificado] = React.useState(false);
 
-  
   const [vKey, setVKey] = React.useState(Date.now());
 
   //variables para el alert
@@ -112,14 +74,17 @@ export default function CDialogPerfilModerador(props) {
     vertical: "top",
     horizontal: "center",
   });
-
+  
   const { vertical, horizontal, opeA } = state;
+
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setVKey(Date.now());
     setOpen(true);
   };
-  const handleClose = () => {
+
+  const handleClose = (value) => {
     setVKey(Date.now());
     setVIsModoModificar(false);
     mCarncelarEdicion();
@@ -130,34 +95,41 @@ export default function CDialogPerfilModerador(props) {
     }
   };
 
+  const handleChange = (event) => {
+    setvInstitucion(event.target.value);
+  };
+
   const mAccionBotonPrimario = () => {
     if (vIsModoModificar) {
-      const vUsuarioTmp = {
-        uid: vNombre.uid,
+      const vRegistroTmp = {
+        uid: vRegistro.uid,
+        instituciones: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
         correo: vCorreo,
         salas: [],
         contrasenia: vContrasenia,
+        imagen: [],
+        rol: "COORDINADOR_ROLE",
         estado: true,
-      }; 
+      };
       
-      if (mValidarDato(vUsuarioTmp)) {
-        let vUsuarioTmp = vUsuario.map((item) => {
-          if (item.uid === vUsuarioTmp.uid) {
-            return vUsuarioTmp;
+      if (mValidarRegistro(vRegistroTmp)) {
+        let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores.map((item) => {
+          if (item.uid === vRegistroTmp.uid) {
+            return vRegistroTmp;
           } else {
             return item;
           }
         });
-        //console.log(vDatosLoginTmp)
-        Puts.mActualizarModerador(vUsuarioTmp);
-        //setVDatosLogin(vUsuarioTmp, true);
+        console.log(vRegistrosCoordinadoresTmp)
+        Puts.mActualizarModeradorInstitucion(vRegistroTmp);
+        setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp, true);
         setVIsModoModificado(true);
         setVIsModoModificar(!vIsModoModificar);
       } else {
-        console.log("datos incorrectos, no se registro al moderador");
+        console.log("datos incorrectos, no se registro al coordinador");
       }
     } else {
       setVIsModoModificar(!vIsModoModificar);
@@ -167,15 +139,14 @@ export default function CDialogPerfilModerador(props) {
     if (vIsModoModificar) {
       setVIsModoModificar(!vIsModoModificar);
       mCarncelarEdicion();
-    } 
-    else {
-      let vUsuarioTmp = vUsuario.filter(
+    } else {
+      let vRegistrosCoordinadoresTmp = vRegistrosCoordinadores.filter(
         (item) => {
-          return item.uid !== vUsuario.uid;
+          return item.uid !== vRegistro.uid;
         }
       );
-      //Deletes.mEliminarCo(vDatos)
-      //setVDatosLogin(UsuarioTmp, true);
+      //Deletes.mEliminarCoordinador(vRegistro)
+      setVRegistrosCoordinadores(vRegistrosCoordinadoresTmp, true);
       setVIsModoModificado(true);
       setVIsModoModificar(!vIsModoModificar);
       handleClose();
@@ -183,13 +154,18 @@ export default function CDialogPerfilModerador(props) {
   };
 
   const mCarncelarEdicion = () => {
-    setvNombre(vUsuario.nombre);
-    setvCorreo(vUsuario.correo);
-    setvContrasenia(vUsuario.contrasenia);
+    setvNombre(vRegistro.nombre);
+    setvCorreo(vRegistro.correo);
+    setvContrasenia(vRegistro.contrasenia);
+    setvInstitucion(vRegistro.instituciones);
   };
 
   return (
     <>
+      <Mui.Button variant="outlined" onClick={handleClickOpen}>
+        {Variables.v_TEXTOS.ver_perfil}
+      </Mui.Button>
+
       <Mui.Dialog
         key={vKey}
         onClose={handleClose}
@@ -216,6 +192,21 @@ export default function CDialogPerfilModerador(props) {
             divider={<Mui.Divider orientation="horizontal" flexItem />}
             spacing={1}
           >
+            <Mui.FormControl fullWidth>
+              <Mui.InputLabel required id="label-institucion">
+                {Variables.v_TEXTOS.institucion}
+              </Mui.InputLabel>
+              <Mui.Select
+                disabled={!vIsModoModificar}
+                sx={{ width: "100%" }}
+                labelId="label-institucion"
+                value={vInstitucion}
+                label={Variables.v_TEXTOS.institucion}
+                onChange={handleChange}
+              >
+                {mInstituciones()}
+              </Mui.Select>
+            </Mui.FormControl>
             <Mui.TextField
               disabled={!vIsModoModificar}
               required
@@ -235,7 +226,7 @@ export default function CDialogPerfilModerador(props) {
             disabled={!vIsModoModificar}
               sx={{ width: "100%" }}
               required
-             label={Variables.v_TEXTOS.ape_materno}
+              label={Variables.v_TEXTOS.ape_materno}
               value={vApeMaterno}
               onChange={(e) => setvApeMaterno(e.target.value)}
             />
@@ -245,13 +236,6 @@ export default function CDialogPerfilModerador(props) {
               label={Variables.v_TEXTOS.correo}
               value={vCorreo}
               onChange={(evt) => setvCorreo(evt.target.value)}
-            />
-            <Mui.TextField
-              disabled={!vIsModoModificar}
-              required
-              label={Variables.v_TEXTOS.contrasenia}
-              value={vContrasenia}
-              onChange={(evt) => setvContrasenia(evt.target.value)}
             />
             <Mui.Grid
               container

@@ -30,7 +30,8 @@ import CUsuarios from "./CUsuarios";
 import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
 
 export default function CAdministrador(props) {
-  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vCoordinador } = props;
+  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } =
+    props;
   const vResAltoNav = 0;
 
   const [vContenido, mSetvContenido] = React.useState(
@@ -55,7 +56,6 @@ export default function CAdministrador(props) {
     Gets.mGetManualFile(setVIsExisteManual);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
     //Gets.mGetUrls(setVIsExisteManual,setVUrlWhatsapp);
-    
   }, []);
 
   const [vKey, setvKey] = React.useState(Date.now());
@@ -142,8 +142,9 @@ export default function CAdministrador(props) {
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
             mSetvFramePrincipal={mSetvFramePrincipal}
-            vRegistrosAuxiliares={vRegistrosAuxiliares}
-            setVRegistrosAuxiliares={mActualziarCoordinarodes}
+            vUsuario={vUsuario}
+            //vRegistrosAuxiliares={vRegistrosAuxiliares}
+            //setVRegistrosAuxiliares={mActualziarCoordinarodes}
             mRefresaacarPantalla={mRefresaacarPantalla}
           />
           //}
@@ -158,6 +159,7 @@ export default function CAdministrador(props) {
             vAnchoNav={vAnchoNav}
             mActualziarSalas={mActualziarSalas}
             setvAcctualizarEstado={mActualizarEstado}
+            setVIsCargandoSalas={setVIsCargandoSalas}
           />
         );
       case Variables.v_MenuAdministrador.item3:

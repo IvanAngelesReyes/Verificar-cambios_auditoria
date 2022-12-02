@@ -102,26 +102,32 @@ export const v_TEXTOS = {
   },
   redactar_correos: {
     correo1: {
-      titulo: "Correo para el consejero tecnico de un nuevo registro",
+      titulo: "Correo para el consejero técnico de un nuevo registro",
       info: "Este correo será enviado al coordinador para darle a conocer que un profesor se acaba de registrar y espera ser aceptado. Acción a realizar: Registro de un nuevo moderador.",
     },
     correo2: {
+      titulo: "Correo para un registro espontaneo de un moderador.",
+      comentario:
+        "Para que este correo funcione correctamente debe que ingresar el siguiente parámetro {passwd},este se encargará de proporcionar la contraseña para su inicio de sesión del nuevo moderador.",
+      info: "Este correo será enviado al nuevo moderador para darle a conocer su contraseña y poder acceder. Acción a realizar: Registro espontaneo de un moderador en una sala inactiva.",
+    },
+    correo3: {
       titulo: "Correo de aceptación a un nuevo registro",
       info: "Este correo será enviado al profesor que se acaba de registrar, enviando una confirmación que ya puede ingresar a la página de moderación. Acción a realizar: aceptar al nuevo profesor registrado",
     },
-    correo3: {
+    correo4: {
       titulo: "Correo de rechazo a un nuevo registro",
       info: "Este correo será enviado al profesor que se acaba de registrar, enviando una negación que ya puede ingresar a la página de moderación. Acción a realizar: negar al nuevo profesor registrado.",
-    },
-    correo4: {
-      titulo: "Correo cuando un moderador que fue asignado",
-      info: "Este correo será enviado cuando un moderador no fue asignado a una sala para moderar. Acción a realizar: asignación de salas a moderadores.",
     },
     correo5: {
       titulo: "",
       info: "",
     },
     correo6: {
+      titulo: "Correo cuando un moderador que fue asignado",
+      info: "Este correo será enviado cuando un moderador no fue asignado a una sala para moderar. Acción a realizar: asignación de salas a moderadores.",
+    },
+    correo7: {
       titulo: "",
       info: "",
     },
@@ -199,14 +205,10 @@ export const v_TEXTOS = {
   },
   usuarios: {
     tab1: "Auxiliares",
-    tab2:"moderares y consejeros",
-    auxiliares: {
-      
-    },
-    moderadores_consejeros: {
-      
-    }
-  }
+    tab2: "moderares y consejeros",
+    auxiliares: {},
+    moderadores_consejeros: {},
+  },
 };
 
 export const v_MenuModeradores = {
