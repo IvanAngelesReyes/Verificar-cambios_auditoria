@@ -167,6 +167,19 @@ export async function mGetManualFile(setVIsExisteManual) {
     }
   )
 }
+export async function mGetCertificadoFile(setVIsExistePlantilla) {
+    let reqOptions = {
+      url: Variables.v_URL_API + "/backend/Certificado/CExiste.php",
+      method: "GET",
+      mode: "corps",
+    }
+
+    await axios.request(reqOptions).then(function (vResponse) {
+      console.log(vResponse.info);
+      setVIsExistePlantilla(vResponse.info === "false" ? false : true);
+    }
+  )
+}
 
 export async function mGetModeradoresMismaInstitucion(setVRegistrosModeradoresInstitucion) {
   let reqOptions = {

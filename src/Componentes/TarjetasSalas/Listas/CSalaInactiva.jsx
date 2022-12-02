@@ -28,22 +28,7 @@ export default function CSalaInactiva(props) {
     Puts.mModifcarSalas(vRegistro)
     mActualziarSalas(vRegistro,setVKey)
   }
-  
-//console.log(vRegistro);
-//console.log(vRegistro.id);
-//console.log(vRegistro);
-console.log(vRegistro?.moderador);
-console.log(vRegistro?.moderador.length);
-console.log(
-  vRegistro?.moderador !== undefined
-);
-console.log(
-  vRegistro?.moderador !== undefined
-    ? true
-    : vRegistro?.moderador?.length === 0
-    ? false
-    : true
-);
+
 
   return (
     <Mui.Paper elevation={3}>

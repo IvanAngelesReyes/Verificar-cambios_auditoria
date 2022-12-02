@@ -16,7 +16,7 @@ export default function CDatosEvento(props) {
   });
   const [vPantilla, setVPantilla] = React.useState({
     url: vIsExistePlantilla
-      ? Variables.v_URL_API + "/backend/Manual/Manual.pdf"
+      ? "/Plantilla.docx"
       : "",
     file: "",
   });
@@ -51,6 +51,10 @@ export default function CDatosEvento(props) {
       url: Variables.v_URL_API + "/backend/Manual/Manual.pdf",
     });
     Posts.mGuardarManual(vManual.file, mObtenerProgreso);
+  };
+  const enviarPlantilla = () => {
+    setOpenAlert();
+    Posts.mGuardarPlantilla(vPantilla.file);
   };
   const mGuardarUrlWhatsapp = () => {
     setOpenAlert();
@@ -226,7 +230,7 @@ export default function CDatosEvento(props) {
                   src={
                     "https://view.officeapps.live.com/op/embed.aspx?src=" +
                     Variables.v_URL_API +
-                    "/backend/Certificados" +
+                    "/backend/Certificado" +
                     vPantilla.url
                   }
                   style={{ borderRadius: "10px", width: 500, height: 600 }}
@@ -262,7 +266,7 @@ export default function CDatosEvento(props) {
           spacing={2}
           sx={{ marginTop: "15px", marginBottom: "15px" }}
         >
-          <Mui.Button variant="contained" onClick={() => enviarManual()}>
+          <Mui.Button variant="contained" onClick={() => enviarPlantilla()}>
             {Variables.v_TEXTOS.guardar}
           </Mui.Button>
         </Mui.Stack>
@@ -270,16 +274,4 @@ export default function CDatosEvento(props) {
       <Mui.Divider />
     </>
   );
-}
-
-async function mModifcaUrlWhatsapp(vSala) {
-  await fetch(Variables.v_URL_API2 + "/api/salas/actualizar-sala/" + vSala.id, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(vSala),
-  })
-    .then((response) => response.json())
-    .then(console.log);
 }

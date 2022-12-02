@@ -48,3 +48,17 @@ export async function mEliminarAuxiliar(vRegistro) {
     )
       .then((response) => response.json())
   }
+  export async function mEliminarTodo() {
+  
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/admin/eliminar-todo",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+  }
