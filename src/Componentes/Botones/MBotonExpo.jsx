@@ -1,8 +1,23 @@
+/*
+SmartSoft
+Componente: MBotonExpo
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+Boton mediante el que se accede a la informacion de una exposicion
+
+Numero de metodos: 1
+Componentes relacionados: CSalas, MBotonExpo
+*/
+
+
 import * as React from 'react';
 import './MBotonExpo.css';
 
 export default function MBotonExpo(){
-
 
     return( 
         <div className='divBtnExpo'>
@@ -14,13 +29,10 @@ export default function MBotonExpo(){
                 </div>
                 
             </button>
-            <div className="divOpcionesExpo">
+            {/* <div className="divOpcionesExpo">
                 <button id="btnControlExpo">Control de exposicion</button>
                 <button id="btnListaAsistencia" >Lista de asistencia</button>
-                
-                
-                
-            </div>
+            </div> */}
         </div>
     );
 }

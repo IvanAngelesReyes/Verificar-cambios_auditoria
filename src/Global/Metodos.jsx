@@ -1,3 +1,5 @@
+import Gets from "../Util/Gets"
+
 export const generatePasswordRand = (length, type) => {
   let characters = "";
   switch (type) {
@@ -101,7 +103,7 @@ export function verificaRAdmin(vResponse){
       return "adminnoencontrado";
   }
 
-  if (respuesta === "Usuario / Contraseña incorrectos") {
+  if (respuesta === "Usuario / Contraserña incorrectos") {
     alert("El usuario o contraseña son incorrectos");
     return "adminnoencontrado";
   }
@@ -205,6 +207,7 @@ export function verificaRRM(vDatosRegistro,vCorreo){
 
   if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
       alert("Su registro se realizo correctamente")
+      //PONER API QUE ENVIA CORREO
       return false;
   }else{
       if(errorFormato === true){
