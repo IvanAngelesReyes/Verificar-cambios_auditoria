@@ -66,7 +66,7 @@ export default function CDialogCargarSalas(props) {
     vFilas.forEach((item) => {
       if (item.area.length>0) {
         item.compartido = item.compartido === "si" ? true : false;
-        //item.estatus = item.estatus === "Inactiva" ? false : true;
+        item.estado = item.estado.toUpperCase()
         item.moderador = item.moderador === "Sin asignar" ? "" : item.moderador;
         vFilasArregladas.push(item);
       }
@@ -100,7 +100,7 @@ export default function CDialogCargarSalas(props) {
       csvHeader[0] = "ID";
       //console.log(csvHeader);
       csvHeader.push("Moderador");
-      csvHeader.push("Estatus");
+      csvHeader.push("estado");
 
       const csvRows = vTextCSVTmp
         .slice(vTextCSVTmp.indexOf("\n") + 1)
@@ -134,7 +134,7 @@ export default function CDialogCargarSalas(props) {
               case "moderador":
                 object[vHeaderI] = "Sin asignar";
                 break;
-              case "estatus":
+              case "estado":
                 object[vHeaderI] = "Inactiva";
                 break;
               default:

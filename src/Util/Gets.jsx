@@ -233,3 +233,16 @@ export async function mGetUrls(setVManual, setVUrlWhatsapp) {
     setVManual(vResponse.manual);
   });
 }
+
+export async function mGetModerador(mSetDatos,vUid) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/usuarios/obtener-datos-moderador/"+vUid,
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    mSetDatos(vResponse.vConsultaDataModerador);
+  });
+}

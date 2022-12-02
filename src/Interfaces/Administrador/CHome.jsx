@@ -24,6 +24,7 @@ import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
 
 import * as Variables from "../../Global/Variables";
 import * as Metodos from "../../Global/Metodos";
+import * as Gets from "../../Util/Gets";
 
 //let vSalasActivas = ["sala1", "sala2", "sala3", "sala4", "sala5"];
 //let vSalasInactivas = ["sala6", "sala7", "sala8", "sala9"];
@@ -36,9 +37,12 @@ export default function CHome(props) {
     vUsuario,
     vSalasCargadas,
     mActualziarSalas,
-    setvAcctualizarEstado,
+    setvSalasCargadas,
+    setVIsCargandoSalas
   } = props;
   //console.log(vSalasCargadas)
+
+  
 
   const [vVistaListaSalasActivas, setvVistaListaSalasActivas] =
     React.useState(true);
@@ -65,6 +69,10 @@ export default function CHome(props) {
     setVKey(Date.now());
   };
 
+   React.useEffect(() => {
+     Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas)
+  },[]);
+
   const mFiltroOrden = async (vRegistros) => {
     if (
       Variables.v_TEXTOS.orden.ascendente ===
@@ -84,9 +92,9 @@ export default function CHome(props) {
     var vSalasActivasTmp = [];
     var vSalasInactivasTmp = [];
     vSalasTmp.map((item) => {
-      if (item.estatus === "Activa") {
+      if (item.estado === "Activa") {
         vSalasActivasTmp.push(item);
-      } else if (item.estatus !== "Cerrada") {
+      } else if (item.estado !== "Cerrada") {
         vSalasInactivasTmp.push(item);
       } else {
         //vSalasInactivasTmp.push(item);

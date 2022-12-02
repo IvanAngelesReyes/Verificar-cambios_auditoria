@@ -83,7 +83,7 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={"Estado"}
-              defaultValue={vSala.estatus}
+              defaultValue={vSala.estado}
               InputProps={{
                 readOnly: true,
               }}

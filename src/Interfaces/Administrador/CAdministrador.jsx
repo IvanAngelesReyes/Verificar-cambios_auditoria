@@ -159,6 +159,7 @@ export default function CAdministrador(props) {
             vAnchoNav={vAnchoNav}
             mActualziarSalas={mActualziarSalas}
             setvAcctualizarEstado={mActualizarEstado}
+            setVIsCargandoSalas={setVIsCargandoSalas}
           />
         );
       case Variables.v_MenuAdministrador.item3:

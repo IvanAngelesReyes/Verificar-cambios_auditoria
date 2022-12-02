@@ -22,7 +22,7 @@ export default function CSalaActiva(props) {
   const { vRegistro,mActualziarSalas,setVKey } = props;
 
   const handleClick=()=>{
-    vRegistro.estatus="Cerrada"
+    vRegistro.estado="Cerrada"
     Puts.mModifcarSalas(vRegistro)
     mActualziarSalas(vRegistro,setVKey)
   }

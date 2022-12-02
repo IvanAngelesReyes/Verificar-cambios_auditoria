@@ -5,6 +5,7 @@ import * as Icon from "@mui/icons-material";
 import * as Metodos from "../../Global/Metodos";
 import * as Posts from "../../Util/Posts";
 import * as Puts from "../../Util/Puts";
+import * as Gets from "../../Util/Gets";
 
 function mValidarRegistro(vRegistro) {
   let b = false;
@@ -39,8 +40,15 @@ export default function CDialogDetallesSala(props) {
   const [vApePaterno, setvApePaterno] = React.useState("");
   const [vApeMaterno, setvApeMaterno] = React.useState("");
   const [vCorreo, setvCorreo] = React.useState("");
+  const [vModerador, setvModerador] = React.useState({});
 
   const vDetalles_Sala = Variables.v_TEXTOS.detalles_sala;
+
+  React.useEffect(() => {
+    if (vSala?.moderador !== undefined && vSala?.moderador.length > 0) {
+      Gets.mGetModerador(setvModerador,vSala?.moderador)
+    }
+  },[vSala?.moderador, vSala?.moderador.length]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,7 +60,7 @@ export default function CDialogDetallesSala(props) {
 
   const handleClick = () => {
     const vRegistro = {
-      id: Date.now(),
+      uid: Date.now(),
       institucion: vSala.institucion,
       nombre: vNombre,
       apellido_paterno: vApePaterno,
@@ -121,7 +129,7 @@ export default function CDialogDetallesSala(props) {
                 <Mui.TextField
                   disabled
                   label={Variables.v_TEXTOS.moderador_actual}
-                  value={vSala?.moderador}
+                  value={vModerador.nombre+" "+vModerador.apellido_paterno+" "+vModerador.apellido_materno}
                 />
               )}
             <Mui.TextField
