@@ -86,7 +86,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function CDialogPerfilModerador(props) {
+export default function CDialogPerfilAuxiliar(props) {
   const {
     vUsuario,
     //setVDatosLogin,
@@ -96,8 +96,11 @@ export default function CDialogPerfilModerador(props) {
   const [vNombre, setvNombre] = React.useState(vUsuario.nombre);
   const [vApePaterno, setvApePaterno] = React.useState(vUsuario.apellido_paterno);
   const [vApeMaterno, setvApeMaterno] = React.useState(vUsuario.apellido_materno);
+  const [vSalas, setvSalas] = React.useState(vUsuario.salas);
   const [vCorreo, setvCorreo] = React.useState(vUsuario.correo);
   const [vContrasenia, setvContrasenia] = React.useState(vUsuario.password);
+  const [vInstitucion, setvInstitucion] = React.useState(vUsuario.institucion);
+
   
   const [open, setOpen] = React.useState(true);
   const [vIsModoModificar, setVIsModoModificar] = React.useState(false);
@@ -133,27 +136,25 @@ export default function CDialogPerfilModerador(props) {
   const mAccionBotonPrimario = () => {
     if (vIsModoModificar) {
       const vUsuarioTmp = {
-        uid: vNombre.uid,
+        uid: vUsuario.uid,
+        institucion: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
         correo: vCorreo,
-        salas: [],
-        contrasenia: vContrasenia,
+        salas: vSalas,
+        imagen: "null",
+        rol: "MODERADOR_ROLE",
         estado: true,
       }; 
       
       if (mValidarDato(vUsuarioTmp)) {
-        let vUsuarioTmp = vUsuario.map((item) => {
-          if (item.uid === vUsuarioTmp.uid) {
-            return vUsuarioTmp;
-          } else {
-            return item;
-          }
-        });
         //console.log(vDatosLoginTmp)
         Puts.mActualizarModerador(vUsuarioTmp);
-        //setVDatosLogin(vUsuarioTmp, true);
+        debugger;
+        vUsuario.nombre=vUsuarioTmp.nombre;
+        vUsuario.apellido_paterno=vUsuarioTmp.apellido_paterno;
+        vUsuario.apellido_materno=vUsuarioTmp.apellido_materno;
         setVIsModoModificado(true);
         setVIsModoModificar(!vIsModoModificar);
       } else {
@@ -238,20 +239,6 @@ export default function CDialogPerfilModerador(props) {
              label={Variables.v_TEXTOS.ape_materno}
               value={vApeMaterno}
               onChange={(e) => setvApeMaterno(e.target.value)}
-            />
-            <Mui.TextField
-              disabled={!vIsModoModificar}
-              required
-              label={Variables.v_TEXTOS.correo}
-              value={vCorreo}
-              onChange={(evt) => setvCorreo(evt.target.value)}
-            />
-            <Mui.TextField
-              disabled={!vIsModoModificar}
-              required
-              label={Variables.v_TEXTOS.contrasenia}
-              value={vContrasenia}
-              onChange={(evt) => setvContrasenia(evt.target.value)}
             />
             <Mui.Grid
               container

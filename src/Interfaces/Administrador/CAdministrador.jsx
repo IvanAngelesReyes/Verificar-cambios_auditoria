@@ -200,22 +200,48 @@ export default function CAdministrador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
           />
         );
-      case Variables.v_MenuAdministrador.item6:
-        return (
-          <>
-            <CUsuarios
-              {...props}
-              vInstituciones={vInstituciones}
-              setvAcctualizarEstado={mActualizarEstado}
-              vRegistrosAuxiliares={vRegistrosAuxiliares}
-              setVRegistrosAuxiliares={mActualziarCoordinarodes}
-              mRefresaacarPantalla={mRefresaacarPantalla}
-              vRegistrosModeradores={vRegistrosModeradores}
-              setVRegistrosModeradores={mActualizarModeradores}
-            />
-          </>
-        );
-      default:
+        case Variables.v_MenuAdministrador.item6:
+          let tmp = [];
+          tmp = vRegistrosConsejeros.vConsejeros;        ;
+          let consejeros = tmp.map(m=>{
+            return {apellido_materno:m.apellido_materno,
+              apellido_materno:m.apellido_materno,
+              apellido_paterno:m.apellido_paterno,
+              area_interes_1:m.area_interes_1,
+              area_interes_2:m.area_interes_2,
+              correo:m.correo,
+              estado:m.estado,
+              imagen:m.imagen,
+              institucion:m.institucion,
+              nombre:m.nombre,
+              consejero: true,
+              salas: "",
+              rol:m.rol,
+              uid:m.uid};
+          });
+          consejeros = [].concat(consejeros,vRegistrosModeradores.vConsultaDataModerador);
+          let RegistrosModeradores = {
+            msg : "",
+            vConsultaDataModerador : consejeros
+          };
+          //vRegistrosModeradores.vConsultaDataModerador = moderadores;
+          return (
+            <>
+              <CUsuarios
+                {...props}
+                vInstituciones={vInstituciones}
+                setvAcctualizarEstado={mActualizarEstado}
+                vRegistrosAuxiliares={vRegistrosAuxiliares}
+                setVRegistrosAuxiliares={mActualziarCoordinarodes}
+                mRefresaacarPantalla={mRefresaacarPantalla}
+                vRegistrosModeradores={RegistrosModeradores}
+                setVRegistrosModeradores={mActualizarModeradores}
+                vRegistrosConsejeros={vRegistrosConsejeros}
+                setVRegistrosConsejeros={mActualizarConsejeros}
+              />
+            </>
+          );
+        default:
     }
   };
 
