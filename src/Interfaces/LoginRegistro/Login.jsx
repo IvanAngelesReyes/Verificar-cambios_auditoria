@@ -1,3 +1,18 @@
+/*
+SmartSoft
+Componente: Login
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+Este componente es el login donde un usuario inicia sesion
+
+Numero de metodos: 1
+Componentes relacionados: RecuperaContra, Registro
+*/
+
 import * as React from "react";
 import * as Mui from "@mui/material";
 import * as MuiIcons from "@mui/icons-material";

@@ -1,10 +1,26 @@
+/*
+SmartSoft
+Componente: CDetalleSala
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+Componente que muestra toda la informacion de la sala
+
+Numero de metodos: 1
+Componentes relacionados: CSalas, MBotonExpo
+*/
+
 import React from 'react'
 import './CDetalleSala.css';
 import MBotonExpo from '../../Componentes/Botones/MBotonExpo.jsx'
 
 export default function CDetalleSala(props) {
-  //const {setvFrame}=props
-  //console.log("PROPS DE CDETALLESALA --> "+props)
+  
+  //const {setvNombre}=props
+  console.log("PROPS DE CDETALLESALA --> " + props)
 
   return (
     <div className="contenedorPrincipalSalas">
@@ -30,7 +46,7 @@ export default function CDetalleSala(props) {
 
       </div>
 
-      <MBotonExpo/>
+      {/* <MBotonExpo/> */}
 
     </div>
   )

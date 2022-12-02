@@ -1,6 +1,5 @@
 import React from 'react'
 import './CSalas.css';
-/*import MBotonSala from '/var/www/moderadores/src/Componentes/Botones/MBotonSala.jsx'*/
 
 export default function CInfoSala() {
   return (

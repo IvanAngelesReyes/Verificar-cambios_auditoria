@@ -1,3 +1,18 @@
+/*
+SmartSoft
+Componente: Registro
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+componente mediante el cual se dan de alta usuarios
+
+Numero de metodos: 1
+Componentes relacionados: Login
+*/
+
 import React, { useState } from 'react';
 import * as Mui from "@mui/material";
 import './Registro.css';

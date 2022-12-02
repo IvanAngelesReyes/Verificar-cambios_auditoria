@@ -1,3 +1,18 @@
+/*
+SmartSoft
+Componente: MBotonSala
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+Componente del login que tiene las universidades
+
+Numero de metodos: 1
+Componentes relacionados: Login
+*/
+
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';

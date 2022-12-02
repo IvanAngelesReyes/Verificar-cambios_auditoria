@@ -5,6 +5,10 @@
     box-sizing: border-box;
 } */
 
+.sectionContenedorBS{
+    margin-bottom: 20%;
+}
+
 .divContenedorBS{
     height: 12vh;
     margin-top: 2%;

@@ -1,3 +1,18 @@
+/*
+SmartSoft
+Componente: RecuperaContra
+Fecha de creacion: 24/10/2022, Autorizó:Iván López Carranza, Revisó: Carlos Ivan Angeles Reyes
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+Componente mediante el cual se recupra la contraseña de un usuario
+
+Numero de metodos: 1
+Componentes relacionados: Login
+*/
+
 import * as React from 'react';
 import * as Mui from "@mui/material";
 import * as MuiIcons from '@mui/icons-material';
