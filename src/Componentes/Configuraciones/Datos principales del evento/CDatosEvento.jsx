@@ -29,9 +29,7 @@ export default function CDatosEvento(props) {
     file: "",
   });
   const [vPantilla, setVPantilla] = React.useState({
-    url: vIsExistePlantilla
-      ? "/Plantilla.docx"
-      : "",
+    url: vIsExistePlantilla ? "/Plantilla.docx" : "",
     file: "",
   });
   const [vTextoQr, setVTextoQr] = React.useState(vUrlWhatsapp);
@@ -237,9 +235,6 @@ export default function CDatosEvento(props) {
             </Mui.Button>
             {vPantilla.url.length > 0 ? (
               <>
-                {console.log(
-                  Variables.v_URL_API + "/backend/Certificados" + vPantilla.url
-                )}
                 <iframe
                   src={
                     "https://view.officeapps.live.com/op/embed.aspx?src=" +

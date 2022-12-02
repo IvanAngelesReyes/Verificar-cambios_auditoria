@@ -17,11 +17,11 @@ import * as Mui from "@mui/material";
 
 import { v_TEXTOS } from "../../../Global/Variables";
 import * as Deletes from "../../../Util/Deletes";
+import * as Gets from "../../../Util/Gets";
 import CDialogConfirmarEliminacionDatos from "../../Dialogs/CDialogConfirmarEliminacionDatos";
 
 export default function DatosAlmacenados() {
-
-   //variables para el alert
+  //variables para el alert
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
@@ -40,10 +40,14 @@ export default function DatosAlmacenados() {
     setState({ ...state, open: false });
   };
 
+  const mDescargarCertificados = () => {
+    Gets.mGetCertificados();
+  };
+
   const mAccionEliminar = () => {
     setState({ ...state, open: true });
-    Deletes.mEliminarTodo()
-  }
+    Deletes.mEliminarTodo();
+  };
 
   return (
     <>
@@ -54,22 +58,30 @@ export default function DatosAlmacenados() {
         alignItems="center"
         spacing={1}
       >
-          <Mui.Button sx={{m:1}} variant="contained">
-            {v_TEXTOS.configuraciones.conf3.btn1}
-          </Mui.Button>
-        <CDialogConfirmarEliminacionDatos vAccionAceptar={ ()=>mAccionEliminar()} />
+        <Mui.Button
+          onClick={() => {
+            mDescargarCertificados();
+          }}
+          sx={{ m: 1 }}
+          variant="contained"
+        >
+          {v_TEXTOS.configuraciones.conf3.btn1}
+        </Mui.Button>
+        <CDialogConfirmarEliminacionDatos
+          vAccionAceptar={() => mAccionEliminar()}
+        />
       </Mui.Grid>
       <Mui.Snackbar
-          anchorOrigin={{ vertical, horizontal }}
-          key={vertical + horizontal}
-          open={open}
-          autoHideDuration={2000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity="success">
-            {v_TEXTOS.alertas.datosAlmacenados.eliminado}
-          </Alert>
-        </Mui.Snackbar>
+        anchorOrigin={{ vertical, horizontal }}
+        key={vertical + horizontal}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {v_TEXTOS.alertas.datosAlmacenados.eliminado}
+        </Alert>
+      </Mui.Snackbar>
     </>
   );
 }

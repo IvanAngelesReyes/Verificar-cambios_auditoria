@@ -148,14 +148,11 @@ export async function mLoginModerador(vLogin) {
 
       console.log("RM: " + r);
       if (r.r === "noautorizado") {
-
       } else {
         if (r.r === "moderadorencontrado") {
           r.usuario = vResponse.vModerador;
         }
       }
-
-      
 
       // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
       //   //return "moderadornoencontrado"

@@ -30,8 +30,7 @@ import CUsuarios from "./CUsuarios";
 import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
 
 export default function CAdministrador(props) {
-  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } =
-    props;
+  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } = props;
   const vResAltoNav = 0;
 
   const [vContenido, mSetvContenido] = React.useState(
@@ -46,7 +45,7 @@ export default function CAdministrador(props) {
   const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
   //Varaibles para las esperas de peticiones:
-  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true)
+  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true);
 
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
