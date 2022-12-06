@@ -18,19 +18,19 @@ import CSalas from "../Moderadores/CSalas";
 import CDetalleSala from "../Moderadores/CDetalleSala"
 import CAsistencia from "../Moderadores/CAsistencia"
 import MBotonSala from "../../Componentes/Botones/MBotonSala";
+import * as Gets from "../../Util/Gets";
 
 export default function ConjuntoSalas(props) {
   
   const [vFrame, setvFrame] = React.useState("salas");
-
-  console.log(" PROPS DE CONJUNTO SALAS --> " + props)
+  const [vNombre, setvNombre] = React.useState([]);
 
   const mCambiarFrame = () => {
     switch (vFrame) {
       case "salas":
         return <CSalas setvFrame={setvFrame} />;
       case "detallesalas":
-        return <CDetalleSala/>;
+        return <CDetalleSala nombreSala={vNombre} setnombreSala={setvNombre}/>;
       case "asistencia":
         return <CAsistencia/>;
       case "botonsala":

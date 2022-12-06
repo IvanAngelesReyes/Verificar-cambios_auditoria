@@ -191,11 +191,10 @@ export async function mAgregarModerador(vRegistroM, setvDatosRegistro) {
     .then((data) => {
       let vResponse = data;
       Metodos.verificaRRM(vResponse, vRegistroM.correo);
-      //console.log(data)
+      console.log(data)
       //setvDatosRegistro(data)
     });
 }
-
 
 export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
   await fetch(
