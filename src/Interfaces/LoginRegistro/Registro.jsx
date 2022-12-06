@@ -40,6 +40,7 @@ export default function Registro(){
     const[vArea,setvArea] = useState("");
     const[vArea2,setvArea2] = useState("");
     // const[vPassword,setvPassword] = useState("");
+    
 
     //Variable que trae los datos de el POST
     const [vDatosRegistro, setvDatosRegistro] = React.useState([]);
