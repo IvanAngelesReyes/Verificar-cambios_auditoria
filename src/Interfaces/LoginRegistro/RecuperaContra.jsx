@@ -17,8 +17,15 @@ import * as React from 'react';
 import * as Mui from "@mui/material";
 import * as MuiIcons from '@mui/icons-material';
 import './RecuperaContra.css';
+import * as Puts from '../../Util/Puts';
 
 export default function CRecuperaContra(){
+
+    const [vCorreo, setvCorreo] = React.useState("");
+
+    const handleClick = () => {
+        Puts.mRPsswdModeradores(vCorreo);
+    }
 
     return(
 
@@ -41,13 +48,20 @@ export default function CRecuperaContra(){
                     <div className="divFormularioRC">
 
                         {/*Text field del campo de correo*/}
-                        <Mui.Box sx={{ display: 'flex', alignItems: 'flex-end',width:'75%' }}>
-                            <MuiIcons.AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <Mui.TextField id="tfEmail" label="Escribe tu correo electronico" variant="standard" />
+                        <Mui.Box sx={{ display: "flex", alignItems: "flex-end", width: "75%" }}>
+                            <MuiIcons.AccountCircle sx={{ color: "action.active", mr: 1, my: 0.5 }}/>
+                            <Mui.TextField
+                            id="tfEmail"
+                            label="Escribe tu correo electronico"
+                            variant="standard"
+                            defaultValue=""
+                            value={vCorreo}
+                            onChange={(e) => setvCorreo(e.target.value)}
+                            />
                         </Mui.Box>
 
                         {/*Boton de recuperar contraseña*/}
-                        <Mui.Button variant="contained" id="btnRC">Enviar correo de recuperacion</Mui.Button>
+                        <Mui.Button variant="contained" id="btnRC" onClick={handleClick}>Enviar correo de recuperacion</Mui.Button>
 
                     </div>
 

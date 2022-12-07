@@ -153,3 +153,20 @@ export async function mModificarInstitucion(vRegistro) {
   )
     .then((response) => response.json())
 }
+
+export async function mRPsswdModeradores(vCorreo) {
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/reset-password",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vCorreo),
+    }
+  )
+    .then((response) => response.json())
+    // .then((data) =>{
+    //   console.log(data)
+    // })
+}

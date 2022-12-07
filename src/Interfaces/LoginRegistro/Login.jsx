@@ -108,7 +108,7 @@ export default function Login(props) {
 
         <div className="contenedorDerechaL">
           <section id="contenidoDerechaL">
-            <h2>Programa Delfin</h2>
+            <h2>Programa Delfín</h2>
 
             <p id="textoLogin">
               Si ya tienes una cuenta de moderador, consejero, o coordinador

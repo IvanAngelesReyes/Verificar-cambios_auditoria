@@ -242,7 +242,12 @@ function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,are
                                     alert("Por favor escriba una contraseña para su cuenta en el campo correspondiente")
                                     return false;
                                 }else{
-                                    return true;
+                                    if(area1 === area2){
+                                        alert("Por favor seleccione un area diferente en cada campo")
+                                        return false;
+                                    }else{
+                                        return true;
+                                    }                                    
                                 }
                             }
                         }

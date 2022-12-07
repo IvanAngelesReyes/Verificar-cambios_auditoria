@@ -20,12 +20,26 @@ import * as Gets from "../../Util/Gets";
 
 export default function CSalas(props) {
 
-  const {setvFrame} = props
+  const {setvFrame,
+        setvNombre,
+        setvArea,
+        setvModalidad,
+        setvFecha,
+        setvUbicacion,
+        setvSalon,
+        setvTurno,
+        setvNoponentes,
+        setvUrl} = props
+  
   const [vSalas, setvSalas] = React.useState([]);
 
   React.useEffect(() => {
     Gets.mGetSalas(setvSalas);
   }, []);
+
+  vSalas.map((sala,index) =>
+    console.log(vSalas)
+  );
 
   const elementos = vSalas.map((sala,index) =>
     <Fragment>
@@ -35,8 +49,22 @@ export default function CSalas(props) {
           areaSala={vSalas[index].area}
           modalidadSala={vSalas[index].modalidad}
           fechaSala={vSalas[index].fecha}
+          ubicacionSala={vSalas[index].ubicacion}
+          salonSala={vSalas[index].salon}
+          turnoSala={vSalas[index].turno}
           nopontentesSala={vSalas[index].no_ponentes}
+          urlSala={vSalas[index].url}
+
           setvFrame={setvFrame}
+          setvNombre={setvNombre}
+          setvArea={setvArea}
+          setvModalidad={setvModalidad}
+          setvFecha={setvFecha}
+          setvUbicacion={setvUbicacion}
+          setvSalon={setvSalon}
+          setvTurno={setvTurno}
+          setvNoponentes={setvNoponentes}
+          setvUrl={setvUrl}
         />
     </Fragment>
   );

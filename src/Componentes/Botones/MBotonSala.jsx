@@ -13,16 +13,25 @@ Numero de metodos: 1
 Componentes relacionados: CSalas, MBotonExpo
 */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import CDetalleSala from '../../Interfaces/Moderadores/CDetalleSala';
 import ConjuntoSalas from '../../Interfaces/Moderadores/ConjuntoSalas';
+//import CSalas from "../Moderadores/CSalas";
 import './MBotonSala.css';
 import { useState } from 'react';
 
 export default function MBotonSala(props){
     
-    const {setvFrame}=props
-    const {nombreSala,setnombreSala}=props
+    const {setvFrame,
+            setvNombre,
+            setvArea,
+            setvModalidad,
+            setvFecha,
+            setvUbicacion,
+            setvSalon,
+            setvTurno,
+            setvNoponentes,
+            setvUrl}=props
     
     const handleClick = () => {
         console.log("Detalles de la sala----------")
@@ -40,8 +49,17 @@ export default function MBotonSala(props){
     }
 
     const ventana = () => {
-        console.log(props)
-        setvFrame("detallesalas")
+        console.log(props);
+        setvFrame("detallesalas");
+        setvNombre(props.nombreSala);
+        setvArea(props.areaSala);
+        setvModalidad(props.modalidadSala);
+        setvFecha(props.fechaSala);
+        setvUbicacion(props.ubicacionSala);
+        setvSalon(props.salonSala);
+        setvTurno(props.turnoSala);
+        setvNoponentes(props.nopontentesSala);
+        setvUrl(props.urlSala);
     }
 
     return(
