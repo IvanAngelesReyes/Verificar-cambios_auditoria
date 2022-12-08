@@ -14,9 +14,12 @@ Componentes relacionados:
 */
 
 import React, { Fragment } from 'react'
+import Button from "@mui/material/Button";
+import CAsis from "./CAsistencia"
 import './CSalas.css';
 import MBotonSala from '../../Componentes/Botones/MBotonSala.jsx'
 import * as Gets from "../../Util/Gets";
+import * as Variables from "../../Global/Variables"
 
 export default function CSalas(props) {
 
@@ -29,7 +32,8 @@ export default function CSalas(props) {
         setvSalon,
         setvTurno,
         setvNoponentes,
-        setvUrl} = props
+        setvUrl,
+        asis} = props
   
   const [vSalas, setvSalas] = React.useState([]);
 
@@ -73,6 +77,11 @@ export default function CSalas(props) {
     <div className="contenedorPrincipalSalas">
       <h2 className="tituloSala">Mis salas</h2>
         {elementos} 
-    </div>
+
+        <div align="right">
+        <Button variant="contained" id="btnAsis" size="large"  onClick={()=>asis(Variables.v_MenuModeradores.item5)}>Lista de Asistencia</Button>
+        </div>
+
+    </div> 
   );
 }

@@ -1,3 +1,17 @@
+/*
+SmartSoft
+Componente: CDatosEvento
+Fecha de creacion: 27/10/2022, Autorizó: Leandro Gómez Flores, Revisó: Leandro Gómez Flores
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+
+Numero de metodos: 1
+Componentes relacionados: Ninguno
+*/
+
 import React from "react";
 import * as Mui from "@mui/material";
 import * as Variables from "../../../Global/Variables";
@@ -15,9 +29,7 @@ export default function CDatosEvento(props) {
     file: "",
   });
   const [vPantilla, setVPantilla] = React.useState({
-    url: vIsExistePlantilla
-      ? Variables.v_URL_API + "/backend/Manual/Manual.pdf"
-      : "",
+    url: vIsExistePlantilla ? "/Plantilla.docx" : "",
     file: "",
   });
   const [vTextoQr, setVTextoQr] = React.useState(vUrlWhatsapp);
@@ -51,6 +63,10 @@ export default function CDatosEvento(props) {
       url: Variables.v_URL_API + "/backend/Manual/Manual.pdf",
     });
     Posts.mGuardarManual(vManual.file, mObtenerProgreso);
+  };
+  const enviarPlantilla = () => {
+    setOpenAlert();
+    Posts.mGuardarPlantilla(vPantilla.file);
   };
   const mGuardarUrlWhatsapp = () => {
     setOpenAlert();
@@ -219,14 +235,11 @@ export default function CDatosEvento(props) {
             </Mui.Button>
             {vPantilla.url.length > 0 ? (
               <>
-                {console.log(
-                  Variables.v_URL_API + "/backend/Certificados" + vPantilla.url
-                )}
                 <iframe
                   src={
                     "https://view.officeapps.live.com/op/embed.aspx?src=" +
                     Variables.v_URL_API +
-                    "/backend/Certificados" +
+                    "/backend/Certificado" +
                     vPantilla.url
                   }
                   style={{ borderRadius: "10px", width: 500, height: 600 }}
@@ -262,7 +275,7 @@ export default function CDatosEvento(props) {
           spacing={2}
           sx={{ marginTop: "15px", marginBottom: "15px" }}
         >
-          <Mui.Button variant="contained" onClick={() => enviarManual()}>
+          <Mui.Button variant="contained" onClick={() => enviarPlantilla()}>
             {Variables.v_TEXTOS.guardar}
           </Mui.Button>
         </Mui.Stack>
@@ -270,16 +283,4 @@ export default function CDatosEvento(props) {
       <Mui.Divider />
     </>
   );
-}
-
-async function mModifcaUrlWhatsapp(vSala) {
-  await fetch(Variables.v_URL_API2 + "/api/salas/actualizar-sala/" + vSala.id, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(vSala),
-  })
-    .then((response) => response.json())
-    .then(console.log);
 }

@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CTarjetaCuadroAuxiliar
+Componente: 
 Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
 
 Modificaciones:
@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion:
 
 
-Numero de metodos: 
+Numero de metodos: 1
 Componentes relacionados: 
 */
 

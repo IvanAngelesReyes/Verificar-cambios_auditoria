@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion:
 Esta interfaz es la opcion "Apertura y cierre de salas" del menú de coordinadores
 
-Numero de metodos: 6
+Numero de metodos: 1
 Componentes relacionados: Cuadros/CSalaActiva, Cuadros/CSalaInactiva, CBotonCuadroLista, Listas/CSalaActiva, Listas/CSalaInactiva,
 */
 
@@ -31,18 +31,14 @@ import * as Gets from "../../Util/Gets";
 
 export default function CHome(props) {
   const {
-    mSetvFramePrincipal,
     vAltoNav,
-    vAnchoNav,
-    vUsuario,
     vSalasCargadas,
     mActualziarSalas,
     setvSalasCargadas,
-    setVIsCargandoSalas
+    setVIsCargandoSalas,
+    vIsCargandoSalas,
   } = props;
   //console.log(vSalasCargadas)
-
-  
 
   const [vVistaListaSalasActivas, setvVistaListaSalasActivas] =
     React.useState(true);
@@ -54,8 +50,8 @@ export default function CHome(props) {
   const [vSalas, setvSalas] = React.useState([]);
   const [vSalasActivas, setvSalasActivas] = React.useState([]);
   const [vSalasInactivas, setvSalasInactivas] = React.useState([]);
-  const [vIsCargadoActivo, setvIsCargadoActivo] = React.useState(false);
-  const [vIsCargadoInactivo, setvIsCargadoInactivo] = React.useState(false);
+  const [vIsCargadoActivo, setvIsCargadoActivo] = React.useState(true);
+  const [vIsCargadoInactivo, setvIsCargadoInactivo] = React.useState(true);
 
   const [pageInactivo, setPageInactivo] = React.useState(1);
   const handleChangePagesInactivo = (event, value) => {
@@ -69,9 +65,9 @@ export default function CHome(props) {
     setVKey(Date.now());
   };
 
-   React.useEffect(() => {
-     Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas)
-  },[]);
+  React.useEffect(() => {
+    Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas);
+  }, []);
 
   const mFiltroOrden = async (vRegistros) => {
     if (
@@ -112,7 +108,7 @@ export default function CHome(props) {
             (result4) => {
               setvSalasActivas(result4);
               setVKey(Date.now());
-              setvIsCargadoActivo(true);
+              setvIsCargadoActivo(false);
             }
           );
           Metodos.chunckArrayInGroups(
@@ -121,7 +117,7 @@ export default function CHome(props) {
           ).then((result4) => {
             setvSalasInactivas(result4);
             setVKey(Date.now());
-            setvIsCargadoInactivo(true);
+            setvIsCargadoInactivo(false);
           });
         });
       });
@@ -129,7 +125,8 @@ export default function CHome(props) {
     if (vSalasCargadas.length > 0) {
       setvSalas(vSalasCargadas);
     } else {
-      //setvIsCargado(true);
+      setvIsCargadoActivo(false);
+      setvIsCargadoInactivo(false);
     }
   }, [vSalasCargadas, vSalas]);
 
@@ -171,94 +168,107 @@ export default function CHome(props) {
   }
 
   const mVistaSalasActivas = (vSeleccionarLista) => {
-    if (vIsCargadoActivo) {
-      if (vSalas.length === 0) {
-        return (
-          <Mui.Typography variant="body1" component="p">
-            {Variables.v_TEXTOS.home_coordinadores.no_salas}
-          </Mui.Typography>
-        );
-      } else {
-        if (vSeleccionarLista) {
-          if (vSalasActivas.length > 0) {
-            return (
-              <Mui.Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={0}
-              >
-                <Mui.Pagination
-                  count={vSalasActivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageActivo}
-                  onChange={handleChangePagesActivo}
-                />
-                <Mui.Stack direction="column" spacing={2} >
-                  {mListasSalasActivas(vSalasActivas[pageActivo - 1])}
-                </Mui.Stack>
-                <Mui.Pagination
-                  count={vSalasActivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageActivo}
-                  onChange={handleChangePagesActivo}
-                />
-              </Mui.Stack>
-            );
-          } else {
-            return (
-              <Mui.Typography variant="body1" component="p">
-                {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
-              </Mui.Typography>
-            );
-          }
+    if (!vIsCargandoSalas) {
+      if (!vIsCargadoActivo) {
+        if (vSalas.length === 0) {
+          return (
+            <Mui.Typography variant="body1" component="p">
+              {Variables.v_TEXTOS.home_coordinadores.no_salas}
+            </Mui.Typography>
+          );
         } else {
-          if (vSalasActivas.length > 0) {
-            return (
-              <Mui.Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={0}
-              >
-                <Mui.Pagination
-                  count={vSalasActivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageActivo}
-                  onChange={handleChangePagesActivo}
-                />
-                <Mui.Grid
-                  container
-                  spacing={5}
+          if (vSeleccionarLista) {
+            if (vSalasActivas.length > 0) {
+              return (
+                <Mui.Stack
+                  direction="column"
                   justifyContent="center"
-                  sx={{ width: "100%" }}
+                  alignItems="center"
+                  spacing={0}
                 >
-                  {mCuadrosSalasActivas(vSalasActivas[pageActivo - 1])}
-                </Mui.Grid>
-                <Mui.Pagination
-                  count={vSalasActivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageActivo}
-                  onChange={handleChangePagesActivo}
-                />
-              </Mui.Stack>
-            );
+                  <Mui.Pagination
+                    count={vSalasActivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageActivo}
+                    onChange={handleChangePagesActivo}
+                  />
+                  <Mui.Stack direction="column" spacing={2}>
+                    {mListasSalasActivas(vSalasActivas[pageActivo - 1])}
+                  </Mui.Stack>
+                  <Mui.Pagination
+                    count={vSalasActivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageActivo}
+                    onChange={handleChangePagesActivo}
+                  />
+                </Mui.Stack>
+              );
+            } else {
+              return (
+                <Mui.Typography variant="body1" component="p">
+                  {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
+                </Mui.Typography>
+              );
+            }
           } else {
-            return (
-              <Mui.Typography variant="body1" component="p">
-                {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
-              </Mui.Typography>
-            );
+            if (vSalasActivas.length > 0) {
+              return (
+                <Mui.Stack
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={0}
+                >
+                  <Mui.Pagination
+                    count={vSalasActivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageActivo}
+                    onChange={handleChangePagesActivo}
+                  />
+                  <Mui.Grid
+                    container
+                    spacing={5}
+                    justifyContent="center"
+                    sx={{ width: "100%" }}
+                  >
+                    {mCuadrosSalasActivas(vSalasActivas[pageActivo - 1])}
+                  </Mui.Grid>
+                  <Mui.Pagination
+                    count={vSalasActivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageActivo}
+                    onChange={handleChangePagesActivo}
+                  />
+                </Mui.Stack>
+              );
+            } else {
+              return (
+                <Mui.Typography variant="body1" component="p">
+                  {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
+                </Mui.Typography>
+              );
+            }
           }
         }
+      } else {
+        return (
+          <Mui.Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            <Mui.CircularProgress />
+          </Mui.Stack>
+        );
       }
     } else {
       return (
@@ -275,94 +285,107 @@ export default function CHome(props) {
   };
 
   const mVistaSalasInactivas = (vSeleccionarLista) => {
-    if (vIsCargadoInactivo) {
-      if (vSalas.length === 0) {
-        return (
-          <Mui.Typography variant="body1" component="p">
-            {Variables.v_TEXTOS.home_coordinadores.no_salas}
-          </Mui.Typography>
-        );
-      } else {
-        //return <TarjetaListaSalaActiva vRegistro={item} />;
-        if (vSeleccionarLista) {
-          if (vSalasInactivas.length > 0) {
-            return (
-              <Mui.Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={1}
-              >
-                <Mui.Pagination
-                  count={vSalasInactivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageInactivo}
-                  onChange={handleChangePagesInactivo}
-                />
+    if (!vIsCargandoSalas) {
+      if (!vIsCargadoInactivo) {
+        if (vSalas.length === 0) {
+          return (
+            <Mui.Typography variant="body1" component="p">
+              {Variables.v_TEXTOS.home_coordinadores.no_salas}
+            </Mui.Typography>
+          );
+        } else {
+          //return <TarjetaListaSalaActiva vRegistro={item} />;
+          if (vSeleccionarLista) {
+            if (vSalasInactivas.length > 0) {
+              return (
                 <Mui.Stack
                   direction="column"
-                  spacing={2}
-                  sx={{ width: "100%"}}
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={1}
                 >
-                  {mListasSalasInactivas(vSalasInactivas[pageInactivo - 1])}
+                  <Mui.Pagination
+                    count={vSalasInactivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageInactivo}
+                    onChange={handleChangePagesInactivo}
+                  />
+                  <Mui.Stack
+                    direction="column"
+                    spacing={2}
+                    sx={{ width: "100%" }}
+                  >
+                    {mListasSalasInactivas(vSalasInactivas[pageInactivo - 1])}
+                  </Mui.Stack>
+                  <Mui.Pagination
+                    count={vSalasInactivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageInactivo}
+                    onChange={handleChangePagesInactivo}
+                  />
                 </Mui.Stack>
-                <Mui.Pagination
-                  count={vSalasInactivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageInactivo}
-                  onChange={handleChangePagesInactivo}
-                />
-              </Mui.Stack>
-            );
+              );
+            } else {
+              return (
+                <Mui.Typography variant="body1" component="p">
+                  {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
+                </Mui.Typography>
+              );
+            }
           } else {
-            return (
-              <Mui.Typography variant="body1" component="p">
-                {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
-              </Mui.Typography>
-            );
-          }
-        } else {
-          if (vSalasInactivas.length > 0) {
-            return (
-              <Mui.Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={1}
-              >
-                <Mui.Pagination
-                  count={vSalasInactivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageInactivo}
-                  onChange={handleChangePagesInactivo}
-                />
-                <Mui.Grid container spacing={5} justifyContent="center">
-                  {mCuadrosSalasInactivas(vSalasInactivas[pageInactivo - 1])}
-                </Mui.Grid>
-                <Mui.Pagination
-                  count={vSalasInactivas.length - 1}
-                  shape="rounded"
-                  showFirstButton
-                  showLastButton
-                  page={pageInactivo}
-                  onChange={handleChangePagesInactivo}
-                />
-              </Mui.Stack>
-            );
-          } else {
-            return (
-              <Mui.Typography variant="body1" component="p">
-                {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
-              </Mui.Typography>
-            );
+            if (vSalasInactivas.length > 0) {
+              return (
+                <Mui.Stack
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Mui.Pagination
+                    count={vSalasInactivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageInactivo}
+                    onChange={handleChangePagesInactivo}
+                  />
+                  <Mui.Grid container spacing={5} justifyContent="center">
+                    {mCuadrosSalasInactivas(vSalasInactivas[pageInactivo - 1])}
+                  </Mui.Grid>
+                  <Mui.Pagination
+                    count={vSalasInactivas.length - 1}
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    page={pageInactivo}
+                    onChange={handleChangePagesInactivo}
+                  />
+                </Mui.Stack>
+              );
+            } else {
+              return (
+                <Mui.Typography variant="body1" component="p">
+                  {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
+                </Mui.Typography>
+              );
+            }
           }
         }
+      } else {
+        return (
+          <Mui.Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            <Mui.CircularProgress />
+          </Mui.Stack>
+        );
       }
     } else {
       return (
@@ -386,7 +409,7 @@ export default function CHome(props) {
       key={vKey}
     >
       <Mui.Stack direction="column" spacing={5}>
-        <Mui.Paper elevation={3} sx={{ p: "10px"}}>
+        <Mui.Paper elevation={3} sx={{ p: "10px" }}>
           <Mui.Stack direction="column" spacing={1}>
             <Mui.Stack
               direction="row"

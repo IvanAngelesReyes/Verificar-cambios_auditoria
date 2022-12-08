@@ -73,7 +73,7 @@ export async function mGetAuxiliares(setVRegistrosAuxiliares) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    
+
     setVRegistrosAuxiliares(vResponse.vAuxiliar);
   });
 }
@@ -111,12 +111,11 @@ export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
 }
 
 export async function mGetAreaInteres(setvAreas) {
-
   //var areas = [];
 
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/area/area-materia",
-    method: "GET"
+    method: "GET",
   };
 
   await axios.request(reqOptions).then(function (response) {
@@ -143,34 +142,48 @@ export async function mGetModeradores2(setVRegistrosModeradores) {
 }
 
 export async function mGetUniversidades(setvUniversidades) {
-
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/universidades/listar-universidades",
-    method: "GET"
-  }
+    method: "GET",
+  };
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
     setvUniversidades(vResponse);
-});
+  });
 }
 
 export async function mGetManualFile(setVIsExisteManual) {
-    let reqOptions = {
-      url: Variables.v_URL_API + "/backend/Manual/CExiste.php",
-      method: "GET",
-      mode: "corps",
-    }
+  let reqOptions = {
+    url: Variables.v_URL_API + "/backend/Manual/CExiste.php",
+    method: "GET",
+    mode: "corps",
+  };
 
-    await axios.request(reqOptions).then(function (vResponse) {
-      console.log(vResponse.info);
-      setVIsExisteManual(vResponse.info==="false"?false:true);
-    }
-  )
+  await axios.request(reqOptions).then(function (vResponse) {
+    console.log(vResponse.info);
+    setVIsExisteManual(vResponse.info === "false" ? false : true);
+  });
+}
+export async function mGetCertificadoFile(setVIsExistePlantilla) {
+  let reqOptions = {
+    url: Variables.v_URL_API + "/backend/Certificado/CExiste.php",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (vResponse) {
+    console.log(vResponse.info);
+    setVIsExistePlantilla(vResponse.info === "false" ? false : true);
+  });
 }
 
-export async function mGetModeradoresMismaInstitucion(setVRegistrosModeradoresInstitucion) {
+export async function mGetModeradoresMismaInstitucion(
+  setVRegistrosModeradoresInstitucion
+) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    url:
+      Variables.v_URL_API2 +
+      "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
     method: "GET",
     mode: "corps",
   };
@@ -181,9 +194,13 @@ export async function mGetModeradoresMismaInstitucion(setVRegistrosModeradoresIn
   });
 }
 
-export async function mGetConsejerosMismaInstitucion(setVRegistrosConsejerosInstitucion) {
+export async function mGetConsejerosMismaInstitucion(
+  setVRegistrosConsejerosInstitucion
+) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+    url:
+      Variables.v_URL_API2 +
+      "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
     method: "GET",
     mode: "corps",
   };
@@ -203,22 +220,20 @@ export async function mGetURLWhatsapp(setVUrlWhatsapp) {
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    console.log(vResponse)
     setVUrlWhatsapp(vResponse);
   });
 }
-export async function mGetManual(setVManual) {
+export async function mGetManual(setVUrlManual) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/manual/obtener-manual-url",
+    url: Variables.v_URL_API2 + "/api/manual/manual-obtener-url",
     method: "GET",
     mode: "corps",
   };
 
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
-    setVManual(vResponse);
+    setVUrlManual(vResponse.url);
   });
-  
 }
 export async function mGetUrls(setVManual, setVUrlWhatsapp) {
   let reqOptions = {
@@ -234,9 +249,9 @@ export async function mGetUrls(setVManual, setVUrlWhatsapp) {
   });
 }
 
-export async function mGetModerador(mSetDatos,vUid) {
+export async function mGetModerador(mSetDatos, vUid) {
   let reqOptions = {
-    url: Variables.v_URL_API2 + "/api/usuarios/obtener-datos-moderador/"+vUid,
+    url: Variables.v_URL_API2 + "/api/usuarios/obtener-datos-moderador/" + vUid,
     method: "GET",
     mode: "corps",
   };
@@ -246,6 +261,80 @@ export async function mGetModerador(mSetDatos,vUid) {
     mSetDatos(vResponse.vConsultaDataModerador);
   });
 }
+
+export async function mGetConsejeros(setVRegistrosConsejeros) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/consejero/obtener-datos-consejeros",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    let vResponse = response.data;
+    setVRegistrosConsejeros(vResponse);
+  });
+}
+
+export async function mGetCertificado(vNombre) {
+  await fetch(
+    Variables.v_URL_API +
+      "/backend/Certificado/CrearCertificado.php?nombre=" +
+      vNombre,
+    {
+      mode: "cors",
+      method: "GET",
+    }
+  ).then((response) => {
+    response.blob().then((blob) => {
+      let url = window.URL.createObjectURL(blob);
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = "Certificado.pdf";
+      a.click();
+      a.remove();
+    });
+  });
+}
+export async function mGetCertificados() {
+  let reqOptions = {
+    url: Variables.v_URL_API + "/backend/Certificado/CrearCertificados.php",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (vResponse) {
+    if (vResponse.data) {
+      let url = Variables.v_URL_API + "/backend/Certificado/Certificados.zip";
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = "Certificados.pdf";
+      a.click();
+      a.remove();
+    }
+  });
+}
+
+
+export async function mGetModeradoresSinAceptar(setvModeradores) {
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/usuarios/obtener-moderador-noaceptado",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    if (response.data.vConsultaDataModerador.length > 0) {
+      let vResponse = response.data;
+      console.log(vResponse.vConsultaDataModerador);
+      setvModeradores(vResponse.vConsultaDataModerador);
+    } else {
+      console.log("No trae datos");
+      setvModeradores([]);
+    }
+    //setvKeySalas(Date.now());
+  });
+}
+
 
 export async function mGetSalasPrueba(setVSalas, setvKeySalas, setVIsCargandoSalas) {
   

@@ -15,6 +15,8 @@ Componentes relacionados: CSalas, MBotonExpo
 
 import React from 'react'
 import './CDetalleSala.css';
+import Button from "@mui/material/Button";
+import CCExpo from './CControlExpo'
 import MBotonExpo from '../../Componentes/Botones/MBotonExpo.jsx'
 
 export default function CDetalleSala(props) {
@@ -59,7 +61,14 @@ export default function CDetalleSala(props) {
 
       <MBotonExpo/>
 
+      <div className='div4' align="right">
+          <Button variant="contained" id="btnAsis" size="large"  onClick={CCExpo}>Control de exposición</Button>
+
+          </div>
+
     </div>
+
+    
   )
 
   function modalidad(props){

@@ -18,6 +18,7 @@ import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 
+
 export default function CDialogConfirmarEliminacionDatos(props) {
   const { vAccionAceptar, vAccionCancelar } = props;
 
@@ -33,7 +34,7 @@ export default function CDialogConfirmarEliminacionDatos(props) {
   };
 
   const mAccionBotonPrimario = () => {
-    //vAccionAceptar();
+    vAccionAceptar();
     handleClose();
   };
   const mAccionBotonSecundario = () => {

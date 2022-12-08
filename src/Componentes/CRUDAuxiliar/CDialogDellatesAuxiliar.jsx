@@ -10,7 +10,7 @@ Descripcion:
 Componente para la modificacion de los datos del Auxiliar
 
 Numero de metodos: 
-Componentes relacionados: 
+Componentes relacionados: ninguno
 */
 
 import React from "react";

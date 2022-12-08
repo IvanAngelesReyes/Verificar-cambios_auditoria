@@ -1,16 +1,16 @@
 /*
 SmartSoft
-Componente: CCoordinador
+Componente: CAdministrador
 Fecha de creacion: 19/10/2022, Autorizó: Leandro Gómez Flores, Revisó: Leandro Gómez Flores
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion:
-Este componente...
 
-Numero de metodos: 3
-Componentes relacionados: CRedactarCorreos
+
+Numero de metodos: 1
+Componentes relacionados: CRedactarCorreos, CConfiguraciones, CSalas, CHome, CDesktop, CUsuarios, CDialogPerfilAdministrador
 */
 
 import React from "react";
@@ -30,8 +30,7 @@ import CUsuarios from "./CUsuarios";
 import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
 
 export default function CAdministrador(props) {
-  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } =
-    props;
+  const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } = props;
   const vResAltoNav = 0;
 
   const [vContenido, mSetvContenido] = React.useState(
@@ -40,20 +39,23 @@ export default function CAdministrador(props) {
   const [vSalasCargadas, setvSalasCargadas] = React.useState([]);
   const [vRegistrosAuxiliares, setVRegistrosAuxiliares] = React.useState([]);
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
+  const [vRegistrosConsejeros, setVRegistrosConsejeros] = React.useState([]);
   const [vInstituciones, setVInstituciones] = React.useState([]);
   const [vIsExisteManual, setVIsExisteManual] = React.useState(false);
   const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false);
   const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
   //Varaibles para las esperas de peticiones:
-  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true)
+  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true);
 
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
     Gets.mGetModeradores(setVRegistrosModeradores);
+    Gets.mGetConsejeros(setVRegistrosConsejeros);
     Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
     Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
+    Gets.mGetCertificadoFile(setVIsExistePlantilla);
     Gets.mGetURLWhatsapp(setVUrlWhatsapp);
     //Gets.mGetUrls(setVIsExisteManual,setVUrlWhatsapp);
   }, []);
@@ -73,6 +75,13 @@ export default function CAdministrador(props) {
     setVRegistrosAuxiliares(vModeradoresTmp);
     //vActualizarEstado();
   };
+
+  const mActualizarConsejeros = (vConsejerosTmp) => {
+    //console.log(vModeradoresTmp)
+    setVRegistrosAuxiliares(vConsejerosTmp);
+    //vActualizarEstado();
+  };
+
 
   const mCargarSalas = (vSalasNuevas) => {
     setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
@@ -160,6 +169,7 @@ export default function CAdministrador(props) {
             mActualziarSalas={mActualziarSalas}
             setvAcctualizarEstado={mActualizarEstado}
             setVIsCargandoSalas={setVIsCargandoSalas}
+            vIsCargandoSalas={vIsCargandoSalas}
           />
         );
       case Variables.v_MenuAdministrador.item3:
@@ -173,6 +183,9 @@ export default function CAdministrador(props) {
             mCargarSalas={mCargarSalas}
             vInstituciones={vInstituciones}
             vIsCargandoSalas={vIsCargandoSalas}
+            setVIsCargandoSalas={setVIsCargandoSalas}
+            setvSalasCargadas={setvSalasCargadas}
+            setvKeyS={setvKey}
           />
         );
       case Variables.v_MenuAdministrador.item4:
@@ -196,22 +209,48 @@ export default function CAdministrador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
           />
         );
-      case Variables.v_MenuAdministrador.item6:
-        return (
-          <>
-            <CUsuarios
-              {...props}
-              vInstituciones={vInstituciones}
-              setvAcctualizarEstado={mActualizarEstado}
-              vRegistrosAuxiliares={vRegistrosAuxiliares}
-              setVRegistrosAuxiliares={mActualziarCoordinarodes}
-              mRefresaacarPantalla={mRefresaacarPantalla}
-              vRegistrosModeradores={vRegistrosModeradores}
-              setVRegistrosModeradores={mActualizarModeradores}
-            />
-          </>
-        );
-      default:
+        case Variables.v_MenuAdministrador.item6:
+          let tmp = [];
+          tmp = vRegistrosConsejeros.vConsejeros;        ;
+          let consejeros = tmp.map(m=>{
+            return {apellido_materno:m.apellido_materno,
+              apellido_materno:m.apellido_materno,
+              apellido_paterno:m.apellido_paterno,
+              area_interes_1:m.area_interes_1,
+              area_interes_2:m.area_interes_2,
+              correo:m.correo,
+              estado:m.estado,
+              imagen:m.imagen,
+              institucion:m.institucion,
+              nombre:m.nombre,
+              consejero: true,
+              salas: "",
+              rol:m.rol,
+              uid:m.uid};
+          });
+          consejeros = [].concat(consejeros,vRegistrosModeradores.vConsultaDataModerador);
+          let RegistrosModeradores = {
+            msg : "",
+            vConsultaDataModerador : consejeros
+          };
+          //vRegistrosModeradores.vConsultaDataModerador = moderadores;
+          return (
+            <>
+              <CUsuarios
+                {...props}
+                vInstituciones={vInstituciones}
+                setvAcctualizarEstado={mActualizarEstado}
+                vRegistrosAuxiliares={vRegistrosAuxiliares}
+                setVRegistrosAuxiliares={mActualziarCoordinarodes}
+                mRefresaacarPantalla={mRefresaacarPantalla}
+                vRegistrosModeradores={RegistrosModeradores}
+                setVRegistrosModeradores={mActualizarModeradores}
+                vRegistrosConsejeros={vRegistrosConsejeros}
+                setVRegistrosConsejeros={mActualizarConsejeros}
+              />
+            </>
+          );
+        default:
     }
   };
 

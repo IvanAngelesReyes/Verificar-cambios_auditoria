@@ -1,3 +1,18 @@
+/*
+SmartSoft
+Componente: 
+Fecha de creacion: 19/10/2022, Autorizó: Leandro Gómez Flores, Revisó: Leandro Gómez Flores
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+
+
+Numero de metodos: 1
+Componentes relacionados: 
+*/
+
 import React from "react";
 import PropTypes from "prop-types";
 import * as Mui from "@mui/material";

@@ -1,5 +1,11 @@
 import * as React from 'react';
-
+import * as Gets from "../../Util/Gets";
+import * as Deletes from "../../Util/Deletes";
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import './CConsejeros.css';
+import Stack from '@mui/material/Stack';
 import * as Mui from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,250 +15,56 @@ import TarjetaCuadroConsejeros from "../../Componentes/TarjetasPerfiles/Cuadros/
 import TarjetaListaConsejeros from "../../Componentes/TarjetasPerfiles/Listas/CConsejero";
 import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
 
-let vConsejeros = [
-  "Alejandra",
-  "Rubi",
-  "Leandro",
-  "Ivan",
-  "Rafael",
-  "Patricia",
-  "Monica",
-];
+export default function CConsejeros() {
+  const [vModeradores, setvModeradores] = React.useState([]);
 
-const vListaInstituciones = ["Todo", "UNAM", "UAPT", "UEAMEX"];
+  React.useEffect(() => {
+    Gets.mGetModeradoresSinAceptar(setvModeradores);
+  }, []);
 
-const vListaOpciones = ["Todo", "Moderadores", "Consejeros"];
-
-export default function CConsejeros(props){
-    const [vKey] = React.useState(Date.now());
-    const [users] = React.useState([])
-    const [search] = React.useState("");
-
-    React.useState(true);
-    const [vVistaListaConsejeros, setvVistaListaConsejeros] =
-    React.useState(true);
-
-    const [vInstitucionSeleccionada, setVInstitucionSeleccionada] =
-    React.useState("Todo");
-    const [vRolSeleccionada, setVRolSeleccionada] =
-    React.useState("Todo");
-    const [vFiltroOrden, setVFiltroOrden] = React.useState(
-      Variables.v_TEXTOS.orden.ascendente
-    );
-
-    const [setVIsFiltro] = React.useState(true);
-
-
-  const mVistaConsejeros = () => {
-    if (vVistaListaConsejeros) {
-      return (
-        <>
-          <Mui.Stack key={vKey} direction="column" spacing={2}>
-            {mListasConsejeros()}
-          </Mui.Stack>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Mui.Grid
-            key={vKey}
-            container
-            spacing={5}
-            justifyContent="flex-start"
-          >
-            {mCuadrosConsejeros()}
-          </Mui.Grid>
-        </>
-      );
-    }
-  };
-
-  const handleChange = (evt) => {
-    setVIsFiltro(true);
-    setVFiltroOrden(evt.target.value);
-  };
-
-  function mCuadrosConsejeros() {
-    if(vConsejeros.length === 0){
-      return <p> No hay informacion </p>
-    }else{
-      return vConsejeros.map((item) => {
-        return <TarjetaCuadroConsejeros nombre={item} />;
-    });
-  }
-}
-  function mListasConsejeros() {
-    if(vConsejeros.length === 0){
-      return <p> No hay informacion </p>
-    }else{
-      return vConsejeros.map((item) => {
-        return <TarjetaListaConsejeros nombre={item} />;
-    });
-  }
-}
+  async function mEliminarModeradorConsejero(vRegistro) {
   
-  const searcher = (e) => {
-    //setSearch(e.target.value)
-    console.log(e.target.value)
+    await fetch(
+      Variables.v_URL_API2 + "/api/usuarios/actualizar-moderador/"+vRegistro.uid,
+      {
+        method: 'PUT',
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
   }
 
-  let results = []
-  if(!search){
-    results = users
+  vModeradores.map((moderador, index) => {
+    console.log(vModeradores)
+  })
+  const elementos = () => {
+    return vModeradores.map((moderador, index) => {
+      return <div className="contenedorPrincipalNuevosModeradores">
+         <h1 className="tituloSala">Solicitudes de moderadores:</h1>
+        <div className="divContenedorInfoConsejeros">
+          <div className="div1">
+          <p id="tituloModeradores"><b>Nombre: </b> {vModeradores[index].nombre}</p>
+          <p id="tituloModeradores"><b>Apellido Paterno: </b>{vModeradores[index].apellido_paterno}</p>
+          <p id="tituloModeradores"><b>Apellido Materno: </b>{vModeradores[index].apellido_materno}</p>
+          <p id="tituloModeradores"><b>Correo: </b>{vModeradores[index].correo}</p>
+          <p id="tituloModeradores"><b>Institución: </b>{vModeradores[index].institucion}</p>
+          <p id="tituloModeradores"><b>Area de interés 1: </b>{vModeradores[index].area_interes_1}</p>
+          <p id="tituloModeradores"><b>Area de interés 2: </b>{vModeradores[index].area_interes_2}</p>
+            <Button variant="contained" onClick={()=>mEliminarModeradorConsejero()}  startIcon={<DeleteIcon />}>Rechazar</Button>
+            <Button variant="contained" endIcon={<SendIcon />}>Aceptar</Button>
+          </div>
+        </div>
+      </div>
+    }
+    );
   }
-
-    return (
-      <Mui.Stack
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
-      <Mui.Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        spacing={0.5}
-        sx={{ alignSelf: "stretch" }}
-      >
-
-      <Mui.Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={0.5}
-        sx={{ alignSelf: "stretch" }}
-      >
-      <Mui.Stack direction = "column" spacing={0.5} justifyContent="space-evenly" alignItems="center">
-        <Mui.Paper component="form"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}>
-        <Mui.InputBase
-        sx={{ ml: 1, flex: 1 }}
-        type="text"
-        //value={busqueda}
-        placeholder="Escribe el nombre del moderador o consejero"
-        inputProps={{ 'aria-label': 'Escribe el nombre del moderador o consejero' }}
-        onChange={searcher}
-      />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search" className="btnSearch">
-        <SearchIcon />
-      </IconButton>
-        </Mui.Paper>
-      </Mui.Stack>
-      </Mui.Stack>
-
-
-        <Mui.Typography variant="h6" component="h6">
-          {Variables.v_TEXTOS.filtrar_por}
-        </Mui.Typography>
-
-        <Mui.Stack direction="row" spacing={4} justifyContent="space-evenly">
-        <Mui.Stack direction="row" spacing={4} alignItems="flex-start" justifyContent="flex-start">
-
-        <Mui.Autocomplete
-              disablePortal
-              options={vListaInstituciones}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <Mui.TextField {...params} label="Institución" />
-              )}
-              value={vInstitucionSeleccionada}
-              inputValue={vInstitucionSeleccionada}
-              onInputChange={(event, newInputValue) => {
-                setVIsFiltro(true);
-                if (newInputValue.length === 0) {
-                  setVInstitucionSeleccionada("Todo");
-                } else {
-                  setVInstitucionSeleccionada(newInputValue);
-                }
-              }}
-            />
-
-            <Mui.Autocomplete
-              disablePortal
-              options={vListaOpciones}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <Mui.TextField {...params} label="Rol" />
-              )}
-              value={vRolSeleccionada}
-              inputValue={vRolSeleccionada}
-              onInputChange={(event, newInputValue) => {
-                setVIsFiltro(true);
-                if (newInputValue.length === 0) {
-                  setVRolSeleccionada("Todo");
-                } else {
-                  setVRolSeleccionada(newInputValue);
-                }
-              }}
-            />
-
-        <Mui.Grid item xs={6}>
-            <Mui.FormControl>
-              <Mui.FormLabel id="radio-buttons-group">
-                {Variables.v_TEXTOS.ordenar_por}
-              </Mui.FormLabel>
-              <Mui.RadioGroup
-                value={vFiltroOrden}
-                onChange={handleChange}
-                row
-                aria-labelledby="radio-buttons-group"
-              >
-                <Mui.FormControlLabel
-                  value={Variables.v_TEXTOS.orden.ascendente}
-                  control={
-                    <Mui.Radio
-                      cheked={
-                        vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
-                      }
-                    />
-                  }
-                  label={Variables.v_TEXTOS.orden.ascendente}
-                />
-                <Mui.FormControlLabel
-                  value={Variables.v_TEXTOS.orden.descendente}
-                  control={
-                    <Mui.Radio
-                      cheked={
-                        vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
-                      }
-                    />
-                  }
-                  label={Variables.v_TEXTOS.orden.descendente}
-                />
-              </Mui.RadioGroup>
-            </Mui.FormControl>
-          </Mui.Grid>
-
-          <Mui.Stack
-              direction="row"
-              spacing={8}
-              alignItems="center"
-              justifyContent="flex-end"
-            >    
-              <BotonCuadroLista 
-              mSeleccionarLista={setvVistaListaConsejeros}
-              //mSeleccionarLista2={setvVistaListaModeradores}
-               />
-            </Mui.Stack>
-
-        </Mui.Stack>
-        </Mui.Stack>
-
-
-        <Mui.Stack direction="column" spacing={5}>
-          <Mui.Stack direction="column" spacing={5}>
-          <Mui.Typography variant="h5" component="h5">
-          {Variables.v_TEXTOS.mostrando}
-        </Mui.Typography>
-          </Mui.Stack>
-
-            {mVistaConsejeros(vVistaListaConsejeros)}
-             
-            </Mui.Stack>  
-
-      </Mui.Stack>
-    </Mui.Stack>   
-      )
+  return (
+    <>
+      {elementos()}
+    </>
+  );
 }

@@ -1,3 +1,17 @@
+/*
+SmartSoft
+Componente: CCrudInstituciones
+Fecha de creacion: 27/10/2022, Autorizó: Leandro Gómez Flores, Revisó: Leandro Gómez Flores
+
+Modificaciones:
+    Fecha               Folio
+
+Descripcion:
+
+Numero de metodos: 1
+Componentes relacionados: Ninguno
+*/
+
 import React from "react";
 import * as Mui from "@mui/material";
 import * as Icon from "@mui/icons-material";

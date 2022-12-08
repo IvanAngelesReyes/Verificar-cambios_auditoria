@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CPerfil
+Componente: CConsultaModeradoresYConsejeros
 Fecha de creacion: 20/10/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion: 
 Esta interfaz mostrará una lista con todos los moderadores y consejeros registrados en el sistema.
 
-Numero de metodos: 0
+Numero de metodos: 2
 Componentes relacionados: 
 */
 
@@ -28,12 +28,14 @@ import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
 
 const vListaInstituciones = ["Todo", "UNAM", "UAPT", "UAEMEX"];
 
-const vListaRol = ["Todo", "Moderador", "Consejero"];
+const vListaRol = ["Todo","Moderador", "Consejero"];
 
 export default function CConsultaModeradoresYConsejeros(props) {
   const {
     vRegistrosModeradores,
     setVRegistrosModeradores,
+    vRegistrosConsejeros,
+    setVRegistrosConsejeros,
     mRefresaacarPantalla,
     setvAcctualizarEstado } = props;
 
@@ -45,9 +47,14 @@ export default function CConsultaModeradoresYConsejeros(props) {
     return [htmlElRef, setFocus]
   }
 
+  //console.log("Moderadores:"+setVRegistrosModeradores);
+
   const [vKey, setVKey] = React.useState(Date.now());
 
   const [vRegistrosFiltradosModeradores, setVRegistrosFiltradosModeradores] =
+    React.useState([]);
+
+    const [vRegistrosFiltradosConsejeros, setVRegistrosFiltradosConsejeros] =
     React.useState([]);
 
   const [vVistaListaModeradores, setvVistaListaModeradores] =
@@ -65,11 +72,12 @@ export default function CConsultaModeradoresYConsejeros(props) {
   const [search, setSearch] = useState("");
   const [searchRef, setSearchFocus] = UseFocus();
 
+
   //Metodo de obtencion de texto
   const searcher = async (e) => {
     setSearch(e.target.value)
     let searching = "" + e.target.value;
-    console.log("SEARCHER " + e.target.value);
+    //console.log("SEARCHER " + e.target.value);
     setVIsFiltro(true);
   }
 
@@ -116,7 +124,9 @@ export default function CConsultaModeradoresYConsejeros(props) {
   };
 
   const mFiltroOrden = async (vRegistros) => {
-    if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
+    debugger;
+    //if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
+      if (vFiltroOrden == "Ascendente (A-Z)") {
       return await vRegistros.sort((a, b) =>
         a.nombre.toLowerCase() > b.nombre.toLowerCase()
           ? 1
@@ -142,7 +152,7 @@ export default function CConsultaModeradoresYConsejeros(props) {
   React.useEffect(() => {
     if (vIsFiltro) {
       setvAcctualizarEstado(() => mActualizarFiltro)
-      mfiltroBusqueda([...vRegistrosModeradores]).then((result) => {
+      mfiltroBusqueda([...vRegistrosModeradores.vConsultaDataModerador]).then((result) => {
         mfiltroInstituciones([...result]).then((result2) => {
           mfiltroRol([...result2]).then((result3) => {
             mFiltroOrden([...result3]).then((result4) => {
@@ -189,26 +199,41 @@ export default function CConsultaModeradoresYConsejeros(props) {
     setVFiltroOrden(evt.target.value);
   };
 
+
   function mCuadrosModeradores() {
     if (vRegistrosFiltradosModeradores.length === 0) {
-      return <p>No hay info</p>;
-    } else {
+      return <p>No hay información</p>;
+    } 
+    else {
+      //return <p>Cargando información</p>;
       return vRegistrosFiltradosModeradores.map((item) => {
-        return <TarjetaCuadroModeradores mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosCoordinadores={vRegistrosModeradores} setVRegistrosModeradores={setVRegistrosModeradores} vRegistro={item} />;
+        return <TarjetaCuadroModeradores 
+        mRefresaacarPantalla={mRefresaacarPantalla} 
+        vRegistrosModeradores={vRegistrosModeradores.vConsejeros} 
+        setVRegistrosModeradores={setVRegistrosModeradores} 
+        vRegistro={item} />;
       });
     }
   }
 
+
   function mListasModeradores() {
     if (vRegistrosFiltradosModeradores.length === 0) {
-      return <p>sin info</p>;
-    } else {
+      return <p>No hay información</p>;
+    } 
+    else {
+      //return <p>Cargando información</p>;
       return vRegistrosFiltradosModeradores.map((item) => {
-        return <TarjetaListaModeradores mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosModeradores={vRegistrosModeradores} setVRegistrosCoordinadores={setVRegistrosModeradores}
-          vRegistro={item} />;
+        return <TarjetaListaModeradores 
+        mRefresaacarPantalla={mRefresaacarPantalla} 
+        vRegistrosModeradores={vRegistrosModeradores.vConsejeros} 
+        setVRegistrosModeradores={setVRegistrosModeradores}
+          vRegistro={item} 
+          />;
       });
     }
   }
+
 
   return (
     <Mui.Stack
@@ -233,23 +258,6 @@ export default function CConsultaModeradoresYConsejeros(props) {
           spacing={0.5}
           sx={{ alignSelf: "stretch" }}
         >
-          <Mui.Stack direction="column" spacing={0.5} justifyContent="space-evenly" alignItems="center">
-            <Mui.Paper component="form"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}>
-              <Mui.InputBase
-                sx={{ ml: 1, flex: 1 }}
-                type="text"
-                value={search}
-                ref={searchRef}
-                onChange={searcher}
-                placeholder={Variables.v_TEXTOS.buscador}
-                inputProps={{ 'aria-label': 'Escribe el nombre del moderador o consejero' }}
-              />
-              <IconButton type="button" sx={{ p: '10px' }} aria-label="search" className="btnSearch">
-                <SearchIcon />
-              </IconButton>
-            </Mui.Paper>
-          </Mui.Stack>
         </Mui.Stack>
 
 
@@ -325,7 +333,7 @@ export default function CConsultaModeradoresYConsejeros(props) {
                     control={
                       <Mui.Radio
                         cheked={
-                          vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
+                          vFiltroOrden === Variables.v_TEXTOS.orden.descendente
                         }
                       />
                     }
@@ -343,7 +351,7 @@ export default function CConsultaModeradoresYConsejeros(props) {
             >
               <BotonCuadroLista
                 mSeleccionarLista={setvVistaListaModeradores}
-              //mSeleccionarLista2={setvVistaListaModeradores}
+                mSeleccionarLista2={setvVistaListaModeradores}
               />
             </Mui.Stack>
 

@@ -9,7 +9,7 @@ Modificaciones:
 Descripcion:
 Interfaz para el tab alta del CCRUDAuxiliares, es un formulario de registro para nuevo Auxiliares.
 
-Numero de metodos: 
+Numero de metodos: 4
 Componentes relacionados: ninguno
 */
 

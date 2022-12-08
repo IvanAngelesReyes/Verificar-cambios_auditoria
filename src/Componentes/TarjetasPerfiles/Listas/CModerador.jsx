@@ -50,6 +50,7 @@ export default function CModerador(props) {
         >
           <Mui.TextField
             label={Variables.v_TEXTOS.nombre}
+            //defaultValue="Alejandra"
             defaultValue={vRegistro.nombre}
             InputProps={{
               readOnly: true,
@@ -58,6 +59,7 @@ export default function CModerador(props) {
           />
           <Mui.TextField
             label={Variables.v_TEXTOS.institucion}
+            //defaultValue="UAEMEX"
             defaultValue={vRegistro.institucion}
             InputProps={{
               readOnly: true,
@@ -66,13 +68,14 @@ export default function CModerador(props) {
           />
           <Mui.TextField
             label={Variables.v_TEXTOS.rol}
+            //defaultValue="Moderador"
             defaultValue={vRegistro.consejero===true?"Consejero":"Moderador"}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
-          <DialogPerfilConsulta mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosModeradores={setVRegistrosModeradores} vRegistrosModeradores={vRegistrosModeradores} vRegistro={vRegistro}/>
+            <DialogPerfilConsulta mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosModeradores={setVRegistrosModeradores} vRegistrosModeradores={vRegistrosModeradores} vRegistro={vRegistro}/>
         </Mui.Grid>
       </Mui.Box>
     </Mui.Paper>
