@@ -171,6 +171,7 @@ export async function mLoginModerador(vLogin) {
     .then((data) => {
       console.log(data);
       let vResponse = data;
+      console.log(vResponse)
       //Metodos.verificaResMod(vResponse);
       //console.log("::::Resouesta del JSN: " + vResponse.msg)
 
@@ -181,18 +182,9 @@ export async function mLoginModerador(vLogin) {
       if (r.r === "modnoautorizado") {
       } else {
         if (r.r === "modencontradook" || r.r === "modconencontradook") {
-          r.usuario = vResponse.vModerador;
+          r.usuario = vResponse.vUsuario;
         }
-        // else{
-        //   if (r.r === "modconencontradook") {
-        //     r.usuario = vResponse.vModConsejero;
-        //   }
-        // }
       }
-
-      // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
-      //   //return "moderadornoencontrado"
-      // }
     });
   return r;
 }
