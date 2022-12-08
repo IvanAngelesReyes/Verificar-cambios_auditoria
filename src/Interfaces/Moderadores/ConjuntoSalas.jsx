@@ -22,7 +22,9 @@ import * as Gets from "../../Util/Gets";
 
 export default function ConjuntoSalas(props) {
 
-  console.log(" PROPS DE CONJUNTO SALAS --> " + props)
+  const {vUsuario} = props;
+
+  console.log("vUsuario desde ConjuntoSalas --> " + vUsuario)
   
   const [vFrame, setvFrame] = React.useState("salas");
 

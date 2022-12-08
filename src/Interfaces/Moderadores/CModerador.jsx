@@ -27,7 +27,6 @@ import ConjuntoSalas from "../Moderadores/ConjuntoSalas";
 import Consejeros from "../Moderadores/CConsejeros";
 import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
 
-
 export default function CModerador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vModeradores,vUsuario } = props;
   const vResAltoNav = 0;
