@@ -145,18 +145,14 @@ export default function CAdministrador(props) {
     switch (vContenido) {
       case Variables.v_MenuAdministrador.item1:
         return (
-          //onClick = {()=>
           <CDialogPerfilAdministrador
-            setvAcctualizarEstado={mActualizarEstado}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            vUsuario={vUsuario}
-            //vRegistrosAuxiliares={vRegistrosAuxiliares}
-            //setVRegistrosAuxiliares={mActualziarCoordinarodes}
-            mRefresaacarPantalla={mRefresaacarPantalla}
-          />
-          //}
+          setvAcctualizarEstado={mActualizarEstado}
+          vAltoNav={vAltoNav}
+          vAnchoNav={vAnchoNav}
+          mSetvFramePrincipal={mSetvFramePrincipal}
+          vUsuario={vUsuario}
+          mRefresaacarPantalla={mRefresaacarPantalla}
+        />
         );
       case Variables.v_MenuAdministrador.item2:
         return (
@@ -233,7 +229,6 @@ export default function CAdministrador(props) {
             msg : "",
             vConsultaDataModerador : consejeros
           };
-          //vRegistrosModeradores.vConsultaDataModerador = moderadores;
           return (
             <>
               <CUsuarios

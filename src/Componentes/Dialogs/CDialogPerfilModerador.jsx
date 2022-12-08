@@ -151,7 +151,6 @@ export default function CDialogPerfilAuxiliar(props) {
       if (mValidarDato(vUsuarioTmp)) {
         //console.log(vDatosLoginTmp)
         Puts.mActualizarModerador(vUsuarioTmp);
-        debugger;
         vUsuario.nombre=vUsuarioTmp.nombre;
         vUsuario.apellido_paterno=vUsuarioTmp.apellido_paterno;
         vUsuario.apellido_materno=vUsuarioTmp.apellido_materno;
@@ -239,6 +238,36 @@ export default function CDialogPerfilAuxiliar(props) {
              label={Variables.v_TEXTOS.ape_materno}
               value={vApeMaterno}
               onChange={(e) => setvApeMaterno(e.target.value)}
+            />
+            <Mui.TextField
+              disabled
+              sx={{ width: "100%" }}
+              required
+              label={Variables.v_TEXTOS.rol}
+              value="Moderador"
+            />
+            <Mui.TextField
+            disabled
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.institucion}
+              value={vInstitucion}
+            />
+            <Mui.TextField
+            disabled={!vIsModoModificar}
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.correo}
+              value={vCorreo}
+              onChange={(e) => setvCorreo(e.target.value)}
+            />
+            <Mui.TextField
+            disabled={!vIsModoModificar}
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.contrasenia}
+              value={vContrasenia}
+              onChange={(e) => setvContrasenia(e.target.value)}
             />
             <Mui.Grid
               container

@@ -11,9 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 import * as Variables from "../../Global/Variables";
-import TarjetaCuadroConsejeros from "../../Componentes/TarjetasPerfiles/Cuadros/CConsejero";
-import TarjetaListaConsejeros from "../../Componentes/TarjetasPerfiles/Listas/CConsejero";
-import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
 
 export default function CConsejeros() {
   const [vModeradores, setvModeradores] = React.useState([]);
