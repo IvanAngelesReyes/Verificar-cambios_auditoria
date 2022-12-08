@@ -19,10 +19,11 @@ import CAsis from "./CAsistencia"
 import './CSalas.css';
 import MBotonSala from '../../Componentes/Botones/MBotonSala.jsx'
 import * as Gets from "../../Util/Gets";
+import * as Variables from "../../Global/Variables"
 
 export default function CSalas(props) {
 
-  const {setvFrame} = props
+  const {setvFrame, asis} = props
   const [vSalas, setvSalas] = React.useState([]);
 
   React.useEffect(() => {
@@ -49,7 +50,7 @@ export default function CSalas(props) {
         {elementos} 
 
         <div align="right">
-        <Button variant="contained" id="btnAsis" size="large"  onClick={CAsis}>Lista de Asistencia</Button>
+        <Button variant="contained" id="btnAsis" size="large"  onClick={()=>asis(Variables.v_MenuModeradores.item5)}>Lista de Asistencia</Button>
         </div>
 
     </div> 
