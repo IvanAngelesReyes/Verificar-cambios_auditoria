@@ -10,7 +10,7 @@ Descripcion:
 Este componente...
 
 Numero de metodos: 3
-Componentes relacionados: CRedactarCorreos
+Componentes relacionados: 
 */
 
 import React from "react";
@@ -21,7 +21,6 @@ import * as Icon from "@mui/icons-material";
 import * as Variables from "../../Global/Variables";
 import * as Gets from "../../Util/Gets";
 
-import CSalas from "./CSalas";
 import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CDialogPerfilAuxiliar from "../../Componentes/Dialogs/CDialogPerfilAuxiliar";
