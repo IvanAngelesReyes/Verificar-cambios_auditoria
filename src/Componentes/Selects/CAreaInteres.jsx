@@ -51,7 +51,7 @@ export default function SelectArea(props) {
 
         {
           vAreas.map((area, index) => (
-            <MenuItem value={"Area " + vAreas[index].numero_area + ". " + vAreas[index].area_interes}>{"Area " + vAreas[index].numero_area + ". " + vAreas[index].area_interes}</MenuItem> 
+            <MenuItem value={"Area " + vAreas[index].numero_area + ": " + vAreas[index].area_interes}>{"Area " + vAreas[index].numero_area + ": " + vAreas[index].area_interes}</MenuItem> 
           ))
         }  
         

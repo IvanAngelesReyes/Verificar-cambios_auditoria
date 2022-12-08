@@ -34,12 +34,12 @@ export default function CSalas(props) {
   const [vSalas, setvSalas] = React.useState([]);
 
   React.useEffect(() => {
-    Gets.mGetSalas(setvSalas);
+    Gets.mGetSalasPrueba(setvSalas);
   }, []);
 
-  vSalas.map((sala,index) =>
-    console.log(vSalas)
-  );
+  // vSalas.map((sala,index) =>
+  //   console.log(vSalas)
+  // );
 
   const elementos = vSalas.map((sala,index) =>
     <Fragment>

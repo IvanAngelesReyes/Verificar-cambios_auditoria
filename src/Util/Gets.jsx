@@ -246,3 +246,37 @@ export async function mGetModerador(mSetDatos,vUid) {
     mSetDatos(vResponse.vConsultaDataModerador);
   });
 }
+
+export async function mGetSalasPrueba(setVSalas, setvKeySalas, setVIsCargandoSalas) {
+  
+  let arrSalas = []
+  
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    if (response.data.length > 0) {
+      let vResponse = response.data;
+      setVSalas(vResponse);
+      console.log("Response")
+
+      // vResponse.map((sala,index) =>
+      //   console.log(vResponse[index])
+
+      //   // if(vResponse[index].linea === vResponse[index+1].linea){
+      //   //   arrNombres[index] = 
+      //   // }
+
+      // );
+
+
+    } else {
+      setVSalas([]);
+    }
+    setvKeySalas(Date.now());
+    setVIsCargandoSalas(false);
+  });
+}

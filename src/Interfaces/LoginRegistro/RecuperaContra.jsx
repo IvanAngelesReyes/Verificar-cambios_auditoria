@@ -18,14 +18,67 @@ import * as Mui from "@mui/material";
 import * as MuiIcons from '@mui/icons-material';
 import './RecuperaContra.css';
 import * as Puts from '../../Util/Puts';
+import * as Posts from "../../Util/Posts";
 
 export default function CRecuperaContra(){
 
     const [vCorreo, setvCorreo] = React.useState("");
 
     const handleClick = () => {
-        Puts.mRPsswdModeradores(vCorreo);
+
+        const vEmail = {
+            correo:vCorreo
+        }
+
+        if (verificaCampos(vEmail) === true)
+        {
+          Puts.mRPsswdModeradores(vEmail)
+          Posts.mEnviarCorreo(7,vEmail.correo,vEmail.password)
+
+        }
+        
+
     }
+
+    /*const handleClick = () => {
+
+        const vEmail = {
+            correo:vCorreo
+        }
+
+        const vEmail2 = {
+            correo:vCorreo,
+            password: ""
+
+        }
+
+        if (verificaCampos(vEmail) === true) {
+            var mSeleccionarFrame = (vRes) => {
+              console.log("vRes ---> " + vRes.r);
+              switch (vRes.r) {
+                case "modencontradook":
+                  
+                  break;
+                case "modconencontradook":
+               
+                  break;
+                case "ventanaconsejero":
+             
+                  break;
+                case "ventanaauxiliar":
+             
+                  break;
+                case "ventanaadmin":
+               
+                  break;
+                default:
+                  break;
+              }
+            };
+            Posts.mLogins(vEmail, mSeleccionarFrame);
+            //Puts.mRPsswdModeradores(vEmail)
+          }
+    }*/
 
     return(
 
@@ -72,5 +125,13 @@ export default function CRecuperaContra(){
         </section>
 
     );
+
+
+    function verificaCampos(vEmail) {
+        if (vEmail.correo === "") {
+          alert("Por favor escriba su correo en el campo correspondiente");
+          return false;
+        }
+      }
 
 }

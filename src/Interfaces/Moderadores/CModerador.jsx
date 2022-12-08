@@ -54,11 +54,11 @@ export default function CModerador(props) {
         texto: Variables.v_MenuModeradores.item3,
         mAccion: mSetvContenido,
       },
-      {
-        icon: <Icon.People />,
-        texto: Variables.v_MenuModeradores.item4,
-        mAccion: mSetvContenido,
-      },
+      // {
+      //   icon: <Icon.People />,
+      //   texto: Variables.v_MenuModeradores.item4,
+      //   mAccion: mSetvContenido,
+      // },
     ];
   };
 
@@ -84,6 +84,7 @@ export default function CModerador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
           />
         );
+        
       case Variables.v_MenuModeradores.item3:
         return <ConjuntoSalas
         vAltoNav={vAltoNav}
@@ -91,12 +92,12 @@ export default function CModerador(props) {
         mSetvFramePrincipal={mSetvFramePrincipal}
       />
 
-      case Variables.v_MenuModeradores.item4:
-        return <Consejeros
-        vAltoNav={vAltoNav}
-        vAnchoNav={vAnchoNav}
-        mSetvFramePrincipal={mSetvFramePrincipal}
-      />      
+      // case Variables.v_MenuModeradores.item4:
+      //   return <Consejeros
+      //   vAltoNav={vAltoNav}
+      //   vAnchoNav={vAnchoNav}
+      //   mSetvFramePrincipal={mSetvFramePrincipal}
+      // />      
       default:
         <p>Esto no se debe de ver</p>;
         break;

@@ -18,19 +18,12 @@ import './CDetalleSala.css';
 import MBotonExpo from '../../Componentes/Botones/MBotonExpo.jsx'
 
 export default function CDetalleSala(props) {
-  
-  // function modalidad(props){
-  //   let modalidad
-  //   modalidad = props.modalidadSala
 
-  //   if(modalidad === "presencial"){
-  //     props.urlSala = ""
-  //     return props.urlSala
-  //   }else{
-  //     let url = "URL: " + props.urlSala
-  //     return url
-  //   }
-  // }
+  let url
+  
+  React.useEffect(() => {
+    modalidad(props)
+  });
 
   return (
     <div className="contenedorPrincipalSalas">
@@ -42,7 +35,7 @@ export default function CDetalleSala(props) {
       <div className="divContenedorInfoSala"> 
           
           <div className="div1">
-            <h2>{"Area: " + props.areaSala}</h2>
+            <h2>{props.areaSala}</h2>
             <h2>{"Ubicacion: " + props.ubicacionSala}</h2>
             <h2>{"No. ponentes:" + props.nopontentesSala}</h2>
           </div>
@@ -50,7 +43,7 @@ export default function CDetalleSala(props) {
           <div className="div2">
             <h2>{"Modalidad: " + props.modalidadSala}</h2>
             <h2>{"Salon: " + props.salonSala}</h2>
-            <h2>{"URL: " + props.urlSala}</h2>
+            <h2>{"URL: " + url}</h2>
           </div>
 
           <div className="div3">
@@ -68,5 +61,15 @@ export default function CDetalleSala(props) {
 
     </div>
   )
+
+  function modalidad(props){
+    let modalidad = props.modalidadSala
+
+    if(modalidad === "presencial"){
+      url = ""
+    }else{
+      url = "URL: " + props.urlSala
+    }
+  }
 
 }

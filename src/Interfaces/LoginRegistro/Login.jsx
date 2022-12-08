@@ -35,7 +35,7 @@ export default function Login(props) {
   });
 
   //EL PEDO ES AQUI
-  const [vDatosLogin, setvDatosLogin] = React.useState([]);
+  //const [vDatosLogin, setvDatosLogin] = React.useState([]);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -60,31 +60,22 @@ export default function Login(props) {
 
     if (verificaCampos(vLogin) === true) {
       var mSeleccionarFrame = (vRes) => {
-        console.log(vRes.r);
+        console.log("vRes ---> " + vRes.r);
         switch (vRes.r) {
-          case "moderadorencontrado":
-            console.log("ENTRANDO A MODERADOR");
-            //navigate("/moderador");
+          case "modencontradook":
             mSetvFramePrincipal(Variables.v_FRFAMES.moderadores, vRes.usuario);
             break;
-          case "modconsejeroencontrado":
-            //navigate("/moderador");
+          case "modconencontradook":
             mSetvFramePrincipal(Variables.v_FRFAMES.moderadores, vRes.usuario);
             break;
           case "ventanaconsejero":
-            //navigate("/moderador");
             mSetvFramePrincipal(Variables.v_FRFAMES.moderadores, vRes.usuario);
             break;
           case "ventanaauxiliar":
-            //navigate("/auxiliar");
             mSetvFramePrincipal(Variables.v_FRFAMES.auxiliares, vRes.usuario);
             break;
           case "ventanaadmin":
-            //navigate("/administrador");
-            mSetvFramePrincipal(
-              Variables.v_FRFAMES.administrador,
-              vRes.usuario
-            );
+            mSetvFramePrincipal(Variables.v_FRFAMES.administrador,vRes.usuario);
             break;
           default:
             break;
