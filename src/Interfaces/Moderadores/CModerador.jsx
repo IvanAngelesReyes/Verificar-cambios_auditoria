@@ -89,6 +89,7 @@ export default function CModerador(props) {
         vAltoNav={vAltoNav}
         vAnchoNav={vAnchoNav}
         mSetvFramePrincipal={mSetvFramePrincipal}
+        vUsuario={vUsuario}
       />
 
       // case Variables.v_MenuModeradores.item4:
