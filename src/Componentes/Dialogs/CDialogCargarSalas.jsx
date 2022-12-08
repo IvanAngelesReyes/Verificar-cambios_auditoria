@@ -62,18 +62,18 @@ export default function CDialogCargarSalas(props) {
   const handleCloseAsignar = () => {
     mCargarSalas(vFilas);
     //console.log(vFilas)
-    var vFilasArregladas=[]
+    var vFilasArregladas = [];
     vFilas.forEach((item) => {
-      if (item.area.length>0) {
+      if (item.area.length > 0) {
         item.compartido = item.compartido === "si" ? true : false;
-        item.estado = item.estado.toUpperCase()
+        item.estado = item.estado.toUpperCase();
         item.moderador = item.moderador === "Sin asignar" ? "" : item.moderador;
         vFilasArregladas.push(item);
       }
     });
     setvFilas(vFilasArregladas);
     //Posts.mAgregarSalas(vFilasArregladas);
-    
+
     Metodos.chunckArrayInGroups(vFilasArregladas, vFilasArregladas.length).then(
       (result) =>
         result.map((items) => {
@@ -101,6 +101,7 @@ export default function CDialogCargarSalas(props) {
       //console.log(csvHeader);
       csvHeader.push("Moderador");
       csvHeader.push("estado");
+      csvHeader.push("fecha_cierre");
 
       const csvRows = vTextCSVTmp
         .slice(vTextCSVTmp.indexOf("\n") + 1)
@@ -136,6 +137,9 @@ export default function CDialogCargarSalas(props) {
                 break;
               case "estado":
                 object[vHeaderI] = "Inactiva";
+                break;
+              case "fecha_cierre":
+                object[vHeaderI] = "Sin fecha";
                 break;
               default:
                 /*console.log(

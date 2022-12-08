@@ -37,13 +37,38 @@ export default function CHome(props) {
     setvSalasCargadas,
     setVIsCargandoSalas,
     vIsCargandoSalas,
+    vSede,
+    vIsCargandoModeradores,
   } = props;
   //console.log(vSalasCargadas)
 
-  const [vVistaListaSalasActivas, setvVistaListaSalasActivas] =
+  const [vListarSede, setvListarSede] = React.useState([]);
+  //Salas Activas
+  const [vVistaListaSalasActiva, setvVistaListaSalasActiva] =
     React.useState(true);
+  const [vRegistrosFiltradosActiva, setvRegistrosFiltradosActiva] =
+    React.useState([]);
+  const [vInstitucionSeleccionadActiva, setvInstitucionSeleccionadActiva] =
+    React.useState("Todo");
+  const [vFiltroOrdenActiva, setvFiltroOrdenActiva] = React.useState(
+    Variables.v_TEXTOS.orden.ascendente
+  );
+  const [vIsFiltroActiva, setvIsFiltroActiva] = React.useState(true);
+
+  //Salas inactivas
   const [vVistaListaSalasInactivas, setvVistaListaSalasInactivas] =
     React.useState(true);
+  const [vRegistrosFiltradosInactivas, setvRegistrosFiltradosInactivas] =
+    React.useState([]);
+
+  const [
+    vInstitucionSeleccionadaInactiva,
+    setvInstitucionSeleccionadaInactiva,
+  ] = React.useState("Todo");
+  const [vFiltroOrdenInactiva, setvFiltroOrdenInactiva] = React.useState(
+    Variables.v_TEXTOS.orden.ascendente
+  );
+  const [vIsFiltroInactiva, setvIsFiltroInactiva] = React.useState(true);
 
   const [vKey, setVKey] = React.useState(Date.now());
 
@@ -64,24 +89,161 @@ export default function CHome(props) {
     setPageActivo(value);
     setVKey(Date.now());
   };
+  const mActivarFiltros = () => {
+  setvIsFiltroInactiva(true)
+  setvIsFiltroActiva(true)
+}
+  const mfiltroSede = async (vRegistros, vInstitucionSeleccionada) => {
+    return await vRegistros.filter((item) => {
+      return vInstitucionSeleccionada === "Todo"
+        ? true
+        : item.sede.trim() === vInstitucionSeleccionada.trim();
+    });
+  };
+  const mfiltroInstituciones = async (vRegistros, vInstitucionSeleccionada) => {
+    return await vRegistros.filter((item) => {
+      return vInstitucionSeleccionada === "Todo"
+        ? true
+        : item.instituciones.trim() === vInstitucionSeleccionada.trim();
+    });
+  };
 
-  React.useEffect(() => {
-    Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas);
-  }, []);
-
-  const mFiltroOrden = async (vRegistros) => {
-    if (
-      Variables.v_TEXTOS.orden.ascendente ===
-      Variables.v_TEXTOS.orden.ascendente
-    ) {
+  const mFiltroOrden = async (vRegistros, vFiltroOrden) => {
+    if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
+      return await vRegistros.sort((a, b) => (a > b ? 1 : a < b ? -1 : 0));
+    } else {
+      return await vRegistros.sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+    }
+  };
+  const mFiltroOrdenUbicacion = async (vRegistros, vFiltroOrden) => {
+    if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
       return await vRegistros.sort((a, b) =>
-        a.salon > b.salon ? 1 : a.salon < b.salon ? -1 : 0
+        a.ubicacion > b.ubicacion ? 1 : a.ubicacion < b.ubicacion ? -1 : 0
       );
     } else {
       return await vRegistros.sort((a, b) =>
-        a.salon < b.salon ? 1 : a.salon > b.salon ? -1 : 0
+        a.ubicacion < b.ubicacion ? 1 : a.ubicacion > b.ubicacion ? -1 : 0
       );
     }
+  };
+
+  const mSacarSede = async (vSede) => {
+    return [
+      ...new Set(
+        await vSede.map((item) => {
+          return item;
+        })
+      ),
+    ].reverse();
+  };
+  const mSacarInstitucion = async (vInstituciones) => {
+    return [
+      ...new Set(
+        await vInstituciones.map((item) => {
+          return item.nombre;
+        })
+      ),
+    ].reverse();
+  };
+
+  React.useEffect(() => {
+    Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas);
+    if (vSalas.length > 0) {
+      if (vListarSede.length === 0) {
+        mSacarSede(vSede).then((result3) => {
+          mFiltroOrden([...result3], vFiltroOrdenActiva).then((result4) => {
+            result4.reverse();
+            result4.push("Todo");
+            result4 = result4.reverse();
+            setvListarSede(result4);
+            setvIsFiltroActiva(false);
+            setVKey(Date.now());
+            setvIsCargadoActivo(false);
+          });
+        });
+      }
+      mSacarActivosInactivos(vSalas).then((result3) => {
+        var [vSalasActivas, vSalasInactivas] = result3;
+        if (vIsFiltroInactiva) {
+          setvRegistrosFiltradosInactivas([]);
+          mfiltroSede(
+            [...vSalasInactivas],
+            vInstitucionSeleccionadaInactiva
+          ).then((result) => {
+            if (result.length > 0) {
+              mFiltroOrdenUbicacion([...result], vFiltroOrdenInactiva).then(
+                (result2) => {
+                  Metodos.chunckArrayInGroups(
+                    [...result2],
+                    result2.length
+                  ).then((result3) => {
+                    setvSalasInactivas(result3);
+                    setvIsFiltroInactiva(false);
+                    setVKey(Date.now());
+                    setvIsCargadoInactivo(false);
+                  });
+                }
+              );
+            } else {
+              setvRegistrosFiltradosInactivas([]);
+              setvIsFiltroInactiva(false);
+              setvIsCargadoInactivo(true);
+              setVKey(Date.now());
+            }
+          });
+        }
+        if (vIsFiltroActiva) {
+          setvRegistrosFiltradosActiva([]);
+          mfiltroSede([...vSalasActivas], vInstitucionSeleccionadActiva).then(
+            (result) => {
+              if (result.length > 0) {
+                mFiltroOrdenUbicacion([...result], vFiltroOrdenActiva).then(
+                  (result2) => {
+                    Metodos.chunckArrayInGroups(
+                      [...result2],
+                      result2.length
+                    ).then((result3) => {
+                      setvSalasActivas(result3);
+                      setvRegistrosFiltradosActiva(result3);
+                      setvIsFiltroActiva(false);
+                      setVKey(Date.now());
+                      setvIsCargadoActivo(false);
+                    });
+                  }
+                );
+              } else {
+                setvSalasActivas([]);
+                setvRegistrosFiltradosActiva([]);
+                setvIsFiltroActiva(false);
+                setvIsCargadoActivo(false);
+                setVKey(Date.now());
+              }
+            }
+          );
+        }
+      });
+    }
+    if (vSalasCargadas.length > 0) {
+      setvSalas(vSalasCargadas);
+    } else {
+      setvIsCargadoActivo(false);
+      setvIsCargadoInactivo(false);
+    }
+  }, [
+    vSalasCargadas.length,
+    vSalas.length,
+    vIsFiltroInactiva,
+    vIsFiltroActiva,
+    vKey,
+  ]);
+
+  const handleChangeIncactiva = (evt) => {
+    setvIsFiltroInactiva(true);
+    setvFiltroOrdenInactiva(evt.target.value);
+  };
+  const handleChangeActiva = (evt) => {
+    setvIsFiltroActiva(true);
+    setvFiltroOrdenActiva(evt.target.value);
   };
 
   const mSacarActivosInactivos = async (vSalasTmp) => {
@@ -99,42 +261,13 @@ export default function CHome(props) {
     return [[...vSalasActivasTmp], [...vSalasInactivasTmp]];
   };
 
-  React.useEffect(() => {
-    if (vSalas.length > 0) {
-      mFiltroOrden([...vSalas]).then((result2) => {
-        mSacarActivosInactivos(result2).then((result3) => {
-          var [vSalasActivas, vSalasInactivas] = result3;
-          Metodos.chunckArrayInGroups(vSalasActivas, vSalasActivas.length).then(
-            (result4) => {
-              setvSalasActivas(result4);
-              setVKey(Date.now());
-              setvIsCargadoActivo(false);
-            }
-          );
-          Metodos.chunckArrayInGroups(
-            vSalasInactivas,
-            vSalasInactivas.length
-          ).then((result4) => {
-            setvSalasInactivas(result4);
-            setVKey(Date.now());
-            setvIsCargadoInactivo(false);
-          });
-        });
-      });
-    }
-    if (vSalasCargadas.length > 0) {
-      setvSalas(vSalasCargadas);
-    } else {
-      setvIsCargadoActivo(false);
-      setvIsCargadoInactivo(false);
-    }
-  }, [vSalasCargadas, vSalas]);
-
   function mCuadrosSalasActivas(vSalasAvtivas) {
+    console.log("cuadros 2")
     return vSalasAvtivas.map((item) => (
-      <vSalasAvtivas
+      <TarjetaCuadroSalaActiva
         setVKey={setVKey}
         mActualziarSalas={mActualziarSalas}
+        mActivarFiltros={mActivarFiltros}
         vRegistro={item}
       />
     ));
@@ -144,6 +277,7 @@ export default function CHome(props) {
       <TarjetaListaSalaActiva
         setVKey={setVKey}
         mActualziarSalas={mActualziarSalas}
+        mActivarFiltros={mActivarFiltros}
         vRegistro={item}
       />
     ));
@@ -154,6 +288,8 @@ export default function CHome(props) {
         setVKey={setVKey}
         mActualziarSalas={mActualziarSalas}
         vRegistro={item}
+        mActivarFiltros={mActivarFiltros}
+        {...props}
       />
     ));
   }
@@ -163,6 +299,8 @@ export default function CHome(props) {
         setVKey={setVKey}
         mActualziarSalas={mActualziarSalas}
         vRegistro={item}
+        mActivarFiltros={mActivarFiltros}
+        {...props}
       />
     ));
   }
@@ -194,7 +332,11 @@ export default function CHome(props) {
                     page={pageActivo}
                     onChange={handleChangePagesActivo}
                   />
-                  <Mui.Stack direction="column" spacing={2}>
+                  <Mui.Stack
+                    direction="column"
+                    spacing={2}
+                    sx={{ width: "100%" }}
+                  >
                     {mListasSalasActivas(vSalasActivas[pageActivo - 1])}
                   </Mui.Stack>
                   <Mui.Pagination
@@ -216,12 +358,13 @@ export default function CHome(props) {
             }
           } else {
             if (vSalasActivas.length > 0) {
+              console.log("cuadros")
               return (
                 <Mui.Stack
                   direction="column"
                   justifyContent="center"
                   alignItems="center"
-                  spacing={0}
+                  spacing={1}
                 >
                   <Mui.Pagination
                     count={vSalasActivas.length - 1}
@@ -231,12 +374,7 @@ export default function CHome(props) {
                     page={pageActivo}
                     onChange={handleChangePagesActivo}
                   />
-                  <Mui.Grid
-                    container
-                    spacing={5}
-                    justifyContent="center"
-                    sx={{ width: "100%" }}
-                  >
+                  <Mui.Grid container spacing={5} justifyContent="center">
                     {mCuadrosSalasActivas(vSalasActivas[pageActivo - 1])}
                   </Mui.Grid>
                   <Mui.Pagination
@@ -285,7 +423,7 @@ export default function CHome(props) {
   };
 
   const mVistaSalasInactivas = (vSeleccionarLista) => {
-    if (!vIsCargandoSalas) {
+    if (!vIsCargandoSalas && !vIsCargandoModeradores) {
       if (!vIsCargadoInactivo) {
         if (vSalas.length === 0) {
           return (
@@ -420,7 +558,71 @@ export default function CHome(props) {
                 Salas por abrir (inactivas)
               </Mui.Typography>
             </Mui.Stack>
-
+            <Mui.Grid container spacing={1}>
+              <Mui.Grid item xs={6}>
+                <Mui.Typography variant="body1" component="div">
+                  {Variables.v_TEXTOS.busqueda_por}
+                </Mui.Typography>
+                <Mui.Autocomplete
+                  key={vKey}
+                  disablePortal
+                  options={vListarSede}
+                  sx={{ width: "auto" }}
+                  renderInput={(params) => (
+                    <Mui.TextField {...params} label="Sede" />
+                  )}
+                  value={vInstitucionSeleccionadaInactiva}
+                  inputValue={vInstitucionSeleccionadaInactiva}
+                  onInputChange={(event, newInputValue) => {
+                    setvIsFiltroInactiva(true);
+                    if (newInputValue.length === 0) {
+                      setvInstitucionSeleccionadaInactiva("Todo");
+                    } else {
+                      setvInstitucionSeleccionadaInactiva(newInputValue);
+                    }
+                  }}
+                />
+              </Mui.Grid>
+              <Mui.Grid item xs={6}>
+                <Mui.FormControl>
+                  <Mui.FormLabel id="radio-buttons-group">
+                    {Variables.v_TEXTOS.ordenar_salas_por}
+                  </Mui.FormLabel>
+                  <Mui.RadioGroup
+                    value={vFiltroOrdenInactiva}
+                    onChange={handleChangeIncactiva}
+                    row
+                    aria-labelledby="radio-buttons-group"
+                    sx={{ fontSize: "12px" }}
+                  >
+                    <Mui.FormControlLabel
+                      value={Variables.v_TEXTOS.orden.ascendente}
+                      control={
+                        <Mui.Radio
+                          cheked={
+                            vFiltroOrdenInactiva ===
+                            Variables.v_TEXTOS.orden.ascendente
+                          }
+                        />
+                      }
+                      label={Variables.v_TEXTOS.orden.ascendente}
+                    />
+                    <Mui.FormControlLabel
+                      value={Variables.v_TEXTOS.orden.descendente}
+                      control={
+                        <Mui.Radio
+                          cheked={
+                            vFiltroOrdenInactiva ===
+                            Variables.v_TEXTOS.orden.ascendente
+                          }
+                        />
+                      }
+                      label={Variables.v_TEXTOS.orden.descendente}
+                    />
+                  </Mui.RadioGroup>
+                </Mui.FormControl>
+              </Mui.Grid>
+            </Mui.Grid>
             <Mui.Stack
               direction="row"
               justifyContent="flex-end"
@@ -446,18 +648,80 @@ export default function CHome(props) {
                 Salas por cerrar (activas)
               </Mui.Typography>
             </Mui.Stack>
-
+            <Mui.Grid container spacing={1}>
+              <Mui.Grid item xs={6}>
+                <Mui.Typography variant="body1" component="div">
+                  {Variables.v_TEXTOS.busqueda_por}
+                </Mui.Typography>
+                <Mui.Autocomplete
+                  key={vKey}
+                  disablePortal
+                  options={vListarSede}
+                  sx={{ width: "auto" }}
+                  renderInput={(params) => (
+                    <Mui.TextField {...params} label="Sede" />
+                  )}
+                  value={vInstitucionSeleccionadActiva}
+                  inputValue={vInstitucionSeleccionadActiva}
+                  onInputChange={(event, newInputValue) => {
+                    setvIsFiltroActiva(true);
+                    if (newInputValue.length === 0) {
+                      setvInstitucionSeleccionadActiva("Todo");
+                    } else {
+                      setvInstitucionSeleccionadActiva(newInputValue);
+                    }
+                  }}
+                />
+              </Mui.Grid>
+              <Mui.Grid item xs={6}>
+                <Mui.FormControl>
+                  <Mui.FormLabel id="radio-buttons-group">
+                    {Variables.v_TEXTOS.ordenar_salas_por}
+                  </Mui.FormLabel>
+                  <Mui.RadioGroup
+                    value={vFiltroOrdenActiva}
+                    onChange={handleChangeActiva}
+                    row
+                    aria-labelledby="radio-buttons-group"
+                    sx={{ fontSize: "12px" }}
+                  >
+                    <Mui.FormControlLabel
+                      value={Variables.v_TEXTOS.orden.ascendente}
+                      control={
+                        <Mui.Radio
+                          cheked={
+                            vFiltroOrdenActiva ===
+                            Variables.v_TEXTOS.orden.ascendente
+                          }
+                        />
+                      }
+                      label={Variables.v_TEXTOS.orden.ascendente}
+                    />
+                    <Mui.FormControlLabel
+                      value={Variables.v_TEXTOS.orden.descendente}
+                      control={
+                        <Mui.Radio
+                          cheked={
+                            vFiltroOrdenActiva ===
+                            Variables.v_TEXTOS.orden.ascendente
+                          }
+                        />
+                      }
+                      label={Variables.v_TEXTOS.orden.descendente}
+                    />
+                  </Mui.RadioGroup>
+                </Mui.FormControl>
+              </Mui.Grid>
+            </Mui.Grid>
             <Mui.Stack
               direction="row"
               justifyContent="flex-end"
               alignItems="center"
             >
-              <BotonCuadroLista
-                mSeleccionarLista={setvVistaListaSalasActivas}
-              />
+              <BotonCuadroLista mSeleccionarLista={setvVistaListaSalasActiva} />
             </Mui.Stack>
 
-            {mVistaSalasActivas(vVistaListaSalasActivas)}
+            {mVistaSalasActivas(vVistaListaSalasActiva)}
           </Mui.Stack>
         </Mui.Paper>
       </Mui.Stack>

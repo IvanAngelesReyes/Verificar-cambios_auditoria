@@ -28,6 +28,7 @@ import CHome from "./CHome";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CUsuarios from "./CUsuarios";
 import CDialogPerfilAdministrador from "../../Componentes/Dialogs/CDialogPerfilAdministrador";
+import { alertClasses } from "@mui/material";
 
 export default function CAdministrador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vUsuario } = props;
@@ -41,18 +42,25 @@ export default function CAdministrador(props) {
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
   const [vRegistrosConsejeros, setVRegistrosConsejeros] = React.useState([]);
   const [vInstituciones, setVInstituciones] = React.useState([]);
+  const [vSede, setVSede] = React.useState([]);
   const [vIsExisteManual, setVIsExisteManual] = React.useState(false);
   const [vIsExistePlantilla, setVIsExistePlantilla] = React.useState(false);
   const [vUrlWhatsapp, setVUrlWhatsapp] = React.useState("");
 
   //Varaibles para las esperas de peticiones:
   const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true);
+  const [vIsCargandoModeradores, setVIsCargandoModeradores] = React.useState(true);
 
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
-    Gets.mGetModeradores(setVRegistrosModeradores);
+    Gets.mGetModeradores(setVRegistrosModeradores, setVIsCargandoModeradores);
     Gets.mGetConsejeros(setVRegistrosConsejeros);
-    Gets.mGetSalas(setvSalasCargadas, setvKeySalas, setVIsCargandoSalas);
+    Gets.mGetSalas(
+      setvSalasCargadas,
+      setvKeySalas,
+      setVIsCargandoSalas,
+      mSacarSede
+    );
     Gets.mGetUniversidades(setVInstituciones);
     Gets.mGetManualFile(setVIsExisteManual);
     Gets.mGetCertificadoFile(setVIsExistePlantilla);
@@ -63,6 +71,23 @@ export default function CAdministrador(props) {
   const [vKey, setvKey] = React.useState(Date.now());
   const [vKeySalas, setvKeySalas] = React.useState(Date.now());
   const [vActualizarEstado, setvAcctualizarEstado] = React.useState();
+
+  const mSacarSede = (vSalas) => {
+    var vSedeTmp = [];
+    vSalas.map((item) => {
+      if (vSedeTmp.length === 0) {
+        vSedeTmp.push(item.sede);
+      } else {
+        console.log();
+        if (vSedeTmp.find((item2) => item.sede === item2) === undefined) {
+          vSedeTmp.push(item.sede);
+        }
+      }
+    });
+    console.log(vSedeTmp);
+    setVSede(vSedeTmp);
+    return vSedeTmp;
+  };
 
   const mActualziarCoordinarodes = (vAuxiliaresTmp) => {
     console.log(vAuxiliaresTmp);
@@ -82,7 +107,6 @@ export default function CAdministrador(props) {
     //vActualizarEstado();
   };
 
-
   const mCargarSalas = (vSalasNuevas) => {
     setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
     setvKey(Date.now(0));
@@ -95,7 +119,8 @@ export default function CAdministrador(props) {
         return item._id === vSalaActualizada._id ? vSalaActualizada : item;
       })
     );
-    setvActualizarHome(Date.now);
+    setvActualizarHome(Date.now());
+    //setvKeySalas(Date.now());
   };
 
   const mRefresaacarPantalla = () => {
@@ -170,6 +195,9 @@ export default function CAdministrador(props) {
             setvAcctualizarEstado={mActualizarEstado}
             setVIsCargandoSalas={setVIsCargandoSalas}
             vIsCargandoSalas={vIsCargandoSalas}
+            vSede={vSede}
+            vRegistrosModeradores={vRegistrosModeradores}
+            vIsCargandoModeradores={vIsCargandoModeradores}
           />
         );
       case Variables.v_MenuAdministrador.item3:
@@ -181,7 +209,7 @@ export default function CAdministrador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
             vSalasCargadas={vSalasCargadas}
             mCargarSalas={mCargarSalas}
-            vInstituciones={vInstituciones}
+            vSede={vSede}
             vIsCargandoSalas={vIsCargandoSalas}
             setVIsCargandoSalas={setVIsCargandoSalas}
             setvSalasCargadas={setvSalasCargadas}
@@ -209,48 +237,53 @@ export default function CAdministrador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
           />
         );
-        case Variables.v_MenuAdministrador.item6:
-          let tmp = [];
-          tmp = vRegistrosConsejeros.vConsejeros;        ;
-          let consejeros = tmp.map(m=>{
-            return {apellido_materno:m.apellido_materno,
-              apellido_materno:m.apellido_materno,
-              apellido_paterno:m.apellido_paterno,
-              area_interes_1:m.area_interes_1,
-              area_interes_2:m.area_interes_2,
-              correo:m.correo,
-              estado:m.estado,
-              imagen:m.imagen,
-              institucion:m.institucion,
-              nombre:m.nombre,
-              consejero: true,
-              salas: "",
-              rol:m.rol,
-              uid:m.uid};
-          });
-          consejeros = [].concat(consejeros,vRegistrosModeradores.vConsultaDataModerador);
-          let RegistrosModeradores = {
-            msg : "",
-            vConsultaDataModerador : consejeros
+      case Variables.v_MenuAdministrador.item6:
+        let tmp = [];
+        tmp = vRegistrosConsejeros.vConsejeros;
+        let consejeros = tmp.map((m) => {
+          return {
+            apellido_materno: m.apellido_materno,
+            apellido_materno: m.apellido_materno,
+            apellido_paterno: m.apellido_paterno,
+            area_interes_1: m.area_interes_1,
+            area_interes_2: m.area_interes_2,
+            correo: m.correo,
+            estado: m.estado,
+            imagen: m.imagen,
+            institucion: m.institucion,
+            nombre: m.nombre,
+            consejero: true,
+            salas: "",
+            rol: m.rol,
+            uid: m.uid,
           };
-          //vRegistrosModeradores.vConsultaDataModerador = moderadores;
-          return (
-            <>
-              <CUsuarios
-                {...props}
-                vInstituciones={vInstituciones}
-                setvAcctualizarEstado={mActualizarEstado}
-                vRegistrosAuxiliares={vRegistrosAuxiliares}
-                setVRegistrosAuxiliares={mActualziarCoordinarodes}
-                mRefresaacarPantalla={mRefresaacarPantalla}
-                vRegistrosModeradores={RegistrosModeradores}
-                setVRegistrosModeradores={mActualizarModeradores}
-                vRegistrosConsejeros={vRegistrosConsejeros}
-                setVRegistrosConsejeros={mActualizarConsejeros}
-              />
-            </>
-          );
-        default:
+        });
+        consejeros = [].concat(
+          consejeros,
+          vRegistrosModeradores.vConsultaDataModerador
+        );
+        let RegistrosModeradores = {
+          msg: "",
+          vConsultaDataModerador: consejeros,
+        };
+        //vRegistrosModeradores.vConsultaDataModerador = moderadores;
+        return (
+          <>
+            <CUsuarios
+              {...props}
+              vInstituciones={vInstituciones}
+              setvAcctualizarEstado={mActualizarEstado}
+              vRegistrosAuxiliares={vRegistrosAuxiliares}
+              setVRegistrosAuxiliares={mActualziarCoordinarodes}
+              mRefresaacarPantalla={mRefresaacarPantalla}
+              vRegistrosModeradores={RegistrosModeradores}
+              setVRegistrosModeradores={mActualizarModeradores}
+              vRegistrosConsejeros={vRegistrosConsejeros}
+              setVRegistrosConsejeros={mActualizarConsejeros}
+            />
+          </>
+        );
+      default:
     }
   };
 

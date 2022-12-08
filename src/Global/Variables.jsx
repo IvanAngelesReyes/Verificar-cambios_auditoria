@@ -79,19 +79,33 @@ export const v_TEXTOS = {
   institucion: "Institución",
   institucion_procedencia: "Institución de procedencia",
   mostrando: "Mostrando 7 consejeros",
-  btn_detalles_sala: "Ver detalles de sala",
+  btn_detalles_sala: "Ver más",
   grupodewhats: "Grupo de Whatsapp",
   manual: "Consulta el manual de moderadores",
   contactar: "Contacta a tu coordinador mandando mensaje a: coordi@gmail.com",
   unetea: "Únete a nuestro grupo de Whatsapp",
   detalles_sala: {
-    titulo: "Detalles de sala",
-    texto1: "Sala",
-    texto2: "Modalidad",
-    texto3: "Institución",
+    titulo: "Información de la sala",
+    texto1: "Ubicación",
+    texto2: "Salon",
+    texto3: "Sede",
     texto4: "País",
     texto5: "Área",
     texto6: "Fecha",
+    texto7: "Compartido",
+    texto8: "Día",
+    texto9: "Estado",
+    texto10: "Id Pons",
+    texto11: "Id tra",
+    texto12: "Instituciones",
+    texto13: "Investigador",
+    texto14: "Linea",
+    texto15: "Modalidad",
+    texto16: "Moderador",
+    texto17: "Número de ponentes",
+    texto18: "Ponentes",
+    texto19: "Turno",
+    texto20: "Url",
   },
   home_coordinadores: {
     no_salas:
@@ -174,7 +188,7 @@ export const v_TEXTOS = {
   contrasenia: "Contraseña",
   registrar: "Registrar",
   alertas: {
-    alta_coordinador: "Coordinador registrado",
+    alta_Auxiliar: "Coordinador registrado",
     modifica_coordinador: "Coordinador modificado",
     correo_guardado: {
       exito: "Correo guardado correctamente.",
@@ -185,8 +199,8 @@ export const v_TEXTOS = {
       error: "Error al guardar la configuración.",
     },
     datosAlmacenados: {
-      eliminado:"Los datos fueron eliminados correctamente."
-    }
+      eliminado: "Los datos fueron eliminados correctamente.",
+    },
   },
   busqueda_por: "Buscar por:",
   ordenar_por: "Ordenar nombre en:",
@@ -214,10 +228,8 @@ export const v_TEXTOS = {
   },
 
   datosAlmacenados: {
-    alertas: {
-      
-    }
-  }
+    alertas: {},
+  },
 };
 
 export const v_MenuModeradores = {

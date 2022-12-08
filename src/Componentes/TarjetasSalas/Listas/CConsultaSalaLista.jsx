@@ -39,7 +39,7 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={Variables.v_TEXTOS.detalles_sala.texto3}
-              defaultValue={vSala.instituciones}
+              defaultValue={vSala.sede}
               InputProps={{
                 readOnly: true,
               }}
@@ -50,7 +50,7 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={Variables.v_TEXTOS.detalles_sala.texto1}
-              defaultValue={vSala.salon}
+              defaultValue={vSala.ubicacion}
               InputProps={{
                 readOnly: true,
               }}
@@ -61,7 +61,7 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={Variables.v_TEXTOS.detalles_sala.texto2}
-              defaultValue={vSala.modalidad}
+              defaultValue={vSala.salon}
               InputProps={{
                 readOnly: true,
               }}
@@ -83,14 +83,14 @@ export default function CConsultaSalaLista(props) {
             <Mui.TextField
               id="standard-read-only-input"
               label={"Estado"}
-              defaultValue={vSala.estado}
+              defaultValue={vSala.estado.toUpperCase()}
               InputProps={{
                 readOnly: true,
               }}
               variant="standard"
             />
           </Mui.Grid>
-          {/*<CDialogDetallesSala vSala={vSala} /> */}
+          <CDialogDetallesSala vSala={vSala} />
         </Mui.Grid>
       </Mui.Box>
     </Mui.Paper>

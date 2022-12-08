@@ -70,7 +70,9 @@ export async function mLoginAdmin(vLogin) {
       console.log("RAdmin: " + r.r);
       if (r.r === "adminencontrado") {
         r.usuario = vResponse.vAdmin;
+        console.log(vResponse);
       }
+      console.table(r)
     });
   return r;
 }
@@ -211,7 +213,7 @@ export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
 }
 
 export async function mAgregarAuxiliar(vRegistro) {
-  await fetch(Variables.v_URL_API2 + "/api/usuarios/Auxiliar", {
+  await fetch(Variables.v_URL_API2 + "/api/auxiliares/crear-auxiliar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -9,23 +9,26 @@ Modificaciones:
 Descripcion:
 
 
-Numero de metodos: 0
+Numero de metodos: 1
 Componentes relacionados: ninguno
 */
 
 import React from "react";
 
 import * as Mui from "@mui/material";
-import * as Puts from '../../../Util/Puts'
+import * as Puts from "../../../Util/Puts";
+import * as Variables from "../../../Global/Variables";
 
 export default function CSalaActiva(props) {
-  const { vRegistro,mActualziarSalas,setVKey } = props;
+  const { vRegistro, mActualziarSalas, setVKey, mActivarFiltros } = props;
 
-  const handleClick=()=>{
-    vRegistro.estado="Cerrada"
-    Puts.mModifcarSalas(vRegistro)
-    mActualziarSalas(vRegistro,setVKey)
-  }
+  const handleClick = () => {
+    vRegistro.estado = "Cerrada";
+    vRegistro.fecha_cierre = "18 de enero de 2022";
+    Puts.mModifcarSalas(vRegistro);
+    mActualziarSalas(vRegistro, setVKey);
+    mActivarFiltros();
+  };
 
   return (
     <Mui.Paper elevation={3}>
@@ -48,8 +51,8 @@ export default function CSalaActiva(props) {
         >
           <Mui.TextField
             id="standard-read-only-input"
-            label="institucion"
-            defaultValue={vRegistro.instituciones}
+            label={Variables.v_TEXTOS.detalles_sala.texto6}
+            defaultValue={vRegistro.fecha}
             InputProps={{
               readOnly: true,
             }}
@@ -57,7 +60,7 @@ export default function CSalaActiva(props) {
           />
           <Mui.TextField
             id="standard-read-only-input"
-            label="Area"
+            label={Variables.v_TEXTOS.detalles_sala.texto5}
             defaultValue={vRegistro.area}
             InputProps={{
               readOnly: true,
@@ -66,8 +69,17 @@ export default function CSalaActiva(props) {
           />
           <Mui.TextField
             id="standard-read-only-input"
-            label="Sala"
+            label={Variables.v_TEXTOS.detalles_sala.texto2}
             defaultValue={vRegistro.salon}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="standard"
+          />
+          <Mui.TextField
+            id="standard-read-only-input"
+            label={Variables.v_TEXTOS.detalles_sala.texto17}
+            defaultValue={vRegistro.no_ponentes}
             InputProps={{
               readOnly: true,
             }}

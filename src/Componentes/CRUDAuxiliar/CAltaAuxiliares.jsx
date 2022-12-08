@@ -145,7 +145,7 @@ export default function CAltaAuxiliar(props) {
       salas: "Esperando sala",
       password: vContrasenia,
       imagen: [],
-      rol: "Auxiliar_ROLE",
+      rol: "AUXILIAR_ROLE",
       estado: true,
     };
 

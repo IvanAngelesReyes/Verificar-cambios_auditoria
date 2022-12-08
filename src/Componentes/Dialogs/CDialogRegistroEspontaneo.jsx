@@ -33,7 +33,7 @@ function mLimpiarDatos(
 }
 
 export default function CDialogDetallesSala(props) {
-  const { vSala, mActualziarSalas, setVKey } = props;
+  const { vSala, mActualziarSalas, setVKey, vRegistrosModeradores } = props;
   const [open, setOpen] = React.useState(false);
 
   const [vNombre, setvNombre] = React.useState("");
@@ -41,14 +41,18 @@ export default function CDialogDetallesSala(props) {
   const [vApeMaterno, setvApeMaterno] = React.useState("");
   const [vCorreo, setvCorreo] = React.useState("");
   const [vModerador, setvModerador] = React.useState({});
+  const [vModeradores, setvModeradores] = React.useState([]);
 
   const vDetalles_Sala = Variables.v_TEXTOS.detalles_sala;
 
   React.useEffect(() => {
     if (vSala?.moderador !== undefined && vSala?.moderador.length > 0) {
-      Gets.mGetModerador(setvModerador,vSala?.moderador)
+      Gets.mGetModerador(setvModerador, vSala?.moderador);
     }
-  },[vSala?.moderador, vSala?.moderador.length]);
+    setvModeradores(
+      vRegistrosModeradores.vConsultaDataModerador
+    );
+  }, [vSala?.moderador, vSala?.moderador.length]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -124,14 +128,55 @@ export default function CDialogDetallesSala(props) {
             divider={<Mui.Divider orientation="horizontal" flexItem />}
             spacing={1}
           >
-            {vSala?.moderador !== undefined &&
-              vSala?.moderador.length > 0 &&(
-                <Mui.TextField
-                  disabled
-                  label={Variables.v_TEXTOS.moderador_actual}
-                  value={vModerador.nombre+" "+vModerador.apellido_paterno+" "+vModerador.apellido_materno}
-                />
-              )}
+            {vSala?.moderador !== undefined && vSala?.moderador.length > 0 && (
+              <Mui.TextField
+                disabled
+                label={Variables.v_TEXTOS.moderador_actual}
+                value={
+                  vModerador.nombre +
+                  " " +
+                  vModerador.apellido_paterno +
+                  " " +
+                  vModerador.apellido_materno
+                }
+              />
+            )}
+            {vSala?.moderador.length === 0 && (
+              <Mui.Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={vModeradores}
+                sx={{ width: "100%" }}
+                renderInput={(params) => (
+                  <>
+                    <Mui.TextField
+                      {...params}
+                      label="Seleccionar Moderadores"
+                    />
+                  </>
+                )}
+                getOptionLabel={(option) =>
+                  option.nombre +
+                  " " +
+                  option.apellido_paterno +
+                  " " +
+                  option.apellido_materno
+                }
+                renderOption={(props, option) => (
+                  <p
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option.nombre +
+                      " " +
+                      option.apellido_paterno +
+                      " " +
+                      option.apellido_materno}
+                  </p>
+                )}
+              />
+            )}
             <Mui.TextField
               required
               label={Variables.v_TEXTOS.nombre}
