@@ -25,7 +25,7 @@ export default function CHome_Moderadores() {
 
   React.useEffect(() => {
    // Gets.mGetManualFile(setVIsExisteManual);
-   Gets.mGetUrls(setVUrlManual);
+   Gets.mGetManual(setVUrlManual);
    Gets.mGetURLWhatsapp(setVUrlWhatsapp);
   }, []);
 
@@ -65,7 +65,7 @@ export default function CHome_Moderadores() {
       >
         <iframe
           style={{ borderRadius: "10px", width: 500, height: 600 }}
-          src={"http://localhost/backend/Manual/Manual.pdf"}
+          src={"https://api.moderadores.tecnologinc.com/backend/Manual/Manual.pdf"}
         />
       </Mui.Stack>
         ) : ( 
