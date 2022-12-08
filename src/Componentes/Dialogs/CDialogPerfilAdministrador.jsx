@@ -1,25 +1,25 @@
 /*
 SmartSoft
 Componente: CDialogPerfilAdministrador
-Fecha de creacion: 20/10/2022, Autorizó: Alejandra Patricia Chaparro Matias
+Fecha de creacion: 28/11/2022, Autorizó: Alejandra Patricia Chaparro Matias 
 
 Modificaciones:
     Fecha               Folio
 
 Descripcion: 
-Esta interfaz mostrará el perfil del administrador con sus respectivos datos.
+Esta interfaz mostrará el perfil del coordinador con sus respectivos datos.
 
 Numero de metodos: 0
 Componentes relacionados: 
 */
 
 import React from "react";
-
 import * as Mui from "@mui/material";
 import * as Variables from "../../Global/Variables";
 
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import * as Icon from "@mui/icons-material";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -37,6 +37,24 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+
+function mValidarDato(vDatos) {
+  let b = false;
+  if (vDatos.institucion !== "") {
+    if (vDatos.nombre !== "") {
+      if (
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+          vDatos.correo
+        )
+      ) {
+        if (vDatos.contrasenia !== "") {
+          b = true;
+        }
+      }
+    }
+  }
+  return b;
+}
 
 export interface DialogTitleProps {
   id: string;
@@ -71,16 +89,23 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 export default function CDialogPerfilAdministrador(props) {
   const {
     vUsuario,
+    //setVDatosLogin,
     mRefresaacarPantalla,
   } = props;
-  
+
   const [vNombre, setvNombre] = React.useState(vUsuario.nombre);
   const [vApePaterno, setvApePaterno] = React.useState(vUsuario.apellido_paterno);
   const [vApeMaterno, setvApeMaterno] = React.useState(vUsuario.apellido_materno);
   const [vCorreo, setvCorreo] = React.useState(vUsuario.correo);
   const [vContrasenia, setvContrasenia] = React.useState(vUsuario.password);
+
   
   const [open, setOpen] = React.useState(true);
+  const [vIsModoModificar, setVIsModoModificar] = React.useState(false);
+  const [vIsModoModificado, setVIsModoModificado] = React.useState(false);
+
+  
+  const [vKey, setVKey] = React.useState(Date.now());
 
   //variables para el alert
   const [state, setState] = React.useState({
@@ -88,72 +113,170 @@ export default function CDialogPerfilAdministrador(props) {
     vertical: "top",
     horizontal: "center",
   });
-  
+
   const { vertical, horizontal, opeA } = state;
 
   const handleClickOpen = () => {
+    setVKey(Date.now());
     setOpen(true);
   };
   const handleClose = () => {
+    setVKey(Date.now());
+    setVIsModoModificar(false);
+    mCarncelarEdicion();
     setOpen(false);
+    if (vIsModoModificado) {
+      mRefresaacarPantalla();
+      setVIsModoModificado(false);
+    }
+  };
+
+  const mAccionBotonPrimario = () => {
+    if (vIsModoModificar) {
+      const vUsuarioTmp = {
+        _id: vUsuario._id,
+        nombre: vNombre,
+        apellido_paterno: vApePaterno,
+        apellido_materno: vApeMaterno,
+        correo: vCorreo,
+      }; 
+      
+      if (mValidarDato(vUsuarioTmp)) {
+        Puts.mModificarAdministrador(vUsuarioTmp);
+        vUsuario.nombre=vUsuarioTmp.nombre;
+        vUsuario.apellido_paterno=vUsuarioTmp.apellido_paterno;
+        vUsuario.apellido_materno=vUsuarioTmp.apellido_materno;
+        
+        setVIsModoModificado(true);
+        setVIsModoModificar(!vIsModoModificar);
+      } else {
+        console.log("datos incorrectos, no se actualizo el administrador. Intente de nuevo.");
+      }
+    } else {
+      setVIsModoModificar(!vIsModoModificar);
+    }
+  };
+  const mAccionBotonSecundario = () => {
+    if (vIsModoModificar) {
+      setVIsModoModificar(!vIsModoModificar);
+      mCarncelarEdicion();
+    } 
+    else {
+      let vUsuarioTmp = vUsuario.filter(
+        (item) => {
+          return item._id !== vUsuario._id;
+        }
+      );
+      //Deletes.mEliminarCo(vDatos)
+      //setVDatosLogin(UsuarioTmp, true);
+      setVIsModoModificado(true);
+      setVIsModoModificar(!vIsModoModificar);
+      handleClose();
+    }
+  };
+
+  const mCarncelarEdicion = () => {
+    setvNombre(vUsuario.nombre);
+    setvCorreo(vUsuario.correo);
+    setvContrasenia(vUsuario.contrasenia);
   };
 
   return (
-    <div>
-      <BootstrapDialog
+    <>
+      <Mui.Dialog
+        key={vKey}
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
         open={open}
+        fullWidth={true}
+        maxWidth={"sm"}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} align = "center" >
-        {Variables.v_TEXTOS.ver_perfil}
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-
-        <Mui.TextField
-            autoFocus
+        <Mui.DialogContent>
+          <Mui.DialogTitle>
+            <Mui.Stack
+              direction="row"
+              spacing={1}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              {Variables.v_TEXTOS.ver_perfil}
+              <Mui.IconButton onClick={() => handleClose()} aria-label="delete">
+                <Icon.Close />
+              </Mui.IconButton>
+            </Mui.Stack>
+          </Mui.DialogTitle>
+          <Mui.Stack
+            direction="column"
+            divider={<Mui.Divider orientation="horizontal" flexItem />}
+            spacing={1}
+          >
+            <Mui.TextField
+              disabled={!vIsModoModificar}
+              required
+              label={Variables.v_TEXTOS.nombre}
+              value={vNombre}
+              onChange={(evt) => setvNombre(evt.target.value)}
+            />
+            <Mui.TextField
+            disabled={!vIsModoModificar}
+              sx={{ width: "100%" }}
+              required
+              label={Variables.v_TEXTOS.ape_paterno}
+              value={vApePaterno}
+              onChange={(e) => setvApePaterno(e.target.value)}
+            />
+            <Mui.TextField
+            disabled={!vIsModoModificar}
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.ape_materno}
+              value={vApeMaterno}
+              onChange={(e) => setvApeMaterno(e.target.value)}
+            />
+            <Mui.TextField
             disabled
-            margin="dense"
-            label={Variables.v_TEXTOS.nombre}
-            value={vNombre}
-            fullWidth
-            variant="standard"
-          />
-
-          <Mui.TextField
-            autoFocus
-            disabled
-            margin="dense"
-            label={Variables.v_TEXTOS.ape_paterno}
-            value={vApePaterno}
-            type="name"
-            fullWidth
-            variant="standard"
-          />
-
-          <Mui.TextField
-            autoFocus
-            disabled
-            margin="dense"
-            label={Variables.v_TEXTOS.ape_materno}
-            value={vApeMaterno}
-            type="name"
-            fullWidth
-            variant="standard"
-          />
-
-          <Mui.TextField
-            autoFocus
-            disabled
-            margin="dense"
-            label={Variables.v_TEXTOS.correo}
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.correo}
               value={vCorreo}
-            type="name"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-      </BootstrapDialog>
-    </div>
+              onChange={(e) => setvCorreo(e.target.value)}
+            />
+            <Mui.Grid
+              container
+              sx={{ width: "100%" }}
+              spacing={2}
+              columns={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              {vIsModoModificar ? (
+                <Mui.Button
+                  onClick={() => mAccionBotonSecundario()}
+                  name={Variables.v_TEXTOS.cancelar}
+                >
+                  {Variables.v_TEXTOS.cancelar}
+                </Mui.Button>
+              ) : (
+                <></>
+              )}
+
+              <Mui.Button
+                onClick={() => mAccionBotonPrimario()}
+                name={
+                  vIsModoModificar
+                    ? Variables.v_TEXTOS.guardar
+                    : Variables.v_TEXTOS.modificar
+                }
+                sx={{ marginLeft: 5 }}
+                variant="contained"
+              >
+                {vIsModoModificar
+                  ? Variables.v_TEXTOS.guardar
+                  : Variables.v_TEXTOS.modificar}
+              </Mui.Button>
+            </Mui.Grid>
+          </Mui.Stack>
+        </Mui.DialogContent>
+      </Mui.Dialog>
+    </>
   );
 }

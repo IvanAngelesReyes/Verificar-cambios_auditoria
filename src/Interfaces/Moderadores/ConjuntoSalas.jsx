@@ -18,23 +18,54 @@ import CSalas from "../Moderadores/CSalas";
 import CDetalleSala from "../Moderadores/CDetalleSala"
 import CAsistencia from "../Moderadores/CAsistencia"
 import MBotonSala from "../../Componentes/Botones/MBotonSala";
+import * as Gets from "../../Util/Gets";
 
 export default function ConjuntoSalas(props) {
+
+  console.log(" PROPS DE CONJUNTO SALAS --> " + props)
   
   const [vFrame, setvFrame] = React.useState("salas");
 
-  console.log(" PROPS DE CONJUNTO SALAS --> " + props)
+  const [vNombre, setvNombre] = React.useState("");
+  const [vArea, setvArea] = React.useState("");
+  const [vModalidad, setvModalidad] = React.useState("");
+  const [vFecha, setvFecha] = React.useState("");
+  const [vUbicacion, setvUbicacion] = React.useState("");
+  const [vSalon, setvSalon] = React.useState("");
+  const [vTurno, setvTurno] = React.useState("");
+  const [vNoponentes, setvNoponentes] = React.useState("");
+  const [vUrl, setvUrl] = React.useState("");
 
   const mCambiarFrame = () => {
     switch (vFrame) {
       case "salas":
-        return <CSalas setvFrame={setvFrame} />;
+        return <CSalas 
+                  setvFrame={setvFrame}
+                  setvNombre={setvNombre}
+                  setvArea={setvArea}
+                  setvModalidad={setvModalidad}
+                  setvFecha={setvFecha}
+                  setvUbicacion={setvUbicacion}
+                  setvSalon={setvSalon}
+                  setvTurno={setvTurno}
+                  setvNoponentes={setvNoponentes}
+                  setvUrl={setvUrl}/>;
       case "detallesalas":
-        return <CDetalleSala/>;
+        return <CDetalleSala 
+                  nombreSala={vNombre}
+                  areaSala={vArea}
+                  modalidadSala={vModalidad}
+                  fechaSala={vFecha}
+                  ubicacionSala={vUbicacion}
+                  salonSala={vSalon}
+                  turnoSala={vTurno}
+                  nopontentesSala={vNoponentes}
+                  urlSala={vUrl}
+                  />;
       case "asistencia":
         return <CAsistencia/>;
-      case "botonsala":
-          return <MBotonSala/>;
+      // case "botonsala":
+      //      return <MBotonSala setvNombre={setvNombre}/>;
       default:
         break;
     }

@@ -17,8 +17,68 @@ import * as React from 'react';
 import * as Mui from "@mui/material";
 import * as MuiIcons from '@mui/icons-material';
 import './RecuperaContra.css';
+import * as Puts from '../../Util/Puts';
+import * as Posts from "../../Util/Posts";
 
 export default function CRecuperaContra(){
+
+    const [vCorreo, setvCorreo] = React.useState("");
+
+    const handleClick = () => {
+
+        const vEmail = {
+            correo:vCorreo
+        }
+
+        if (verificaCampos(vEmail) === true)
+        {
+          Puts.mRPsswdModeradores(vEmail)
+          Posts.mEnviarCorreo(7,vEmail.correo,vEmail.password)
+
+        }
+        
+
+    }
+
+    /*const handleClick = () => {
+
+        const vEmail = {
+            correo:vCorreo
+        }
+
+        const vEmail2 = {
+            correo:vCorreo,
+            password: ""
+
+        }
+
+        if (verificaCampos(vEmail) === true) {
+            var mSeleccionarFrame = (vRes) => {
+              console.log("vRes ---> " + vRes.r);
+              switch (vRes.r) {
+                case "modencontradook":
+                  
+                  break;
+                case "modconencontradook":
+               
+                  break;
+                case "ventanaconsejero":
+             
+                  break;
+                case "ventanaauxiliar":
+             
+                  break;
+                case "ventanaadmin":
+               
+                  break;
+                default:
+                  break;
+              }
+            };
+            Posts.mLogins(vEmail, mSeleccionarFrame);
+            //Puts.mRPsswdModeradores(vEmail)
+          }
+    }*/
 
     return(
 
@@ -41,13 +101,20 @@ export default function CRecuperaContra(){
                     <div className="divFormularioRC">
 
                         {/*Text field del campo de correo*/}
-                        <Mui.Box sx={{ display: 'flex', alignItems: 'flex-end',width:'75%' }}>
-                            <MuiIcons.AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                            <Mui.TextField id="tfEmail" label="Escribe tu correo electronico" variant="standard" />
+                        <Mui.Box sx={{ display: "flex", alignItems: "flex-end", width: "75%" }}>
+                            <MuiIcons.AccountCircle sx={{ color: "action.active", mr: 1, my: 0.5 }}/>
+                            <Mui.TextField
+                            id="tfEmail"
+                            label="Escribe tu correo electronico"
+                            variant="standard"
+                            defaultValue=""
+                            value={vCorreo}
+                            onChange={(e) => setvCorreo(e.target.value)}
+                            />
                         </Mui.Box>
 
                         {/*Boton de recuperar contraseña*/}
-                        <Mui.Button variant="contained" id="btnRC">Enviar correo de recuperacion</Mui.Button>
+                        <Mui.Button variant="contained" id="btnRC" onClick={handleClick}>Enviar correo de recuperacion</Mui.Button>
 
                     </div>
 
@@ -58,5 +125,13 @@ export default function CRecuperaContra(){
         </section>
 
     );
+
+
+    function verificaCampos(vEmail) {
+        if (vEmail.correo === "") {
+          alert("Por favor escriba su correo en el campo correspondiente");
+          return false;
+        }
+      }
 
 }

@@ -1,7 +1,7 @@
 /*
 SmartSoft
-Componente: CConsejero
-Fecha de creacion: 26/10/2022, Autorizó: Alejandra Patricia Chaparro Matias
+Componente: CModerador
+Fecha de creacion: 26/10/2022, Alejandra Patricia Chaparro Matias
 
 Modificaciones:
     Fecha               Folio
@@ -17,15 +17,16 @@ import React from "react";
 
 import * as Mui from "@mui/material";
 import * as Variables from "../../../Global/Variables";
-import DialogPerfilConsulta from "../../Dialogs/CDialogPerfilConsulta";
+import DialogPerfilConsulta from "../../Dialogs/CDialogPerfilConsultaInstitucion";
 
 
 
-export default function CConsejero(props) {
-
+export default function CModerador(props) {
   const {
-      nombre
-  } = props
+    vRegistro, 
+    setVRegistrosModeradores,
+    vRegistrosModeradores, 
+    mRefresaacarPantalla} = props;
 
   return (
     <Mui.Paper elevation={3}>
@@ -35,7 +36,7 @@ export default function CConsejero(props) {
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
-            width: "100%",
+            width: 1100,
           },
         }}
       >
@@ -45,12 +46,12 @@ export default function CConsejero(props) {
           direction="row"
           justifyContent="space-between"
           alignItems="stretch"
+          align = "center"
         >
-          <Mui.Avatar  alt="Remy Sharp" src="/api-moderadores/backend/src/assets/1.jpg"/> 
-          
           <Mui.TextField
             label={Variables.v_TEXTOS.nombre}
-            defaultValue={nombre}
+            //defaultValue="Alejandra"
+            defaultValue={vRegistro.nombre}
             InputProps={{
               readOnly: true,
             }}
@@ -58,7 +59,8 @@ export default function CConsejero(props) {
           />
           <Mui.TextField
             label={Variables.v_TEXTOS.institucion}
-            defaultValue="UAEM"
+            //defaultValue="UAEMEX"
+            defaultValue={vRegistro.institucion}
             InputProps={{
               readOnly: true,
             }}
@@ -66,13 +68,14 @@ export default function CConsejero(props) {
           />
           <Mui.TextField
             label={Variables.v_TEXTOS.rol}
-            defaultValue="Consejero"
+            //defaultValue="Moderador"
+            defaultValue={vRegistro.consejero===true?"Consejero":"Moderador"}
             InputProps={{
               readOnly: true,
             }}
             variant="standard"
           />
-          <DialogPerfilConsulta/>
+            <DialogPerfilConsulta mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosModeradores={setVRegistrosModeradores} vRegistrosModeradores={vRegistrosModeradores} vRegistro={vRegistro}/>
         </Mui.Grid>
       </Mui.Box>
     </Mui.Paper>

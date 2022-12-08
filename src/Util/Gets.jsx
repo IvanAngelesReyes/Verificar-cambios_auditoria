@@ -193,7 +193,7 @@ export async function mGetModeradoresMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-moderadores-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };
@@ -210,7 +210,7 @@ export async function mGetConsejerosMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-consejeros-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };
@@ -342,5 +342,40 @@ export async function mGetModeradoresSinAceptar(setvModeradores) {
       setvModeradores([]);
     }
     //setvKeySalas(Date.now());
+  });
+}
+
+
+export async function mGetSalasPrueba(setVSalas, setvKeySalas, setVIsCargandoSalas) {
+  
+  let arrSalas = []
+  
+  let reqOptions = {
+    url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
+    method: "GET",
+    mode: "corps",
+  };
+
+  await axios.request(reqOptions).then(function (response) {
+    if (response.data.length > 0) {
+      let vResponse = response.data;
+      setVSalas(vResponse);
+      console.log("Response")
+
+      // vResponse.map((sala,index) =>
+      //   console.log(vResponse[index])
+
+      //   // if(vResponse[index].linea === vResponse[index+1].linea){
+      //   //   arrNombres[index] = 
+      //   // }
+
+      // );
+
+
+    } else {
+      setVSalas([]);
+    }
+    setvKeySalas(Date.now());
+    setVIsCargandoSalas(false);
   });
 }

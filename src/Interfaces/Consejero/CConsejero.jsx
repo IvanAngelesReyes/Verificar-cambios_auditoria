@@ -20,15 +20,16 @@ import * as Icon from "@mui/icons-material";
 
 import * as Variables from "../../Global/Variables";
 
-import CSalas from "./CSalas";
+import CSalas from "../Moderadores/CSalas";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
-import CHome_Moderadores from "./CHome_Moderadores";
-import ConjuntoSalas from "../Moderadores/ConjuntoSalas";
+import CMiPerfil from "../Moderadores/CMiPerfil";
+import CHome_Moderadores from "../Moderadores/CHome_Moderadores";
+// import ConjuntoSalas from "../Moderadores";
 import Consejeros from "../Moderadores/CConsejeros";
 import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
 
 
-export default function CModerador(props) {
+export default function CConsejero(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vModeradores,vUsuario } = props;
   const vResAltoNav = 0;
 
@@ -48,16 +49,16 @@ export default function CModerador(props) {
         texto: Variables.v_MenuModeradores.item2,
         mAccion: mSetvContenido,
       },
-      {
-        icon: <Icon.AccountBalance />,
-        texto: Variables.v_MenuModeradores.item3,
-        mAccion: mSetvContenido,
-      },
       // {
-      //   icon: <Icon.People />,
-      //   texto: Variables.v_MenuModeradores.item4,
+      //   icon: <Icon.AccountBalance />,
+      //   texto: Variables.v_MenuModeradores.item3,
       //   mAccion: mSetvContenido,
       // },
+      {
+        icon: <Icon.People />,
+        texto: Variables.v_MenuModeradores.item4,
+        mAccion: mSetvContenido,
+      },
     ];
   };
 
@@ -83,21 +84,18 @@ export default function CModerador(props) {
             mSetvFramePrincipal={mSetvFramePrincipal}
           />
         );
-        
-      case Variables.v_MenuModeradores.item3:
-        return <ConjuntoSalas
-        vAltoNav={vAltoNav}
-        vAnchoNav={vAnchoNav}
-        mSetvFramePrincipal={mSetvFramePrincipal}
-        vUsuario={vUsuario}
-      />
-
-      // case Variables.v_MenuModeradores.item4:
-      //   return <Consejeros
+      // case Variables.v_MenuModeradores.item3:
+      //   return <ConjuntoSalas
       //   vAltoNav={vAltoNav}
       //   vAnchoNav={vAnchoNav}
       //   mSetvFramePrincipal={mSetvFramePrincipal}
-      // />      
+      // />
+      case Variables.v_MenuModeradores.item4:
+        return <Consejeros
+        vAltoNav={vAltoNav}
+        vAnchoNav={vAnchoNav}
+        mSetvFramePrincipal={mSetvFramePrincipal}
+      />      
       default:
         <p>Esto no se debe de ver</p>;
         break;

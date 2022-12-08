@@ -1,4 +1,5 @@
 import Gets from "../Util/Gets"
+import * as Posts from "../Util/Posts";
 
 export const generatePasswordRand = (length, type) => {
   let characters = "";
@@ -54,39 +55,37 @@ export function verificaResMod(vResponse){
   let respuesta = vResponse.msg
   let consejero = vResponse.vUsuario?.consejero
 
-  console.log("MSG ---> " + respuesta)
+  //console.log("MSG ---> " + respuesta)
   //console.log("ESTADO ---> " + estado)
-  console.log("CONSEJERO ---> " + consejero)
+  //console.log("CONSEJERO ---> " + consejero)
 
   if(respuesta === 'algo salio mal'){
     alert('Algo salio mal')
-  }else
-  {
+  }else{
+    //No encontro al usuario en la base de datos
     if(respuesta === "Usuario / Contraseña incorrectos"){
-        //alert("El usuario o contraseña son incorrectos")
-        return "moderadornoencontrado"
-        
-    }
-
-    if(respuesta === "Usuario / Password incorrectos"){
-        alert("El usuario o contraseña son incorrectos")
-        //return "moderadornoencontrado"
-    }
-
-    if(respuesta === "No tiene autorizacion"){
-      alert("Debe esperar a que el administrador apruebe su solicitud")
-      return "noautorizado";
+        //alert("El usuario o contraseña son incorrectos (moderador no encontrado)")
+        return "modnoencontrado"  
     }else{
-      if(respuesta === "Inicio de sesion correcto")
-      {
-        if(consejero === false){
-          alert("Bienvenido moderador")
-          return "moderadorencontrado"
-          
+      if(respuesta === "Usuario / Password incorrectos"){
+        //alert("El usuario o contraseña son incorrectos (contra incorrecta moderador)")
+        return "moderrorcontra"
+      }else{
+        if(respuesta === "No tiene autorizacion"){
+          alert("Debe esperar a que el administrador apruebe su solicitud")
+          return "modnoautorizado";
         }else{
-            alert("Bienvenido consejero (desde moderadores)")
-            return "modconsejeroencontrado"
+          if(respuesta === "Inicio de sesion correcto")
+          {
+            if(consejero === false){
+              alert("Bienvenido moderador")
+              return "modencontradook"
+            }else{
+                alert("Bienvenido moderador - consejero")
+                return "modconencontradook"
+              }
           }
+        }
       }
     }
   }
@@ -99,25 +98,32 @@ export function verificaRAdmin(vResponse){
   //console.log("MSG ---> " + respuesta)
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
-      //alert("El usuario o contraseña son incorrectos")
+    alert("El usuario o contraseña son incorrectos (admin no encontrado)")
       return "adminnoencontrado";
-  }
-
-  if (respuesta === "Usuario / Contraserña incorrectos") {
-    alert("El usuario o contraseña son incorrectos");
-    return "adminnoencontrado";
-  }
-
-  if(respuesta === "No tiene autorizacion"){
-      alert("Debe esperar a que el administrador apruebe su solicitud")
-      return "noautorizado";
   }else{
-      if(respuesta === "Inicio de sesion correcto"){
-          alert("Bienvenido administrador")
-          return "adminencontrado"
-          //LLAMAR LA VENTANA DE CONSEJEROS
-      }
+
+    if (respuesta === "Usuario / Password incorrectos") {
+      alert("El usuario o contraseña son incorrectos (admin) ");
+      return "adminerrorcontra";
+    }
+  
+    if(respuesta === "Inicio de sesion correcto"){
+      alert("Bienvenido administrador")
+      return "adminencontradook"
+    }
+
   }
+
+  // if(respuesta === "No tiene autorizacion"){
+  //     alert("Debe esperar a que el administrador apruebe su solicitud")
+  //     //return "adminencontrado";
+  //     return "noautorizado";
+  // }else{
+  //     if(respuesta === "Inicio de sesion correcto"){
+  //         alert("Bienvenido administrador")
+  //         return "adminencontrado"
+  //     }
+  // }
 };
 
 export function verificaRC(vResponse){
@@ -127,28 +133,28 @@ export function verificaRC(vResponse){
   //console.log("MSG ---> " + respuesta)
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
-      //alert("El usuario o contraseña son incorrectos")
-      return "consejeronoencontrado"
-  }
-
-  if(respuesta === "Usuario / Password incorrectos"){
-      alert("El usuario o contraseña son incorrectos")
-      //return "consejeronoencontrado"
-  }
-
-  if(respuesta === "No tiene autorizacion"){
-      alert("Debe esperar a que el administrador apruebe su solicitud")
-      return "consejeroencontrado"
+      //alert("El usuario o contraseña son incorrectos (consejero no encontrado)")
+      return "connoencontrado"
   }else{
-      if(respuesta === "Inicio de sesion correcto"){
-          alert("Bienvenido consejero (desde consejero)")
-          return "consejeroencontrado"
-          //LLAMAR LA VENTANA DE CONSEJEROS
-      }
+    if(respuesta === "Usuario / Password incorrectos"){
+      //alert("El usuario o contraseña son incorrectos (consejero)")
+      return "conerrorcontra"
+    }
+
+    if(respuesta === "No tiene autorizacion"){
+        alert("Debe esperar a que el administrador apruebe su solicitud")
+        return "connoautorizado"
+    }else{
+        if(respuesta === "Inicio de sesion correcto"){
+            alert("Bienvenido consejero (desde consejero)")
+            return "conencontradook"
+        }
+    }
   }
+
 };
 
-//Falatn en back end
+//Auxiliares
 export function verificaRCoo(vResponse){
 
   let respuesta = vResponse.msg
@@ -156,23 +162,24 @@ export function verificaRCoo(vResponse){
   //console.log("MSG ---> " + respuesta)
 
   if(respuesta === "Usuario / Contraseña incorrectos"){
-      //alert("El usuario o contraseña son incorrectos")
-      return "auxiliarnoencontrado"
-  }
-
-  if(respuesta === "Usuario / Password incorrectos"){
-      alert("El usuario o contraseña son incorrectos")
-      //return "auxiliarnoencontrado"
-  }
-
-  if(respuesta === "No tiene autorizacion"){
-      alert("Debe esperar a que el administrador apruebe su solicitud")
+      //alert("El usuario o contraseña son incorrectos (auxiliar no encontrado)")
+      return "auxnoencontrado"
   }else{
-      if(respuesta === "Inicio de sesion correcto"){
-          alert("Bienvenido auxiliar")
-          return "auxiliarencontrado"
-          //LLAMAR LA VENTANA DE CONSEJEROS
-      }
+    if(respuesta === "Usuario / Password incorrectos"){
+      //alert("El usuario o contraseña son incorrectos (auxiliar)")
+      return "auxerrorcontra"
+    }
+
+    if(respuesta === "No tiene autorizacion"){
+        alert("Debe esperar a que el administrador apruebe su solicitud")
+        return "auxnoautorizado"
+    }else{
+        if(respuesta === "Inicio de sesion correcto"){
+            alert("Bienvenido auxiliar")
+            return "auxencontradook"
+            //LLAMAR LA VENTANA DE CONSEJEROS
+        }
+    }
   }
 };
 
@@ -207,7 +214,7 @@ export function verificaRRM(vDatosRegistro,vCorreo){
 
   if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
       alert("Su registro se realizo correctamente")
-      //PONER API QUE ENVIA CORREO
+      //Posts.mEnviarCorreo(1,vCorreo)
       return false;
   }else{
       if(errorFormato === true){

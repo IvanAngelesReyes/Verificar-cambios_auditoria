@@ -1,98 +1,156 @@
 /*
 SmartSoft
-Componente: CConsultaCoordinador
-Fecha de creacion: 27/10/2022, Autorizó: Rubi Esmeralda Rosales Chavero, Revisó: Leandro Gómez Flores
+Componente: CConsultaModeradoresYConsejeros
+Fecha de creacion: 20/10/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
     Fecha               Folio
 
-Descripcion:
-Interfaz para el tab busqueda del CCRUDCoordinadores, despliega las tarjetas de los coordinadores y las filtra
+Descripcion: 
+Esta interfaz mostrará una lista con todos los moderadores y consejeros registrados en el sistema.
 
-Numero de metodos: 
-Componentes relacionados: CTarjetaCuadroCoordinador, CTarjetaListaCoordinador, CBotonCuadroLista
+Numero de metodos: 2
+Componentes relacionados: 
 */
 
-import React from "react";
-
+import * as React from 'react';
+import Reactt, { useState, useEffect, useRef } from 'react';
 import * as Mui from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+
 import * as Variables from "../../Global/Variables";
-import BotonCuadroLista from "../Botones/CBotonCuadroLista";
-import TarjetaCuadroConsejero from "../CRUDModeradoresYConsejeros/Tarjetas/CTarjetaCuadroConsejero";
-import TarjetaListaConsejero from "../CRUDModeradoresYConsejeros/Tarjetas/CTarjetaListaConsejero";
-import TarjetaCuadroModerador from "../CRUDModeradoresYConsejeros/Tarjetas/CTarjetaCuadroModerador";
-import TarjetaListaModerador from "../CRUDModeradoresYConsejeros/Tarjetas/CTarjetaListaModerador";
+import TarjetaCuadroModeradores from "../../Componentes/TarjetasPerfiles/Cuadros/CModeradorInstitucion";
+import TarjetaListaModeradores from "../../Componentes/TarjetasPerfiles/Listas/CModeradorInstitucion";
+import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
 
-const vListaInstituciones = ["Todo", "UNAM", "UAPT", "UEAMEX","TEC"];
+const vListaRol = ["Todo","Moderador", "Consejero"];
 
-export default function CConsultaCoordinador(props) {
-  const { vRegistrosCoordinadores,setVRegistrosCoordinadores,mRefresaacarPantalla,setvAcctualizarEstado } = props;
+export default function CConsultaModeradoresYConsejeros(props) {
+  const {
+    vRegistrosModeradores,
+    setVRegistrosModeradores,
+    vRegistrosConsejeros,
+    setVRegistrosConsejeros,
+    vUsuario,
+    mRefresaacarPantalla,
+    setvAcctualizarEstado } = props;
+
+  // Gneral Focus Hook
+  const UseFocus = () => {
+    const htmlElRef = useRef(null)
+    const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
+
+    return [htmlElRef, setFocus]
+  }
 
   const [vKey, setVKey] = React.useState(Date.now());
 
-  const [vRegistrosFiltrados, setVRegistrosFiltrados] = React.useState([]);
-  const [vVistaLista, setvVistaLista] = React.useState(true);
-  const [vInstitucionSeleccionada, setVInstitucionSeleccionada] =
+  const [vRegistrosFiltradosModeradores, setVRegistrosFiltradosModeradores] =
+    React.useState([]);
+
+    const [vRegistrosFiltradosConsejeros, setVRegistrosFiltradosConsejeros] =
+    React.useState([]);
+
+  const [vVistaListaModeradores, setvVistaListaModeradores] =
+    React.useState(true);
+
+  const [vRolSeleccionada, setVRolSeleccionada] =
     React.useState("Todo");
 
   const [vFiltroOrden, setVFiltroOrden] = React.useState(
     Variables.v_TEXTOS.orden.ascendente
   );
 
+  const [search, setSearch] = useState("");
+  const [searchRef, setSearchFocus] = UseFocus();
+
+
+  //Metodo de obtencion de texto
+  const searcher = async (e) => {
+    setSearch(e.target.value)
+    let searching = "" + e.target.value;
+    setVIsFiltro(true);
+  }
+
+  //Metodo de filtrado
   const [vIsFiltro, setVIsFiltro] = React.useState(true);
 
-  const mfiltroInstituciones = async (vRegistros) => {
+  const mfiltroRol = async (vRegistros) => {
     return await vRegistros.filter((item) => {
-      return vInstitucionSeleccionada === "Todo"
-        ? true
-        : item.institucion === vInstitucionSeleccionada;
+      return vRolSeleccionada === "Todo" ? true
+        : vRolSeleccionada === "Moderador" ? item.consejero === false
+          : item.consejero === true
+    });
+  };
+
+  const mfiltroBusqueda = async (vRegistros) => {
+    return await vRegistros.filter((item) => {
+      let text = '' + item.nombre;
+      let s = search;
+      let ss = searcher;
+      let resultado = true;
+      if (typeof (s) !== 'undefined' && s != null) {
+        if (s == "") {
+          return true;
+        } else {
+          resultado = text.toLowerCase().includes(search.toLowerCase(), 0);
+          return resultado;
+        }
+      } else {
+        return true;
+      }
     });
   };
 
   const mFiltroOrden = async (vRegistros) => {
-    if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
+      if (vFiltroOrden == "Ascendente (A-Z)") {
       return await vRegistros.sort((a, b) =>
-        a.nombre > b.nombre
+        a.nombre.toLowerCase() > b.nombre.toLowerCase()
           ? 1
-          : a.nombre < b.nombre
-          ? -1
-          : 0
+          : a.nombre.toLowerCase() < b.nombre.toLowerCase()
+            ? -1
+            : 0
       );
     } else {
       return await vRegistros.sort((a, b) =>
-        a.nombre < b.nombre
+        a.nombre.toLowerCase() < b.nombre.toLowerCase()
           ? 1
-          : a.nombre > b.nombre
-          ? -1
-          : 0
+          : a.nombre.toLowerCase() > b.nombre.toLowerCase()
+            ? -1
+            : 0
       );
     }
   };
 
-  const mActulizarFiltro=()=>{
+  const mActualizarFiltro = () => {
     setVIsFiltro(true)
   }
 
   React.useEffect(() => {
     if (vIsFiltro) {
-      setvAcctualizarEstado(()=>mActulizarFiltro)
-      mfiltroInstituciones([...vRegistrosCoordinadores]).then((result) => {
-        mFiltroOrden([...result]).then((result2) => {
-          setVRegistrosFiltrados(result2);
-          setVIsFiltro(false);
-          setVKey(Date.now());
-        });
+      setvAcctualizarEstado(() => mActualizarFiltro)
+      mfiltroBusqueda([...vRegistrosModeradores.vConsultaDataModerador]).then((result) => {
+          mfiltroRol([...result]).then((result2) => {
+            mFiltroOrden([...result2]).then((result3) => {
+              setVRegistrosFiltradosModeradores(result3.filter(f=>f.institucion==vUsuario.institucion));
+              setVIsFiltro(false);
+              setVKey(Date.now());
+              setSearchFocus();
+            });
+          });
       });
     }
 
   }, [vIsFiltro]);
 
-  const mVista = () => {
-    if (vVistaLista) {
+
+  const mVistaModeradores = () => {
+    if (vVistaListaModeradores) {
       return (
         <>
           <Mui.Stack key={vKey} direction="column" spacing={2}>
-            {mListasCoordinadores()}
+            {mListasModeradores()}
           </Mui.Stack>
         </>
       );
@@ -105,7 +163,7 @@ export default function CConsultaCoordinador(props) {
             spacing={5}
             justifyContent="flex-start"
           >
-            {mCuadrosCoordinadores()}
+            {mCuadrosModeradores()}
           </Mui.Grid>
         </>
       );
@@ -117,111 +175,156 @@ export default function CConsultaCoordinador(props) {
     setVFiltroOrden(evt.target.value);
   };
 
-  function mCuadrosCoordinadores() {
-    if (vRegistrosFiltrados.length === 0) {
-      return <p>No hay info</p>;
-    } else {
-      return vRegistrosFiltrados.map((item) => {
-        return <TarjetaCuadroConsejero mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosCoordinadores={vRegistrosCoordinadores} setVRegistrosCoordinadores={setVRegistrosCoordinadores} vRegistro={item} />;
+
+  function mCuadrosModeradores() {
+    if (vRegistrosFiltradosModeradores.length === 0) {
+      return <p>No hay información</p>;
+    } 
+    else {
+      return vRegistrosFiltradosModeradores.map((item) => {
+        return <TarjetaCuadroModeradores 
+        mRefresaacarPantalla={mRefresaacarPantalla} 
+        vRegistrosModeradores={vRegistrosModeradores.vConsejeros} 
+        setVRegistrosModeradores={setVRegistrosModeradores} 
+        vRegistro={item} />;
       });
     }
   }
 
-  function mListasCoordinadores() {
-    if (vRegistrosFiltrados.length === 0) {
-      return <p>sin info</p>;
-    } else {
-      return vRegistrosFiltrados.map((item) => {
-        return <TarjetaListaConsejero mRefresaacarPantalla={mRefresaacarPantalla} vRegistrosCoordinadores={vRegistrosCoordinadores} setVRegistrosCoordinadores={setVRegistrosCoordinadores}
-         vRegistro={item} />;
+
+  function mListasModeradores() {
+    if (vRegistrosFiltradosModeradores.length === 0) {
+      return <p>No hay información</p>;
+    } 
+    else {
+      return vRegistrosFiltradosModeradores.map((item) => {
+        return <TarjetaListaModeradores 
+        mRefresaacarPantalla={mRefresaacarPantalla} 
+        vRegistrosModeradores={vRegistrosModeradores.vConsejeros} 
+        setVRegistrosModeradores={setVRegistrosModeradores}
+          vRegistro={item} 
+          />;
       });
     }
   }
+
 
   return (
-    <Mui.Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        "& > :not(style)": {
-          m: 1,
-          width: "100%",
-        },
-      }}
+    <Mui.Stack
+      key={vKey}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
     >
-      <Mui.Stack key={vKey} direction="column" spacing={2}>
-        <Mui.Grid container spacing={2}>
-          <Mui.Grid item xs={6}>
-            <Mui.Typography variant="body1" component="div">
-              {Variables.v_TEXTOS.busqueda_por}
-            </Mui.Typography>
+      <Mui.Stack
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        spacing={0.5}
+        sx={{ alignSelf: "stretch" }}
+      >
+
+        <Mui.Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={0.5}
+          sx={{ alignSelf: "stretch" }}
+        >
+        </Mui.Stack>
+
+
+        <Mui.Typography variant="h6" component="h6">
+          {Variables.v_TEXTOS.filtrar_por}
+        </Mui.Typography>
+
+        <Mui.Stack direction="row" spacing={4} justifyContent="space-evenly">
+          <Mui.Stack direction="row" spacing={4} alignItems="flex-start" justifyContent="flex-start">
             <Mui.Autocomplete
               disablePortal
-              options={vListaInstituciones}
+              options={vListaRol}
               sx={{ width: 300 }}
               renderInput={(params) => (
-                <Mui.TextField {...params} label="Institución" />
+                <Mui.TextField {...params} label="Rol" />
               )}
-              value={vInstitucionSeleccionada}
-              inputValue={vInstitucionSeleccionada}
+              value={vRolSeleccionada}
+              inputValue={vRolSeleccionada}
               onInputChange={(event, newInputValue) => {
                 setVIsFiltro(true);
                 if (newInputValue.length === 0) {
-                  setVInstitucionSeleccionada("Todo");
+                  setVRolSeleccionada("Todo");
                 } else {
-                  setVInstitucionSeleccionada(newInputValue);
+                  setVRolSeleccionada(newInputValue);
                 }
               }}
             />
-          </Mui.Grid>
-          <Mui.Grid item xs={6}>
-            <Mui.FormControl>
-              <Mui.FormLabel id="radio-buttons-group">
-                {Variables.v_TEXTOS.ordenar_por}
-              </Mui.FormLabel>
-              <Mui.RadioGroup
-                value={vFiltroOrden}
-                onChange={handleChange}
-                row
-                aria-labelledby="radio-buttons-group"
-              >
-                <Mui.FormControlLabel
-                  value={Variables.v_TEXTOS.orden.ascendente}
-                  control={
-                    <Mui.Radio
-                      cheked={
-                        vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
-                      }
-                    />
-                  }
-                  label={Variables.v_TEXTOS.orden.ascendente}
-                />
-                <Mui.FormControlLabel
-                  value={Variables.v_TEXTOS.orden.descendente}
-                  control={
-                    <Mui.Radio
-                      cheked={
-                        vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
-                      }
-                    />
-                  }
-                  label={Variables.v_TEXTOS.orden.descendente}
-                />
-              </Mui.RadioGroup>
-            </Mui.FormControl>
-          </Mui.Grid>
-        </Mui.Grid>
 
-        <Mui.Stack
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-        >
-          <BotonCuadroLista mSeleccionarLista={setvVistaLista} />
+            <Mui.Grid item xs={6}>
+              <Mui.FormControl>
+                <Mui.FormLabel id="radio-buttons-group">
+                  {Variables.v_TEXTOS.ordenar_por}
+                </Mui.FormLabel>
+                <Mui.RadioGroup
+                  value={vFiltroOrden}
+                  onChange={handleChange}
+                  row
+                  aria-labelledby="radio-buttons-group"
+                >
+                  <Mui.FormControlLabel
+                    value={Variables.v_TEXTOS.orden.ascendente}
+                    control={
+                      <Mui.Radio
+                        cheked={
+                          vFiltroOrden === Variables.v_TEXTOS.orden.ascendente
+                        }
+                      />
+                    }
+                    label={Variables.v_TEXTOS.orden.ascendente}
+                  />
+                  <Mui.FormControlLabel
+                    value={Variables.v_TEXTOS.orden.descendente}
+                    control={
+                      <Mui.Radio
+                        cheked={
+                          vFiltroOrden === Variables.v_TEXTOS.orden.descendente
+                        }
+                      />
+                    }
+                    label={Variables.v_TEXTOS.orden.descendente}
+                  />
+                </Mui.RadioGroup>
+              </Mui.FormControl>
+            </Mui.Grid>
+
+            <Mui.Stack
+              direction="row"
+              spacing={8}
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <BotonCuadroLista
+                mSeleccionarLista={setvVistaListaModeradores}
+                mSeleccionarLista2={setvVistaListaModeradores}
+              />
+            </Mui.Stack>
+
+          </Mui.Stack>
         </Mui.Stack>
 
-        {mVista()}
+
+        <Mui.Stack direction="column" spacing={5}>
+          <Mui.Stack direction="column" spacing={5}>
+            <Mui.Typography variant="h5" component="h5">
+
+            </Mui.Typography>
+          </Mui.Stack>
+
+          {mVistaModeradores()}
+
+        </Mui.Stack>
+
       </Mui.Stack>
-    </Mui.Box>
-  );
+    </Mui.Stack>
+  )
 }

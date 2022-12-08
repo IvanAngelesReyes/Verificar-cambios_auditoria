@@ -170,18 +170,14 @@ export default function CAdministrador(props) {
     switch (vContenido) {
       case Variables.v_MenuAdministrador.item1:
         return (
-          //onClick = {()=>
           <CDialogPerfilAdministrador
-            setvAcctualizarEstado={mActualizarEstado}
-            vAltoNav={vAltoNav}
-            vAnchoNav={vAnchoNav}
-            mSetvFramePrincipal={mSetvFramePrincipal}
-            vUsuario={vUsuario}
-            //vRegistrosAuxiliares={vRegistrosAuxiliares}
-            //setVRegistrosAuxiliares={mActualziarCoordinarodes}
-            mRefresaacarPantalla={mRefresaacarPantalla}
-          />
-          //}
+          setvAcctualizarEstado={mActualizarEstado}
+          vAltoNav={vAltoNav}
+          vAnchoNav={vAnchoNav}
+          mSetvFramePrincipal={mSetvFramePrincipal}
+          vUsuario={vUsuario}
+          mRefresaacarPantalla={mRefresaacarPantalla}
+        />
         );
       case Variables.v_MenuAdministrador.item2:
         return (
@@ -238,35 +234,7 @@ export default function CAdministrador(props) {
           />
         );
       case Variables.v_MenuAdministrador.item6:
-        let tmp = [];
-        tmp = vRegistrosConsejeros.vConsejeros;
-        let consejeros = tmp.map((m) => {
-          return {
-            apellido_materno: m.apellido_materno,
-            apellido_materno: m.apellido_materno,
-            apellido_paterno: m.apellido_paterno,
-            area_interes_1: m.area_interes_1,
-            area_interes_2: m.area_interes_2,
-            correo: m.correo,
-            estado: m.estado,
-            imagen: m.imagen,
-            institucion: m.institucion,
-            nombre: m.nombre,
-            consejero: true,
-            salas: "",
-            rol: m.rol,
-            uid: m.uid,
-          };
-        });
-        consejeros = [].concat(
-          consejeros,
-          vRegistrosModeradores.vConsultaDataModerador
-        );
-        let RegistrosModeradores = {
-          msg: "",
-          vConsultaDataModerador: consejeros,
-        };
-        //vRegistrosModeradores.vConsultaDataModerador = moderadores;
+        
         return (
           <>
             <CUsuarios
@@ -276,14 +244,14 @@ export default function CAdministrador(props) {
               vRegistrosAuxiliares={vRegistrosAuxiliares}
               setVRegistrosAuxiliares={mActualziarCoordinarodes}
               mRefresaacarPantalla={mRefresaacarPantalla}
-              vRegistrosModeradores={RegistrosModeradores}
+              vRegistrosModeradores={vRegistrosModeradores}
               setVRegistrosModeradores={mActualizarModeradores}
               vRegistrosConsejeros={vRegistrosConsejeros}
               setVRegistrosConsejeros={mActualizarConsejeros}
             />
           </>
         );
-      default:
+        default:
     }
   };
 

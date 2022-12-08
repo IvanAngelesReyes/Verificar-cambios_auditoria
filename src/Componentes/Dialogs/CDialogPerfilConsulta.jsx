@@ -29,8 +29,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import * as Deletes from "../../Util/Deletes";
 import * as Puts from "../../Util/Puts";
-import CDialogConfirmarCambiarRol from "./CDialogConfirmarCambiarRol";
-import CDialogConfirmarEliminacion from "./CDialogConfirmarEliminacionDatos";
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -84,13 +82,13 @@ export default function CDialogPerfilConsulta(props) {
   const [vApePaterno, setvApePaterno] = React.useState(vRegistro.apellido_paterno);
   const [vApeMaterno, setvApeMaterno] = React.useState(vRegistro.apellido_materno);
   const [vInstitucion, setvInstitucion] = React.useState(vRegistro.institucion);
+  const [vAreaInteres1, setvAreaInteres1] = React.useState(vRegistro.area_interes_1);
+  const [vAreaInteres2, setvAreaInteres2] = React.useState(vRegistro.area_interes_2);
   const [vCorreo, setvCorreo] = React.useState(vRegistro.correo);
   const[vConsejero, setvConsejero] = React.useState(vRegistro.consejero)
 
   const [vIsModoCambiar, setVIsModoCambiar] = React.useState(false);
   const [vIsModoCambiado, setVIsModoCambiado] = React.useState(false);
-
-  console.log(props)
 
   const [vKey, setVKey] = React.useState(Date.now());
   const [open, setOpen] = React.useState(false);
@@ -170,7 +168,7 @@ export default function CDialogPerfilConsulta(props) {
                 </Mui.Stack> 
 
                 <Typography gutterBottom>
-                  {vInstitucion}
+                  {vCorreo}
                 </Typography>
 
                 <Typography gutterBottom>
@@ -178,21 +176,22 @@ export default function CDialogPerfilConsulta(props) {
                 </Typography>
 
                 <Typography gutterBottom>
-                  {vCorreo}
+                  {vInstitucion}
                 </Typography>
 
+                <Typography gutterBottom>
+                  {vAreaInteres1}
+                </Typography>
+
+                <Typography gutterBottom>
+                  {vAreaInteres2}
+                </Typography>
             </Mui.Stack>
                       
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
-            <CDialogConfirmarEliminacion
-                  vAccionAceptar={mAccionBotonSecundario}
-                />
-          </Button>
-          <Button onClick={handleClose}>
-            {Variables.v_TEXTOS.cambiar}
-            <cDialogConfirmarCambiarRol/>
+            {Variables.v_TEXTOS.aceptar}
           </Button>
         </DialogActions>
       </BootstrapDialog>

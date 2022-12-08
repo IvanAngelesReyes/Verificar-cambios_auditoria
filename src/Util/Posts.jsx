@@ -10,39 +10,67 @@ export async function rlogins(vLogin) {
 
 //logins
 export async function mLogins(vLogin, mSeleccionarFrame) {
-  //const navigate = useNavigate()
   await mLoginModerador(vLogin).then((respuestam) => {
-    if (
-      respuestam.r === "moderadorencontrado" ||
-      respuestam.r === "modconsejeroencontrado"
-    ) {
-      console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
+    if ( respuestam.r === "modencontradook" || respuestam.r === "modconencontradook") {
+      console.log("ENCONTRADO EN MODERADORES TODO OK, DETENER BUSQUEDA");
       mSeleccionarFrame(respuestam);
     } else {
-      if (respuestam.r === "noautorizado") {
-        console.log("ENCONTRADO EN MODERADORES, DETENER BUSQUEDA");
+      if (respuestam.r === "modnoautorizado" || respuestam.r === "moderrorcontra") {
+        console.log("ENCONTRADO EN MODERADORES CON ERRORES, DETENER BUSQUEDA---");
+
+        if(respuestam.r === "moderrorcontra"){
+          alert("El usuario o contraseña son incorrectos (contra incorrecta moderador)")
+        }
+
       } else {
-        mLoginConsejero(vLogin).then((respuestam) => {
-          if (respuestam.r === "consejeroencontrado") {
-            console.log("ENCONTRADO EN CONSEJEROS, DETENER BUSQUEDA");
-            respuestam.r = "ventanaconsejero";
-            mSeleccionarFrame(respuestam);
+        console.log("NO ENCONTRADO EN MODERADORES, CONTINUAR BUSQUEDA");
+
+        //COMIENZA LA BUSQUEDA EN CONSEJEROS
+        mLoginConsejero(vLogin).then((respuestac) => {
+          if (respuestac.r === "conencontradook") {
+            console.log("ENCONTRADO EN CONSEJEROS TODO OK, DETENER BUSQUEDA");
+            respuestac.r = "ventanaconsejero";
+            mSeleccionarFrame(respuestac);
           } else {
-            mLoginAuxiliar(vLogin).then((respuestam) => {
-              if (respuestam.r === "auxiliarencontrado") {
-                console.log("ENCONTRADO EN AUXILIARES, DETENER BUSQUEDA");
-                respuestam.r = "ventanaauxiliar";
-                mSeleccionarFrame(respuestam);
-              } else {
-                mLoginAdmin(vLogin).then((respuestam) => {
-                  if (respuestam.r === "adminencontrado") {
-                    console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
-                    respuestam.r = "ventanaadmin";
-                    mSeleccionarFrame(respuestam);
-                  }
-                });
+            if (respuestac.r === "connoautorizado" || respuestac.r === "conerrorcontra") {
+              console.log("ENCONTRADO EN CONSEJEROS CON ERRORES, DETENER BUSQUEDA");
+
+              if(respuestac.r === "conerrorcontra"){
+                alert("El usuario o contraseña son incorrectos (contra incorrecta consejero)")
               }
-            });
+
+            }else{
+              console.log("NO ENCONTRADO EN CONSEJEROS, CONTINUAR BUSQUEDA---");
+
+              //COMIENZA LA BUSQUEDA EN AUXILIARES
+              mLoginAuxiliar(vLogin).then((respuestaax) => {
+                if (respuestaax.r === "auxencontradook") {
+                  console.log("ENCONTRADO EN AUXILIARES TODO OK, DETENER BUSQUEDA");
+                  respuestaax.r = "ventanaauxiliar";
+                  mSeleccionarFrame(respuestaax);
+                } else {
+                  if (respuestaax.r === "auxnoautorizado" || respuestaax.r === "auxerrorcontra") {
+                    console.log("ENCONTRADO EN AUXILIARES CON ERRORES, DETENER BUSQUEDA");
+                    
+                    if(respuestaax.r === "auxerrorcontra"){
+                      alert("El usuario o contraseña son incorrectos (contra incorrecta auxiliar)")
+                    }
+                    
+                  }else{
+                    console.log("NO ENCONTRADO EN AUXILIARES, CONTINUAR BUSQUEDA---");
+
+                    //COMIENZA LA BUSQUEDA EN ADMINS
+                    mLoginAdmin(vLogin).then((respuestaad) => {
+                      if (respuestaad.r === "adminencontradook") {
+                        console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
+                        respuestaad.r = "ventanaadmin";
+                        mSeleccionarFrame(respuestaad);
+                      }
+                    });
+                  }
+                }
+              });
+            }
           }
         });
       }
@@ -68,7 +96,7 @@ export async function mLoginAdmin(vLogin) {
       r.r = Metodos.verificaRAdmin(vResponse);
 
       console.log("RAdmin: " + r.r);
-      if (r.r === "adminencontrado") {
+      if (r.r === "adminencontradook") {
         r.usuario = vResponse.vAdmin;
         console.log(vResponse);
       }
@@ -95,8 +123,8 @@ export async function mLoginAuxiliar(vLogin) {
 
       r.r = Metodos.verificaRCoo(vResponse);
 
-      console.log("RA: " + r);
-      if (r.r === "auxiliarencontrado") {
+      console.log("RAuxiliar: " + r);
+      if (r.r === "auxencontradook") {
         r.usuario = vResponse.vAuxiliar;
       }
     });
@@ -120,9 +148,9 @@ export async function mLoginConsejero(vLogin) {
 
       r.r = Metodos.verificaRC(vResponse);
 
-      console.log("RCj: " + r);
+      console.log("RConsejero: " + r);
 
-      if (r.r === "consejeroencontrado") {
+      if (r.r === "conencontradook") {
         r.usuario = vResponse.vConsejero;
       }
     });
@@ -148,12 +176,18 @@ export async function mLoginModerador(vLogin) {
 
       r.r = Metodos.verificaResMod(vResponse);
 
-      console.log("RM: " + r);
-      if (r.r === "noautorizado") {
+      console.log("RModerador: " + r);
+
+      if (r.r === "modnoautorizado") {
       } else {
-        if (r.r === "moderadorencontrado") {
+        if (r.r === "modencontradook" || r.r === "modconencontradook") {
           r.usuario = vResponse.vModerador;
         }
+        // else{
+        //   if (r.r === "modconencontradook") {
+        //     r.usuario = vResponse.vModConsejero;
+        //   }
+        // }
       }
 
       // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){
@@ -190,11 +224,10 @@ export async function mAgregarModerador(vRegistroM, setvDatosRegistro) {
     .then((data) => {
       let vResponse = data;
       Metodos.verificaRRM(vResponse, vRegistroM.correo);
-      //console.log(data)
+      console.log(data)
       //setvDatosRegistro(data)
     });
 }
-
 
 export async function mAgregarModeradorEnAuxiliarInstitucion(vRegistro) {
   await fetch(
@@ -254,6 +287,11 @@ export async function mGuardarCorreo(vTipo, vAsunto, vCuerpo) {
     .then((response) => response.json())
     .then(console.log);
 }
+
+// Parametros
+// tipo : 1
+// correo 
+
 
 export function mEnviarCorreo(vTipoCorreo, vTo, passwd) {
   const formData = new FormData();

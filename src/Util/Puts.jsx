@@ -19,6 +19,60 @@ export async function mModificarAuxiliar(vRegistro) {
       .then(console.log);
   }
 
+  export async function mModificarAdministrador(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/admin/actualizar/" +
+        vRegistro._id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
+  export async function mModificarModerador(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/usuarios/actualizar-moderador/" +
+        vRegistro.uid,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
+  export async function mModificarConsejero(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/consejero/actualizar-consejero/" +
+        vRegistro.uid,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
   export async function mActualizarModerador(vRegistro) {
       await fetch(
     Variables.v_URL_API2 + "/api/usuarios/ /actualizar-moderador-Auxiliar/:id"+vRegistro.uid,
@@ -125,6 +179,7 @@ Variables.v_URL_API2 + "/api/auxiliares/actualizar-moderador-institucion/:id/mod
       .then((response) => response.json())
       .then();
   }
+  
   export async function mModifcaUrlManual(vUrl) {
 
     await fetch(Variables.v_URL_API2 + "/api/manual/actualizar-manual-url/:0", {
@@ -152,4 +207,76 @@ export async function mModificarInstitucion(vRegistro) {
     }
   )
     .then((response) => response.json())
+}
+
+export async function mRPsswdModeradores(vCorreo) {
+  console.log(vCorreo)
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/reset-password",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vCorreo),
+    }
+  )
+    .then((response) => response.json())
+    .then(data =>{
+      console.log(data)
+    })
+}
+
+export async function mRPsswdAdmins(vCorreo) {
+  console.log(vCorreo)
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/reset-password-admin",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vCorreo),
+    }
+  )
+    .then((response) => response.json())
+    .then(data =>{
+      console.log(data)
+    })
+}
+
+export async function mRPsswdAuxiliares(vCorreo) {
+  console.log(vCorreo)
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/reset-password-aux",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vCorreo),
+    }
+  )
+    .then((response) => response.json())
+    .then(data =>{
+      console.log(data)
+    })
+}
+
+export async function mRPsswdConsejeros(vCorreo) {
+  console.log(vCorreo)
+  await fetch(
+    Variables.v_URL_API2 + "/api/auth/reset-password-consj",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vCorreo),
+    }
+  )
+    .then((response) => response.json())
+    .then(data =>{
+      console.log(data)
+    })
 }
