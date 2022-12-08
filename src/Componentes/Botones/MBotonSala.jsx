@@ -13,24 +13,29 @@ Numero de metodos: 1
 Componentes relacionados: CSalas, MBotonExpo
 */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import CDetalleSala from '../../Interfaces/Moderadores/CDetalleSala';
 import ConjuntoSalas from '../../Interfaces/Moderadores/ConjuntoSalas';
+//import CSalas from "../Moderadores/CSalas";
 import './MBotonSala.css';
 import { useState } from 'react';
 
 export default function MBotonSala(props){
     
-    const {setvFrame}=props
-    //console.log(props)
-    //const [vFrame, setvFrame] = React.useState("salas");
-    //const [vW, setvW] = useState();
+    const {setvFrame,
+            setvNombre,
+            setvArea,
+            setvModalidad,
+            setvFecha,
+            setvUbicacion,
+            setvSalon,
+            setvTurno,
+            setvNoponentes,
+            setvUrl}=props
     
     const handleClick = () => {
         console.log("Detalles de la sala----------")
         console.log(props);
-
-        // setvFrame("detallesalas")
 
         // <CDetalleSala
         //     nombreSala={props.nombreSala}
@@ -44,21 +49,18 @@ export default function MBotonSala(props){
     }
 
     const ventana = () => {
-        console.log(props)
-        setvFrame("detallesalas")
-        //setvNombre("Nombre sala")
-        //setvFrame("detallesalas")
-        //setvNombre(props.nombreSala);
+        console.log(props);
+        setvFrame("detallesalas");
+        setvNombre(props.nombreSala);
+        setvArea(props.areaSala);
+        setvModalidad(props.modalidadSala);
+        setvFecha(props.fechaSala);
+        setvUbicacion(props.ubicacionSala);
+        setvSalon(props.salonSala);
+        setvTurno(props.turnoSala);
+        setvNoponentes(props.nopontentesSala);
+        setvUrl(props.urlSala);
     }
-
-    // const cambiarW = () =>{
-    //     console.log("cambiarW1");
-    //     return (
-        
-
-        
-    //     );
-    // }
 
     return(
         <section id='sectionContenedorBS'>
@@ -67,9 +69,7 @@ export default function MBotonSala(props){
                     <img src="https://cdn-icons-png.flaticon.com/512/5602/5602892.png" id="imgBotonBS" height ="40%" width="3%" alt="img_zoom" />
                     <div className='divTextoBotonBS'>
                         <p id="tituloSalaBS">{props.nombreSala}</p>
-                        <p id="areaSalaBS">{props.areaSala}</p>
-                        <p id="modalidadSalaBS">{props.modalidadSala}</p>
-                        <p id="fechaSalaBS">{props.fechaSala}</p>
+                        <p id="areaSalaBS">{props.areaSala}</p> 
                     </div>
                 </button>
             </div>            

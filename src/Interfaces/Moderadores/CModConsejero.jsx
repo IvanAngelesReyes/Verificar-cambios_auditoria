@@ -22,9 +22,10 @@ import * as Variables from "../../Global/Variables";
 
 import CSalas from "./CSalas";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
+import CMiPerfil from "../Moderadores/CMiPerfil";
 import CHome_Moderadores from "./CHome_Moderadores";
-import ConjuntoSalas from "../Moderadores/ConjuntoSalas";
-import Consejeros from "../Moderadores/CConsejeros";
+import ConjuntoSalas from "./ConjuntoSalas";
+import Consejeros from "./CConsejeros";
 import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
 
 
@@ -53,11 +54,11 @@ export default function CModerador(props) {
         texto: Variables.v_MenuModeradores.item3,
         mAccion: mSetvContenido,
       },
-      // {
-      //   icon: <Icon.People />,
-      //   texto: Variables.v_MenuModeradores.item4,
-      //   mAccion: mSetvContenido,
-      // },
+      {
+        icon: <Icon.People />,
+        texto: Variables.v_MenuModeradores.item4,
+        mAccion: mSetvContenido,
+      },
     ];
   };
 
@@ -90,13 +91,12 @@ export default function CModerador(props) {
         vAnchoNav={vAnchoNav}
         mSetvFramePrincipal={mSetvFramePrincipal}
       />
-
-      // case Variables.v_MenuModeradores.item4:
-      //   return <Consejeros
-      //   vAltoNav={vAltoNav}
-      //   vAnchoNav={vAnchoNav}
-      //   mSetvFramePrincipal={mSetvFramePrincipal}
-      // />      
+      case Variables.v_MenuModeradores.item4:
+        return <Consejeros
+        vAltoNav={vAltoNav}
+        vAnchoNav={vAnchoNav}
+        mSetvFramePrincipal={mSetvFramePrincipal}
+      />      
       default:
         <p>Esto no se debe de ver</p>;
         break;

@@ -18,18 +18,22 @@ import * as Mui from "@mui/material";
 import './Registro.css';
 import CUniversidades from '../../Componentes/Selects/CUniversidades.jsx';
 import CContra from '../../Componentes/RegistroModeradores/CContra.jsx';
+import CRepetirContra from '../../Componentes/RegistroModeradores/CRepetirContra.jsx';
 import CAreaInteres from '../../Componentes/Selects/CAreaInteres.jsx';
 import * as Posts from "../../Util/Posts";
-//import { Navigate, NavLink,useNavigate } from 'react-router-dom';
 
 export default function Registro(){
-    //const navigate = useNavigate()
 
     /**Trae los datos de la contraseña*/
-    const [values, setValues] = React.useState({
+    const [vContra1, setvContra1] = React.useState({
         password: '',
         showPassword: false,
-      });
+    });
+
+    const [vContra2, setvContra2] = React.useState({
+        password: '',
+        showPassword: false,
+    });
 
     //Variables para los datos
     const[vNombre,setvNombre] = useState("");
@@ -41,6 +45,7 @@ export default function Registro(){
     const[vArea2,setvArea2] = useState("");
     // const[vPassword,setvPassword] = useState("");
 
+
     //Variable que trae los datos de el POST
     const [vDatosRegistro, setvDatosRegistro] = React.useState([]);
 
@@ -50,7 +55,7 @@ export default function Registro(){
           apellido_paterno: vApellidoP,
           apellido_materno: vApellidoM,
           correo: vCorreo,
-          password: values.password,
+          password: vContra1.password,
           area_interes_1: vArea,
           area_interes_2: vArea2,
           institucion: vInstitucion,
@@ -68,8 +73,8 @@ export default function Registro(){
         console.log(vInstitucion);
         console.log("-----------------------------")*/
 
-        if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,values.password) === true){
-            if(validaTamanio(vNombre.length,values.password.length)===true){
+        if(validarRegistro(vNombre,vApellidoP,vApellidoM,vCorreo,vInstitucion,vArea,vArea2,vContra1.password) === true){
+            if(validaTamanio(vNombre.length,vContra1.password,vContra2.password)===true){
                 
                 Posts.mAgregarModerador(vRegistroM,setvDatosRegistro)
                 //.then(validaRespuesta(vDatosRegistro,vCorreo));
@@ -179,7 +184,10 @@ export default function Registro(){
                             <CAreaInteres vArea={vArea2} setvArea={setvArea2}/>
 
                             {/*Text field del campo de contraseña*/}
-                            <CContra values={values} setValues={setValues}/>
+                            <CContra values={vContra1} setValues={setvContra1} texto={"Contraseña"} id={"tfContraCC1"}/>
+
+                            {/*Text field del campo de repetir contraseña*/}
+                            <CContra values={vContra2} setValues={setvContra2} texto={"Repetir contraseña"} id={"tfContraCC2"}/>
 
                         </form>
 
@@ -234,7 +242,12 @@ function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,are
                                     alert("Por favor escriba una contraseña para su cuenta en el campo correspondiente")
                                     return false;
                                 }else{
-                                    return true;
+                                    if(area1 === area2){
+                                        alert("Por favor seleccione un area diferente en cada campo")
+                                        return false;
+                                    }else{
+                                        return true;
+                                    }                                    
                                 }
                             }
                         }
@@ -245,66 +258,76 @@ function validarRegistro(nombre,apellidop,apellidom,correo,institucion,area1,are
     }
 }
 
-function validaTamanio(nombre,contra){
+function validaTamanio(nombre,contra1,contra2){
     if(nombre < 4){
         alert("Por favor escriba un nombre mayor a 4 letras")
         return false;
     }else{
-        if(contra < 8){
+        if(contra1.length < 8){
             alert("Por favor escriba una contraseña mayor a 8 digitos")
             return false;
         }else{
-            return true;
-        }
-    }
-}
-
-function validaRespuesta(vDatosRegistro,vCorreo){
-
-    let arregloErrores = []
-    const numeroErrores = vDatosRegistro.errors?.length;
-
-    //Banderas para tipos de errores
-    let errorCorreo = false;
-    let errorFormato = false;
-    let errorFormatoCorreo = false;
-
-    for(let i=0;i<numeroErrores;i++){
-        arregloErrores[i] = vDatosRegistro.errors[i].msg
-
-        if(arregloErrores[i] === "El email -- " + vCorreo + " -- ya existe"){
-            errorCorreo = true;
-        }
-
-        if(arregloErrores[i] === "se estan ingresando datos no permitidos"){
-            errorFormato = true;
-        }
-
-        if(arregloErrores[i] === "el correo no es valido"){
-            errorFormatoCorreo = true;
-        }
-    }
-
-    //console.log("ARREGLO ERRORES----------")
-    //console.log(arregloErrores)
-
-    if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
-        alert("Su registro se realizo correctamente")
-        return false;
-    }else{
-        if(errorFormato === true){
-            alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
-            return true;
-        }else{
-            if(errorCorreo === true ){
-                alert("Este correo ya ha sido registrado previmente. Por favor elija uno diferente")
-                return true;
+            if(contra2.length < 8){
+                alert("Por favor escriba una contraseña mayor a 8 digitos en la confirmacion")
+                return false;
             }else{
-                if(errorFormatoCorreo === true){
-                    alert("Verifique que el correo tenga el formato correcto")
+                if(contra1 !== contra2){
+                    alert("Ambas contraseñas deben coincidir, por favor verifique los campos")
+                    return false;
+                }else{
                     return true;
                 }
-            }
-        } 
+            }            
+        }
     }
 }
+
+// function validaRespuesta(vDatosRegistro,vCorreo){
+
+//     let arregloErrores = []
+//     const numeroErrores = vDatosRegistro.errors?.length;
+
+//     //Banderas para tipos de errores
+//     let errorCorreo = false;
+//     let errorFormato = false;
+//     let errorFormatoCorreo = false;
+
+//     for(let i=0;i<numeroErrores;i++){
+//         arregloErrores[i] = vDatosRegistro.errors[i].msg
+
+//         if(arregloErrores[i] === "El email -- " + vCorreo + " -- ya existe"){
+//             errorCorreo = true;
+//         }
+
+//         if(arregloErrores[i] === "se estan ingresando datos no permitidos"){
+//             errorFormato = true;
+//         }
+
+//         if(arregloErrores[i] === "el correo no es valido"){
+//             errorFormatoCorreo = true;
+//         }
+//     }
+
+//     //console.log("ARREGLO ERRORES----------")
+//     //console.log(arregloErrores)
+
+//     if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
+//         alert("Su registro se realizo correctamente")
+//         return false;
+//     }else{
+//         if(errorFormato === true){
+//             alert("Se estan ingresando datos no permitidos, por favor verifique los campos")
+//             return true;
+//         }else{
+//             if(errorCorreo === true ){
+//                 alert("Este correo ya ha sido registrado previmente. Por favor elija uno diferente")
+//                 return true;
+//             }else{
+//                 if(errorFormatoCorreo === true){
+//                     alert("Verifique que el correo tenga el formato correcto")
+//                     return true;
+//                 }
+//             }
+//         } 
+//     }
+// }

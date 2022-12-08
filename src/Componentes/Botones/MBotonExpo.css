@@ -1,17 +1,23 @@
-.divBtnExpo{
-    margin-top: 10%;
-    margin-left: 10%;
-}
-
+/*.divBtnExpo{
+    /*margin-top: 10%;*/
+    /*margin-left: 10%;*/
+/*}*/
+/* 
 .divBtnSala{
     width: 500px;
     height: 100px;
+} */
+
+.divBtnExpo{
+    margin-top: 3%;
+    /* margin-left: 5%; */
+    margin-right: 5%;
 }
 
 .btnExpo{
     background: white;
     color: black;
-    width: 90%;
+    width: 100%;
     height: 90%;
 
     /*margin: 100px 0 0 100px;*/
@@ -37,8 +43,9 @@
 
 
 .divTextoBotonExpo{
-    margin-right: 74%;
-    margin-top: 0%;
+    /* margin-right: 74%;
+    margin-top: 0%; */
+    margin-bottom: 2%;
 }
 
 .divImgDesplegar{
@@ -59,4 +66,13 @@
     font-weight: bold;
     color: black;
     margin-top: 7%;
+    /*margin-bottom: 1%;*/
+}
+
+#ponentesExpo{
+    margin-top: 2%;
+}
+
+#institucionExpo{
+    margin-top: 2%;
 }

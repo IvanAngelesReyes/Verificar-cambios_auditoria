@@ -23,12 +23,27 @@ import * as Variables from "../../Global/Variables"
 
 export default function CSalas(props) {
 
-  const {setvFrame, asis} = props
+  const {setvFrame,
+        setvNombre,
+        setvArea,
+        setvModalidad,
+        setvFecha,
+        setvUbicacion,
+        setvSalon,
+        setvTurno,
+        setvNoponentes,
+        setvUrl,
+        asis} = props
+  
   const [vSalas, setvSalas] = React.useState([]);
 
   React.useEffect(() => {
-    Gets.mGetSalas(setvSalas);
+    Gets.mGetSalasPrueba(setvSalas);
   }, []);
+
+  vSalas.map((sala,index) =>
+    console.log(vSalas)
+  );
 
   const elementos = vSalas.map((sala,index) =>
     <Fragment>
@@ -38,8 +53,22 @@ export default function CSalas(props) {
           areaSala={vSalas[index].area}
           modalidadSala={vSalas[index].modalidad}
           fechaSala={vSalas[index].fecha}
+          ubicacionSala={vSalas[index].ubicacion}
+          salonSala={vSalas[index].salon}
+          turnoSala={vSalas[index].turno}
           nopontentesSala={vSalas[index].no_ponentes}
+          urlSala={vSalas[index].url}
+
           setvFrame={setvFrame}
+          setvNombre={setvNombre}
+          setvArea={setvArea}
+          setvModalidad={setvModalidad}
+          setvFecha={setvFecha}
+          setvUbicacion={setvUbicacion}
+          setvSalon={setvSalon}
+          setvTurno={setvTurno}
+          setvNoponentes={setvNoponentes}
+          setvUrl={setvUrl}
         />
     </Fragment>
   );
@@ -49,9 +78,9 @@ export default function CSalas(props) {
       <h2 className="tituloSala">Mis salas</h2>
         {elementos} 
 
-        <div align="right">
+        {/* <div align="right">
         <Button variant="contained" id="btnAsis" size="large"  onClick={()=>asis(Variables.v_MenuModeradores.item5)}>Lista de Asistencia</Button>
-        </div>
+        </div> */}
 
     </div> 
   );
