@@ -36,7 +36,7 @@ export default function CDetalleSala(props) {
 
       <div className="divContenedorInfoSala"> 
           
-          <div className="div1">
+          <div className="div1Sala">
             <h2>{props.areaSala}</h2>
             <h2>{"Ubicacion: " + props.ubicacionSala}</h2>
             <h2>{"No. ponentes:" + props.nopontentesSala}</h2>
@@ -61,10 +61,10 @@ export default function CDetalleSala(props) {
 
       <MBotonExpo/>
 
-      <div className='div4' align="right">
+      {/* <div className='div4' align="right">
           <Button variant="contained" id="btnAsis" size="large"  onClick={CCExpo}>Control de exposición</Button>
 
-          </div>
+          </div> */}
 
     </div>
 

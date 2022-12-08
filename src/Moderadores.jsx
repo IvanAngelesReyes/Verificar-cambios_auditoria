@@ -23,6 +23,7 @@ import CCoordinador from "./Interfaces/Coordinador/CCoordinador";
 import CAdministrador from "./Interfaces/Administrador/CAdministrador";
 import * as Variables from "./Global/Variables";
 import Conjunto from "./Interfaces/LoginRegistro/Conjunto";
+import CConsejero from "./Componentes/TarjetasPerfiles/Cuadros/CConsejero";
 
 export default class CModeradores extends Component {
   constructor(props) {
@@ -63,6 +64,15 @@ export default class CModeradores extends Component {
       case Variables.v_FRFAMES.moderadores:
         return (
           <CModerador
+            vUsuario={this.state.vUsuario}
+            vAltoNav={this.state.vAltoNav}
+            vAnchoNav={this.state.vAnchoNav}
+            mSetvFramePrincipal={this.mSetvFramePrincipal}
+          />
+        );
+      case Variables.v_FRFAMES.consejeros:
+        return (
+          <CConsejero
             vUsuario={this.state.vUsuario}
             vAltoNav={this.state.vAltoNav}
             vAnchoNav={this.state.vAnchoNav}

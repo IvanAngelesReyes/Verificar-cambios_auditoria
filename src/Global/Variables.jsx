@@ -25,6 +25,7 @@ export const v_FRFAMES = {
   auxiliares: "auxiliares",
   administrador: "administrador",
   registro: "registro",
+  consejeros: "consejeros"
 };
 
 export const v_MenuCoordinador = {

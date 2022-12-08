@@ -78,9 +78,9 @@ export default function CSalas(props) {
       <h2 className="tituloSala">Mis salas</h2>
         {elementos} 
 
-        <div align="right">
+        {/* <div align="right">
         <Button variant="contained" id="btnAsis" size="large"  onClick={()=>asis(Variables.v_MenuModeradores.item5)}>Lista de Asistencia</Button>
-        </div>
+        </div> */}
 
     </div> 
   );
