@@ -59,6 +59,7 @@ export async function mLogins(vLogin, mSeleccionarFrame) {
                   }else{
                     console.log("NO ENCONTRADO EN AUXILIARES, CONTINUAR BUSQUEDA---");
 
+                    //COMIENZA LA BUSQUEDA EN ADMINS
                     mLoginAdmin(vLogin).then((respuestaad) => {
                       if (respuestaad.r === "adminencontradook") {
                         console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
@@ -95,7 +96,7 @@ export async function mLoginAdmin(vLogin) {
       r.r = Metodos.verificaRAdmin(vResponse);
 
       console.log("RAdmin: " + r.r);
-      if (r.r === "adminencontrado") {
+      if (r.r === "adminencontradook") {
         r.usuario = vResponse.vAdmin;
       }
     });
@@ -121,7 +122,7 @@ export async function mLoginAuxiliar(vLogin) {
       r.r = Metodos.verificaRCoo(vResponse);
 
       console.log("RAuxiliar: " + r);
-      if (r.r === "auxiliarencontrado") {
+      if (r.r === "auxencontradook") {
         r.usuario = vResponse.vAuxiliar;
       }
     });
@@ -147,7 +148,7 @@ export async function mLoginConsejero(vLogin) {
 
       console.log("RConsejero: " + r);
 
-      if (r.r === "consejeroencontrado") {
+      if (r.r === "conencontradook") {
         r.usuario = vResponse.vConsejero;
       }
     });
@@ -174,11 +175,17 @@ export async function mLoginModerador(vLogin) {
       r.r = Metodos.verificaResMod(vResponse);
 
       console.log("RModerador: " + r);
-      if (r.r === "noautorizado") {
+
+      if (r.r === "modnoautorizado") {
       } else {
-        if (r.r === "moderadorencontrado") {
+        if (r.r === "modencontradook" || r.r === "modconencontradook") {
           r.usuario = vResponse.vModerador;
         }
+        // else{
+        //   if (r.r === "modconencontradook") {
+        //     r.usuario = vResponse.vModConsejero;
+        //   }
+        // }
       }
 
       // if(Metodos.verificaResMod(vResponse, usuario) === "moderadornoencontrado"){

@@ -1,4 +1,5 @@
 import Gets from "../Util/Gets"
+import * as Posts from "../Util/Posts";
 
 export const generatePasswordRand = (length, type) => {
   let characters = "";
@@ -213,7 +214,7 @@ export function verificaRRM(vDatosRegistro,vCorreo){
 
   if(vDatosRegistro.msg === "Moderador a sido creado correctamente"){
       alert("Su registro se realizo correctamente")
-      //PONER API QUE ENVIA CORREO
+      //Posts.mEnviarCorreo(1,vCorreo)
       return false;
   }else{
       if(errorFormato === true){
