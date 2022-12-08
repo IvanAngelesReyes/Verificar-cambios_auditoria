@@ -66,7 +66,7 @@ export default function Login(props) {
             mSetvFramePrincipal(Variables.v_FRFAMES.moderadores, vRes.usuario);
             break;
           case "modconencontradook":
-            mSetvFramePrincipal(Variables.v_FRFAMES.consejeros, vRes.usuario);
+            mSetvFramePrincipal(Variables.v_FRFAMES.modconsejeros, vRes.usuario);
             break;
           case "ventanaconsejero":
             mSetvFramePrincipal(Variables.v_FRFAMES.consejeros, vRes.usuario);

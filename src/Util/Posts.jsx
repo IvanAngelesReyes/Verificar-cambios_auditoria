@@ -11,7 +11,7 @@ export async function rlogins(vLogin) {
 //logins
 export async function mLogins(vLogin, mSeleccionarFrame) {
   await mLoginModerador(vLogin).then((respuestam) => {
-    if ( respuestam.r === "modencontradook" || respuestam.r === "modconencontrado") {
+    if ( respuestam.r === "modencontradook" || respuestam.r === "modconencontradook") {
       console.log("ENCONTRADO EN MODERADORES TODO OK, DETENER BUSQUEDA");
       mSeleccionarFrame(respuestam);
     } else {
