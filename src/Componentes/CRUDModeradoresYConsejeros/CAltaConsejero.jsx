@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CAltaCoordinador
+Componente: CAltaCnsejero
 Fecha de creacion: 20/11/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
@@ -19,21 +19,9 @@ import * as Variables from "../../Global/Variables";
 import * as Metodos from "../../Global/Metodos";
 import * as Posts from "../../Util/Posts";
 
-const vListaInstituciones = ["UNAM", "UAPT", "UEAMEX"];
-
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <Mui.Alert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
-/**
- * 
- * @returns 
- */
-function mInstituciones() {
-  return vListaInstituciones.map((item, index) => (
-    <Mui.MenuItem value={item}>{item}</Mui.MenuItem>
-  ));
-}
 
 /**
  * 
@@ -42,7 +30,6 @@ function mInstituciones() {
  */
 function mValidarRegistro(vRegistro) {
   let b = false;
-  if (vRegistro.institucion !== "") {
     if (vRegistro.nombre !== "") {
       if (
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
@@ -54,7 +41,6 @@ function mValidarRegistro(vRegistro) {
         }
       }
     }
-  }
   return b;
 }
 
@@ -65,7 +51,6 @@ function mValidarRegistro(vRegistro) {
  * @param {*} setvApeMaterno 
  * @param {*} mSetCorreo 
  * @param {*} mSetContrasenia 
- * @param {*} mSetInstitucion 
  */
 function mLimpiarDatos(
   mSetNombre,
@@ -73,7 +58,6 @@ function mLimpiarDatos(
   setvApeMaterno,
   mSetCorreo,
   mSetContrasenia,
-  mSetInstitucion
 ) {
   mSetNombre("");
   setvApePaterno("");
@@ -82,7 +66,6 @@ function mLimpiarDatos(
   mSetContrasenia(
     Metodos.generatePasswordRand(Math.random() * (20 - 5) + 5, "more")
   );
-  mSetInstitucion("");
 }
 
 /**
@@ -90,7 +73,7 @@ function mLimpiarDatos(
  * @param {*} props 
  * @returns 
  */
-export default function CAltaCoordinador(props) {
+export default function CAltaConsejero(props) {
   //variables que recibo en props
   const { vRegistrosCoordinadores, setVRegistrosCoordinadores } = props;
 
@@ -106,13 +89,10 @@ export default function CAltaCoordinador(props) {
   const [vNombre, setvNombre] = React.useState("");
   const [vApePaterno, setvApePaterno] = React.useState("");
   const [vApeMaterno, setvApeMaterno] = React.useState("");
-  const [vInstitucionProcedencia, setvInstitucionProcedencia] =
-    React.useState("");
   const [vCorreo, setvCorreo] = React.useState("");
   const [vContrasenia, setvContrasenia] = React.useState(
     Metodos.generatePasswordRand(Math.random() * (20 - 5) + 5, "more")
   );
-  const [vInstitucion, setvInstitucion] = React.useState("");
   const [vShowPassword, setvShowPassword] = React.useState(false);
   const [vImagen, setvImagen] = React.useState({ url: "", file: {} });
   //FIN VARIABLES
@@ -124,7 +104,6 @@ export default function CAltaCoordinador(props) {
   const handleClick = () => {
     const vRegistro = {
       uid: Date.now(),
-      institucion: vInstitucion,
       nombre: vNombre,
       apellido_paterno: vApePaterno,
       apellido_materno: vApeMaterno,
@@ -144,7 +123,7 @@ export default function CAltaCoordinador(props) {
       setState({ ...state, open: true });
       Posts.mAgregarConsejeroEnAuxiliar(vRegistro);
       Posts.mEnviarCorreo("9", vCorreo, vContrasenia);
-      mLimpiarDatos(setvNombre,setvApePaterno,setvApeMaterno, setvCorreo, setvContrasenia, setvInstitucion);
+      mLimpiarDatos(setvNombre,setvApePaterno,setvApeMaterno, setvCorreo, setvContrasenia);
     } else {
       console.log("datos incorrectos, no se registro al consejero");
     }
@@ -158,17 +137,7 @@ export default function CAltaCoordinador(props) {
   };
 
   const handleChange = (event) => {
-    console.log(event.target.name);
-    switch (event.target.name) {
-      case Variables.v_TEXTOS.institucion:
-        setvInstitucion(event.target.value);
-        break;
-      case Variables.v_TEXTOS.institucion_procedencia:
-        setvInstitucionProcedencia(event.target.value);
-        break;
-      default:
-        break;
-    }
+
   };
 
   const getImagen = async (e) => {
@@ -184,50 +153,8 @@ export default function CAltaCoordinador(props) {
 
   return (
     <Mui.Stack container spacing={1} alignItems="center" sx={{ width: "100%" }}>
-      {/* componente para cargar la imagen
-      <Mui.Button component="label" size="small">
-        <input hidden onChange={(e) => getImagen(e)} accept="image/png, image/jpeg" type="file" />
-        <Mui.Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-        >
-          {vImagen.url.length>0?<img style={{borderRadius:"10px"}} src={vImagen.url} height="150"/>:<Icon.AccountBox sx={{ fontSize: 150 }} />}
-          Cargar una imagen
-        </Mui.Stack>
-      </Mui.Button>
-      */}
       <Mui.FormControl fullWidth>
-        <Mui.InputLabel required id="label-institucion">
-          {Variables.v_TEXTOS.institucion}
-        </Mui.InputLabel>
-        <Mui.Select
-          sx={{ width: "100%" }}
-          labelId="label-institucion"
-          name={Variables.v_TEXTOS.institucion}
-          value={vInstitucion}
-          label={Variables.v_TEXTOS.institucion}
-          onChange={handleChange}
-        >
-          {mInstituciones()}
-        </Mui.Select>
       </Mui.FormControl>
-      {/* <Mui.FormControl fullWidth>
-        <Mui.InputLabel required id="label-institucion">
-          {Variables.v_TEXTOS.institucion_procedencia}
-        </Mui.InputLabel>
-        <Mui.Select
-          sx={{ width: "100%" }}
-          labelId="label-institucion"
-          name={Variables.v_TEXTOS.institucion_procedencia}
-          value={vInstitucionProcedencia}
-          label={Variables.v_TEXTOS.institucion_procedencia}
-          onChange={handleChange}
-        >
-          {mInstituciones()}
-        </Mui.Select>
-      </Mui.FormControl> */}
       <Mui.TextField
         sx={{ width: "100%" }}
         required

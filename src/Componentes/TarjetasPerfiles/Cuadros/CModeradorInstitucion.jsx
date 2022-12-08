@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CConsejero
+Componente: CModerador
 Fecha de creacion: 26/10/2022, Autorizó: Alejandra Patricia Chaparro Matias
 
 Modificaciones:
@@ -17,20 +17,20 @@ import React from "react";
 
 import * as Mui from "@mui/material";
 import * as Variables from "../../../Global/Variables";
-import { styled } from "@mui/material/styles";
-import DialogPerfilConsulta from "../../Dialogs/CDialogPerfilConsulta";
+import DialogPerfilConsulta from "../../Dialogs/CDialogPerfilConsultaInstitucion";
 
 
 
-
-export default function CConsejero(props) {
+export default function CModerador(props) {
 
   const {
-      nombre
-  } = props
+    vRegistro, 
+    setVRegistrosModeradores,
+    vRegistrosModeradores, 
+    mRefresaacarPantalla} = props;
 
   return (
-    <Mui.Paper sx={{m:1}} elevation={3} 
+    <Mui.Paper sx={{m:1}} elevation={3}
     >
       <Mui.Box
         sx={{
@@ -45,17 +45,15 @@ export default function CConsejero(props) {
       >
           <Mui.Stack
             container
-            spacing={2}
+            spacing={2} 
             direction="column"
             justifyContent="center"
             alignItems="center"
           >
             
-            <Mui.Avatar  alt="Remy Sharp" src="/api-moderadores/backend/src/assets/1.jpg"/> 
-
             <Mui.TextField
               label={Variables.v_TEXTOS.nombre}
-              defaultValue={nombre}
+              defaultValue={vRegistro.nombre}
               InputProps={{
                 readOnly: true,
               }}
@@ -63,7 +61,7 @@ export default function CConsejero(props) {
             />
             <Mui.TextField
               label={Variables.v_TEXTOS.institucion}
-              defaultValue="UAEM"
+              defaultValue={vRegistro.institucion}
               InputProps={{
                 readOnly: true,
               }}
@@ -71,13 +69,13 @@ export default function CConsejero(props) {
             />
             <Mui.TextField
               label={Variables.v_TEXTOS.rol}
-              defaultValue="Consejero"
+              defaultValue={vRegistro.consejero===true?"Consejero":"Moderador"}
               InputProps={{
                 readOnly: true,
               }}
               variant="standard"
             />
-            <DialogPerfilConsulta/>
+            <DialogPerfilConsulta mRefresaacarPantalla={mRefresaacarPantalla} setVRegistrosModeradores={setVRegistrosModeradores} vRegistrosModeradores={vRegistrosModeradores} vRegistro={vRegistro}/>
           </Mui.Stack>
       </Mui.Box>
     </Mui.Paper>

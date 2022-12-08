@@ -1,6 +1,6 @@
 /*
 SmartSoft
-Componente: CDialogPerfilCoordinador
+Componente: CDialogPerfilConsultaInstitucion
 Fecha de creacion: 20/10/2022, Autorizó: Alejandra Patricia Chaparro Matias 
 
 Modificaciones:
@@ -86,23 +86,28 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-export default function CDialogPerfilAuxiliar(props) {
+export default function CDialogPerfilConsultaInstitucion(props) {
   const {
-    vUsuario,
-    //setVDatosLogin,
+    vRegistro,
+    setVRegistrosModeradores,
+    vRegistrosModeradores,
     mRefresaacarPantalla,
   } = props;
 
-  const [vNombre, setvNombre] = React.useState(vUsuario.nombre);
-  const [vApePaterno, setvApePaterno] = React.useState(vUsuario.apellido_paterno);
-  const [vApeMaterno, setvApeMaterno] = React.useState(vUsuario.apellido_materno);
-  const [vSalas, setvSalas] = React.useState(vUsuario.salas);
-  const [vCorreo, setvCorreo] = React.useState(vUsuario.correo);
-  const [vContrasenia, setvContrasenia] = React.useState(vUsuario.password);
-  const [vInstitucion, setvInstitucion] = React.useState(vUsuario.institucion);
+  const [vNombre, setvNombre] = React.useState(vRegistro.nombre);
+  const [vApePaterno, setvApePaterno] = React.useState(vRegistro.apellido_paterno);
+  const [vApeMaterno, setvApeMaterno] = React.useState(vRegistro.apellido_materno);
+  const [vInstitucion, setvInstitucion] = React.useState(vRegistro.institucion);
+  const [vAreaInteres1, setvAreaInteres1] = React.useState(vRegistro.area_interes_1);
+  const [vAreaInteres2, setvAreaInteres2] = React.useState(vRegistro.area_interes_2);
+  const [vCorreo, setvCorreo] = React.useState(vRegistro.correo);
+  const[vConsejero, setvConsejero] = React.useState(vRegistro.consejero)
+
+  const [vIsModoCambiar, setVIsModoCambiar] = React.useState(false);
+  const [vIsModoCambiado, setVIsModoCambiado] = React.useState(false);
 
   
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [vIsModoModificar, setVIsModoModificar] = React.useState(false);
   const [vIsModoModificado, setVIsModoModificado] = React.useState(false);
 
@@ -135,49 +140,50 @@ export default function CDialogPerfilAuxiliar(props) {
 
   const mAccionBotonPrimario = () => {
     if (vIsModoModificar) {
-      const vUsuarioTmp = {
-        uid: vUsuario.uid,
+      const vRegistroTmp = {
+        uid: vRegistro.uid,
         institucion: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
         correo: vCorreo,
-        salas: vSalas,
+        area_interes_1: vAreaInteres1,
+        area_interes_2: vAreaInteres2,
         imagen: "null",
-        rol: "AUXILIAR_ROLE",
         estado: true,
-      }; 
-      
-      if (mValidarDato(vUsuarioTmp)) {
-        //console.log(vDatosLoginTmp)
-        Puts.mModificarAuxiliar(vUsuarioTmp);
-        vUsuario.nombre=vUsuarioTmp.nombre;
-        vUsuario.apellido_paterno=vUsuarioTmp.apellido_paterno;
-        vUsuario.apellido_materno=vUsuarioTmp.apellido_materno;
-        vUsuario.correo=vUsuarioTmp.correo;
-        
+      };
+
+      if (mValidarDato(vRegistroTmp)) {
+        let vRegistrosModeradoresTmp = vRegistrosModeradores.map((item) => {
+          if (item.uid === vRegistroTmp.uid) {
+            return vRegistroTmp;
+          } else {
+            return item;
+          }
+        });
+        console.log(vRegistrosModeradoresTmp);
+        //Puts.mModificarModerador(vRegistroTmp);
+        setVRegistrosModeradores(vRegistrosModeradoresTmp, true);
         setVIsModoModificado(true);
         setVIsModoModificar(!vIsModoModificar);
       } else {
-        console.log("datos incorrectos, no se logro guardar los cambios del auxiliar");
+        console.log("datos incorrectos, no se modifico al usuario");
       }
     } else {
       setVIsModoModificar(!vIsModoModificar);
     }
   };
+
   const mAccionBotonSecundario = () => {
     if (vIsModoModificar) {
       setVIsModoModificar(!vIsModoModificar);
       mCarncelarEdicion();
-    } 
-    else {
-      let vUsuarioTmp = vUsuario.filter(
-        (item) => {
-          return item.uid !== vUsuario.uid;
-        }
-      );
-      //Deletes.mEliminarCo(vDatos)
-      //setVDatosLogin(UsuarioTmp, true);
+    } else {
+      let vRegistrosModeradoresTmp = vRegistrosModeradores.filter((item) => {
+        return item.uid !== vRegistro.uid;
+      });
+      //Deletes.mEliminarAuxiliar(vRegistro);
+      setVRegistrosModeradores(vRegistrosModeradoresTmp, true);
       setVIsModoModificado(true);
       setVIsModoModificar(!vIsModoModificar);
       handleClose();
@@ -185,14 +191,17 @@ export default function CDialogPerfilAuxiliar(props) {
   };
 
   const mCarncelarEdicion = () => {
-    setvNombre(vUsuario.nombre);
-    setvCorreo(vUsuario.correo);
-    setvContrasenia(vUsuario.contrasenia);
+    setvNombre(vRegistro.nombre);
+    setvCorreo(vRegistro.correo);
   };
   
 
   return (
     <>
+    <Mui.Button variant="outlined" onClick={handleClickOpen}>
+        {Variables.v_TEXTOS.ver_perfil}
+      </Mui.Button>
+
       <Mui.Dialog
         key={vKey}
         onClose={handleClose}
@@ -242,12 +251,19 @@ export default function CDialogPerfilAuxiliar(props) {
               value={vApeMaterno}
               onChange={(e) => setvApeMaterno(e.target.value)}
             />
+            <Mui.TextField
+            disabled
+              sx={{ width: "100%" }}
+              required
+             label={Variables.v_TEXTOS.correo}
+              value={vCorreo}
+            />
              <Mui.TextField
               disabled
               sx={{ width: "100%" }}
               required
               label={Variables.v_TEXTOS.rol}
-              value="Auxiliar"
+              value="A"
             />
             <Mui.TextField
             disabled
@@ -257,20 +273,18 @@ export default function CDialogPerfilAuxiliar(props) {
               value={vInstitucion}
             />
             <Mui.TextField
-            disabled={!vIsModoModificar}
+            disabled
               sx={{ width: "100%" }}
               required
-             label={Variables.v_TEXTOS.correo}
-              value={vCorreo}
-              onChange={(e) => setvCorreo(e.target.value)}
+             label={Variables.v_TEXTOS.area1}
+              value={vAreaInteres1}
             />
             <Mui.TextField
-            disabled={!vIsModoModificar}
+            disabled
               sx={{ width: "100%" }}
               required
-             label={Variables.v_TEXTOS.contrasenia}
-              value="**********"
-              onChange={(e) => setvContrasenia(e.target.value)}
+             label={Variables.v_TEXTOS.area2}
+              value={vAreaInteres2}
             />
             <Mui.Grid
               container

@@ -183,7 +183,7 @@ export async function mGetModeradoresMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-moderadores-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };
@@ -200,7 +200,7 @@ export async function mGetConsejerosMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-consejeros-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };
