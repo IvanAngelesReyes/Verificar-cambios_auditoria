@@ -24,23 +24,22 @@ export default function CRecuperaContra(){
 
     const [vCorreo, setvCorreo] = React.useState("");
 
-    const handleClick = () => {
+    /*const handleClick = () => {
 
         const vEmail = {
             correo:vCorreo
         }
 
-        if (verificaCampos(vEmail) === true)
-        {
-          Puts.mRPsswdModeradores(vEmail)
-          Posts.mEnviarCorreo(7,vEmail.correo,vEmail.password)
-
+        if (verificaCampos(vEmail) === true){
+            console.log(vEmail.correo)
+            Puts.mRPsswdModeradores(vEmail)
+          //Posts.mEnviarCorreo(7,vEmail.correo,vEmail.password)
         }
         
 
-    }
+    }*/
 
-    /*const handleClick = () => {
+    const handleClick = () => {
 
         const vEmail = {
             correo:vCorreo
@@ -53,32 +52,34 @@ export default function CRecuperaContra(){
         }
 
         if (verificaCampos(vEmail) === true) {
-            var mSeleccionarFrame = (vRes) => {
+            var mSeleccionarURecuperaPswd = (vRes) => {
               console.log("vRes ---> " + vRes.r);
               switch (vRes.r) {
-                case "modencontradook":
-                  
+                //Moderador
+                case "moderrorcontra":
+                  console.log("Entro a switch como moderador")
+                  Puts.mRPsswdModeradores(vEmail)
+           
                   break;
                 case "modconencontradook":
-               
                   break;
-                case "ventanaconsejero":
-             
+                case "conerrorcontra":
+                  console.log("Entro a switch como consejero")
                   break;
-                case "ventanaauxiliar":
-             
+                case "auxerrorcontra":
+                  console.log("Entro a switch como auxiliar")
                   break;
-                case "ventanaadmin":
-               
+                case "adminerrorcontra":
+                  console.log("Entro a switch como auxiliar")
                   break;
                 default:
                   break;
               }
             };
-            Posts.mLogins(vEmail, mSeleccionarFrame);
+            Posts.mBuscarURPswd(vEmail2, mSeleccionarURecuperaPswd);
             //Puts.mRPsswdModeradores(vEmail)
           }
-    }*/
+    }
 
     return(
 
@@ -131,6 +132,8 @@ export default function CRecuperaContra(){
         if (vEmail.correo === "") {
           alert("Por favor escriba su correo en el campo correspondiente");
           return false;
+        }else{
+            return true;
         }
       }
 
