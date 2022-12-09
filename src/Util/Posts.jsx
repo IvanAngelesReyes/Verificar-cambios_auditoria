@@ -288,7 +288,7 @@ export async function mGuardarCorreo(vTipo, vAsunto, vCuerpo) {
 export function mEnviarCorreo(vTipoCorreo, vTo, passwd) {
   const formData = new FormData();
 
-  switch (vTipoCorreo) {
+  switch (vTipoCorreo+"") {
     case "9":
     case "7":
     case "2":
