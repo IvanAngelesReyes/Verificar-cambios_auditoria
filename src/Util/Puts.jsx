@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as Variables from "../Global/Variables";
+import * as Posts from "../Util/Posts";
 
 export async function mModificarAuxiliar(vRegistro) {
 
@@ -170,6 +171,10 @@ export async function mRPsswdModeradores(vCorreo) {
     .then((response) => response.json())
     .then(data =>{
       console.log(data)
+      let vData = data
+      console.log("vData correo " + vData.msg)
+      console.log("vData pasword " + vData.passwordT)
+      Posts.mEnviarCorreo(7, vData.msg, vData.passwordT)
     })
 }
 
