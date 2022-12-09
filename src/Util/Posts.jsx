@@ -73,8 +73,8 @@ export async function mLogins(vLogin, mSeleccionarFrame) {
             }
           }
         });
-      }
-    }
+     } }
+    
   });
 }
 
@@ -433,4 +433,78 @@ export async function mAgregarModeradorEspontaneo(vRegistroM, mMetodo) {
       mMetodo(data.vUsuario);
     });
   //.then((response) => response.status)
+}
+
+//Buscar Usuario para recuperar contraseña
+export async function mBuscarURPswd(vLogin, mSeleccionarURecuperaPswd) {
+  await mLoginModerador(vLogin).then((respuestam) => {
+    if ( respuestam.r === "modencontradook" || respuestam.r === "modconencontrado") {
+      console.log("ENCONTRADO EN MODERADORES TODO OK, DETENER BUSQUEDA");
+      //mSeleccionarFrame(respuestam);
+    } else {
+      if (respuestam.r === "modnoautorizado" || respuestam.r === "moderrorcontra") {
+        console.log("ENCONTRADO EN MODERADORES CON ERRORES, DETENER BUSQUEDA---");
+
+        if(respuestam.r === "moderrorcontra"){
+
+          console.log("El usuario o contraseña son incorrectos (contra incorrecta moderador)")
+          mSeleccionarURecuperaPswd(respuestam)
+        }
+
+      } else {
+        console.log("NO ENCONTRADO EN MODERADORES, CONTINUAR BUSQUEDA");
+
+        //COMIENZA LA BUSQUEDA EN CONSEJEROS
+        mLoginConsejero(vLogin).then((respuestac) => {
+          if (respuestac.r === "conencontradook") {
+            console.log("ENCONTRADO EN CONSEJEROS TODO OK, DETENER BUSQUEDA");
+            respuestac.r = "ventanaconsejero";
+            //mSeleccionarFrame(respuestac);
+          } else {
+            if (respuestac.r === "connoautorizado" || respuestac.r === "conerrorcontra") {
+              console.log("ENCONTRADO EN CONSEJEROS CON ERRORES, DETENER BUSQUEDA");
+
+              if(respuestac.r === "conerrorcontra"){
+                console.log("El usuario o contraseña son incorrectos (contra incorrecta consejero)")
+                mSeleccionarURecuperaPswd(respuestac)
+              }
+
+            }else{
+              console.log("NO ENCONTRADO EN CONSEJEROS, CONTINUAR BUSQUEDA---");
+
+              //COMIENZA LA BUSQUEDA EN AUXILIARES
+              mLoginAuxiliar(vLogin).then((respuestaax) => {
+                if (respuestaax.r === "auxencontradook") {
+                  console.log("ENCONTRADO EN AUXILIARES TODO OK, DETENER BUSQUEDA");
+                  respuestaax.r = "ventanaauxiliar";
+                  //mSeleccionarFrame(respuestaax);
+                } else {
+                  if (respuestaax.r === "auxnoautorizado" || respuestaax.r === "auxerrorcontra") {
+                    console.log("ENCONTRADO EN AUXILIARES CON ERRORES, DETENER BUSQUEDA");
+                    
+                    if(respuestaax.r === "auxerrorcontra"){
+                      console.log("El usuario o contraseña son incorrectos (contra incorrecta auxiliar)")
+                      mSeleccionarURecuperaPswd(respuestaax)
+                    }
+                    
+                  }else{
+                    console.log("NO ENCONTRADO EN AUXILIARES, CONTINUAR BUSQUEDA---");
+
+                    mLoginAdmin(vLogin).then((respuestaad) => {
+                      if (respuestaad.r === "adminencontradook") {
+                        console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
+                        respuestaad.r = "ventanaadmin";
+                        //mSeleccionarFrame(respuestaad);
+                        mSeleccionarURecuperaPswd(respuestaad)
+                      }
+                    });
+                  }
+                }
+              });
+            }
+          }
+        });
+     } }
+    
+  });
 }
