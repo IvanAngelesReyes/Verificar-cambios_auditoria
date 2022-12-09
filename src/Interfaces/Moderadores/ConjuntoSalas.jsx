@@ -21,6 +21,10 @@ import MBotonSala from "../../Componentes/Botones/MBotonSala";
 import * as Gets from "../../Util/Gets";
 
 export default function ConjuntoSalas(props) {
+
+  const {vUsuario} = props;
+
+  console.log("vUsuario desde ConjuntoSalas --> " + vUsuario)
   
   const [vFrame, setvFrame] = React.useState("salas");
 

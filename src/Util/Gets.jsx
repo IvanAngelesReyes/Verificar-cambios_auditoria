@@ -51,7 +51,10 @@ export async function mGetInfoCorreos1(vTipo, setvCorreo) {
   });
 }
 
-export async function mGetModeradores(setVRegistrosModeradores) {
+export async function mGetModeradores(
+  setVRegistrosModeradores,
+  setVIsCargandoModeradores
+) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/usuarios/obtener-moderador-aceptado",
     method: "GET",
@@ -61,6 +64,7 @@ export async function mGetModeradores(setVRegistrosModeradores) {
   await axios.request(reqOptions).then(function (response) {
     let vResponse = response.data;
     setVRegistrosModeradores(vResponse);
+    setVIsCargandoModeradores(false)
   });
 }
 
@@ -91,7 +95,12 @@ export async function mGetAdministradores(setVRegistrosAdministradores) {
   });
 }
 
-export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
+export async function mGetSalas(
+  setVSalas,
+  setvKeySalas,
+  setVIsCargandoSalas,
+  mSacarSede
+) {
   let reqOptions = {
     url: Variables.v_URL_API2 + "/api/salas/obtener-salas",
     method: "GET",
@@ -101,6 +110,7 @@ export async function mGetSalas(setVSalas, setvKeySalas, setVIsCargandoSalas) {
   await axios.request(reqOptions).then(function (response) {
     if (response.data.length > 0) {
       let vResponse = response.data;
+      mSacarSede(vResponse);
       setVSalas(vResponse);
     } else {
       setVSalas([]);
@@ -183,7 +193,7 @@ export async function mGetModeradoresMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-moderadores-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-moderadores-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };
@@ -200,7 +210,7 @@ export async function mGetConsejerosMismaInstitucion(
   let reqOptions = {
     url:
       Variables.v_URL_API2 +
-      "/api/auxiliares/obtener-consejeros-institucion/636c7d14385dcee6916c03ce?institucion=UNAM",
+      "/api/auxiliares/obtener-consejeros-institucion/638592c3fa57fe4fb7af281e?institucion=Instituto Politécnico Nacional",
     method: "GET",
     mode: "corps",
   };

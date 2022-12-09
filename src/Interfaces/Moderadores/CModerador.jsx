@@ -22,12 +22,10 @@ import * as Variables from "../../Global/Variables";
 
 import CSalas from "./CSalas";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
-import CMiPerfil from "../Moderadores/CMiPerfil";
 import CHome_Moderadores from "./CHome_Moderadores";
-import ConjuntoSalas from "./ConjuntoSalas";
-import Consejeros from "./CConsejeros";
+import ConjuntoSalas from "../Moderadores/ConjuntoSalas";
+import Consejeros from "../Moderadores/CConsejeros";
 import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
-
 
 export default function CModerador(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vModeradores,vUsuario } = props;
@@ -90,6 +88,7 @@ export default function CModerador(props) {
         vAltoNav={vAltoNav}
         vAnchoNav={vAnchoNav}
         mSetvFramePrincipal={mSetvFramePrincipal}
+        vUsuario={vUsuario}
       />
 
       // case Variables.v_MenuModeradores.item4:

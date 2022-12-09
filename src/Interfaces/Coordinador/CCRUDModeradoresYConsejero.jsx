@@ -59,7 +59,10 @@ function TabPanel(props) {
  * @returns 
  */
 export default function CCRUDModeradoresYConsejero(props) {
-  const { vRegistrosCoordinadores, setVRegistrosCoordinadores,mRefresaacarPantalla,setvAcctualizarEstado } = props;
+  const { vRegistrosCoordinadores, setVRegistrosCoordinadores
+    ,vRegistrosConsejeros, setVRegistrosConsejeros
+    ,vRegistrosModeradores, setVRegistrosModeradores
+    ,mRefresaacarPantalla,setvAcctualizarEstado } = props;
 
   const [value, setValue] = React.useState(0);
 
@@ -75,18 +78,10 @@ export default function CCRUDModeradoresYConsejero(props) {
         </Mui.Tabs>
       </Mui.Box>
       <TabPanel value={value} index={0}>
-        <ConsultaModeradoresYConsejeros
-        setvAcctualizarEstado={setvAcctualizarEstado}
-        mRefresaacarPantalla={mRefresaacarPantalla}
-        vRegistrosCoordinadores={vRegistrosCoordinadores}
-        setVRegistrosCoordinadores={setVRegistrosCoordinadores}
-        />
+        <ConsultaModeradoresYConsejeros {...props}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <AltaConsejero
-          vRegistrosCoordinadores={vRegistrosCoordinadores}
-          setVRegistrosCoordinadores={setVRegistrosCoordinadores}
-        />
+        <AltaConsejero  {...props}/>
       </TabPanel>
     </Mui.Box>
   );

@@ -21,12 +21,13 @@ import CDialogRegistroEspontaneo from '../../Dialogs/CDialogRegistroEspontaneo'
 import * as Puts from '../../../Util/Puts'
 
 export default function CSalaInactiva(props) {
-  const { vRegistro,mActualziarSalas,setVKey } = props;
+  const { vRegistro, mActualziarSalas, setVKey, mActivarFiltros } = props;
 
   const handleClick=()=>{
     vRegistro.estado="Activa"
     Puts.mModifcarSalas(vRegistro)
-    mActualziarSalas(vRegistro,setVKey)
+    mActualziarSalas(vRegistro, setVKey)
+    mActivarFiltros();
   }
 
 
@@ -65,8 +66,8 @@ export default function CSalaInactiva(props) {
           </Mui.Button>
           <Mui.TextField
             id="standard-read-only-input"
-            label="institucion"
-            defaultValue={vRegistro.instituciones}
+            label={Variables.v_TEXTOS.detalles_sala.texto6}
+            defaultValue={vRegistro.fecha}
             InputProps={{
               readOnly: true,
             }}
@@ -74,7 +75,7 @@ export default function CSalaInactiva(props) {
           />
           <Mui.TextField
             id="standard-read-only-input"
-            label="Area"
+            label={Variables.v_TEXTOS.detalles_sala.texto5}
             defaultValue={vRegistro.area}
             InputProps={{
               readOnly: true,
@@ -83,7 +84,7 @@ export default function CSalaInactiva(props) {
           />
           <Mui.TextField
             id="standard-read-only-input"
-            label="Sala"
+            label={Variables.v_TEXTOS.detalles_sala.texto2}
             defaultValue={vRegistro.salon}
             InputProps={{
               readOnly: true,
@@ -94,6 +95,7 @@ export default function CSalaInactiva(props) {
             setVKey={setVKey}
             vSala={vRegistro}
             mActualziarSalas={mActualziarSalas}
+            {...props}
           />
         </Mui.Grid>
       </Mui.Box>

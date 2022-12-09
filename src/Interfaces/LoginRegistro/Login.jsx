@@ -61,12 +61,13 @@ export default function Login(props) {
     if (verificaCampos(vLogin) === true) {
       var mSeleccionarFrame = (vRes) => {
         console.log("vRes ---> " + vRes.r);
+        //console.log("vRes Usuario---> " + vRes.usuario);
         switch (vRes.r) {
           case "modencontradook":
             mSetvFramePrincipal(Variables.v_FRFAMES.moderadores, vRes.usuario);
             break;
           case "modconencontradook":
-            mSetvFramePrincipal(Variables.v_FRFAMES.consejeros, vRes.usuario);
+            mSetvFramePrincipal(Variables.v_FRFAMES.modconsejeros, vRes.usuario);
             break;
           case "ventanaconsejero":
             mSetvFramePrincipal(Variables.v_FRFAMES.consejeros, vRes.usuario);

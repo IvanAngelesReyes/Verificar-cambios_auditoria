@@ -20,6 +20,60 @@ export async function mModificarAuxiliar(vRegistro) {
       .then(console.log);
   }
 
+  export async function mModificarAdministrador(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/admin/actualizar/" +
+        vRegistro._id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
+  export async function mModificarModerador(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/usuarios/actualizar-moderador/" +
+        vRegistro.uid,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
+  export async function mModificarConsejero(vRegistro) {
+
+    await fetch(
+      Variables.v_URL_API2 +
+        "/api/consejero/actualizar-consejero/" +
+        vRegistro.uid,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vRegistro),
+      }
+    )
+      .then((response) => response.json())
+      .then(console.log);
+  }
+
   export async function mActualizarModerador(vRegistro) {
       await fetch(
     Variables.v_URL_API2 + "/api/usuarios/ /actualizar-moderador-Auxiliar/:id"+vRegistro.uid,

@@ -20,16 +20,16 @@ import * as Icon from "@mui/icons-material";
 
 import * as Variables from "../../Global/Variables";
 
-import CSalas from "./CSalas";
+import CSalas from "../Moderadores/CSalas";
 import CDesktop from "../../Componentes/Desktop/CDesktop";
 import CMiPerfil from "../Moderadores/CMiPerfil";
-import CHome_Moderadores from "./CHome_Moderadores";
-import ConjuntoSalas from "./ConjuntoSalas";
-import Consejeros from "./CConsejeros";
+import CHome_Moderadores from "../Moderadores/CHome_Moderadores";
+// import ConjuntoSalas from "../Moderadores";
+import Consejeros from "../Moderadores/CConsejeros";
 import CDialogPerfilModerador from "../../Componentes/Dialogs/CDialogPerfilModerador";
 
 
-export default function CModerador(props) {
+export default function CConsejero(props) {
   const { mSetvFramePrincipal, vAltoNav, vAnchoNav, vModeradores,vUsuario } = props;
   const vResAltoNav = 0;
 

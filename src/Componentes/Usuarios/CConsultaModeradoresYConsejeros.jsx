@@ -21,12 +21,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import * as Variables from "../../Global/Variables";
 import TarjetaCuadroModeradores from "../../Componentes/TarjetasPerfiles/Cuadros/CModerador";
-import TarjetaCuadroConsejeros from "../../Componentes/TarjetasPerfiles/Cuadros/CConsejero";
 import TarjetaListaModeradores from "../../Componentes/TarjetasPerfiles/Listas/CModerador";
-import TarjetaListaConsejeros from "../../Componentes/TarjetasPerfiles/Listas/CConsejero";
 import BotonCuadroLista from "../../Componentes/Botones/CBotonCuadroLista";
-
-const vListaInstituciones = ["Todo", "UNAM", "UAPT", "UAEMEX"];
 
 const vListaRol = ["Todo","Moderador", "Consejero"];
 
@@ -36,8 +32,10 @@ export default function CConsultaModeradoresYConsejeros(props) {
     setVRegistrosModeradores,
     vRegistrosConsejeros,
     setVRegistrosConsejeros,
+    vInstituciones,
     mRefresaacarPantalla,
-    setvAcctualizarEstado } = props;
+    setvAcctualizarEstado
+   } = props;
 
   // Gneral Focus Hook
   const UseFocus = () => {
@@ -59,7 +57,8 @@ export default function CConsultaModeradoresYConsejeros(props) {
 
   const [vVistaListaModeradores, setvVistaListaModeradores] =
     React.useState(true);
-
+  
+  const [vListaInstituciones, setVListaInstituciones] = React.useState([]);
   const [vInstitucionSeleccionada, setVInstitucionSeleccionada] =
     React.useState("Todo");
   const [vRolSeleccionada, setVRolSeleccionada] =
@@ -124,7 +123,6 @@ export default function CConsultaModeradoresYConsejeros(props) {
   };
 
   const mFiltroOrden = async (vRegistros) => {
-    debugger;
     //if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
       if (vFiltroOrden == "Ascendente (A-Z)") {
       return await vRegistros.sort((a, b) =>
@@ -149,8 +147,33 @@ export default function CConsultaModeradoresYConsejeros(props) {
     setVIsFiltro(true)
   }
 
+  const mSacarInstitucion = async (vInstituciones) => {
+    return [
+      ...new Set(
+        await vInstituciones.map((item) => {
+          return item.nombre;
+        })
+      ),
+    ].reverse();
+  };
+
   React.useEffect(() => {
     if (vIsFiltro) {
+      if (vListaInstituciones.length === 0) {
+        mSacarInstitucion([...vInstituciones]).then((result3) => {
+          result3.push("Todo");
+          result3 = result3.reverse();        
+            setVListaInstituciones(result3);
+            //setVRegistrosFiltradosModeradores(result2);
+            setVIsFiltro(false);
+            setVKey(Date.now());
+        });
+      } else {
+        //setVRegistrosFiltradosModeradores(result2);
+        setVIsFiltro(false);
+        setVKey(Date.now());
+      }
+
       setvAcctualizarEstado(() => mActualizarFiltro)
       mfiltroBusqueda([...vRegistrosModeradores.vConsultaDataModerador]).then((result) => {
         mfiltroInstituciones([...result]).then((result2) => {

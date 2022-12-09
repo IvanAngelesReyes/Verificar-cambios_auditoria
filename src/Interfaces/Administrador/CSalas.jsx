@@ -32,14 +32,10 @@ export default function CSalas(props) {
   const {
     vSalasCargadas,
     mCargarSalas,
-    mSetvFramePrincipal,
     vAltoNav,
     vAnchoNav,
-    vInstituciones,
+    vSede,
     vIsCargandoSalas,
-    setvSalasCargadas,
-    setVIsCargandoSalas,
-    setvKeyS,
   } = props;
 
   const [vIsCargado, setvIsCargado] = React.useState(false);
@@ -66,6 +62,13 @@ export default function CSalas(props) {
 
   const [vIsFiltro, setVIsFiltro] = React.useState(true);
 
+  const mfiltroSede = async (vRegistros) => {
+    return await vRegistros.filter((item) => {
+      return vInstitucionSeleccionada === "Todo"
+        ? true
+        : item.sede.trim() === vInstitucionSeleccionada.trim();
+    });
+  };
   const mfiltroInstituciones = async (vRegistros) => {
     return await vRegistros.filter((item) => {
       return vInstitucionSeleccionada === "Todo"
@@ -77,15 +80,35 @@ export default function CSalas(props) {
   const mFiltroOrden = async (vRegistros) => {
     if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
       return await vRegistros.sort((a, b) =>
-        a.salon > b.salon ? 1 : a.salon < b.salon ? -1 : 0
+        a > b ? 1 : a < b ? -1 : 0
       );
     } else {
       return await vRegistros.sort((a, b) =>
-        a.salon < b.salon ? 1 : a.salon > b.salon ? -1 : 0
+        a < b ? 1 : a > b ? -1 : 0
+      );
+    }
+  };
+  const mFiltroOrdenUbicacion = async (vRegistros) => {
+    if (vFiltroOrden === Variables.v_TEXTOS.orden.ascendente) {
+      return await vRegistros.sort((a, b) =>
+        a.ubicacion > b.ubicacion ? 1 : a.ubicacion < b.ubicacion ? -1 : 0
+      );
+    } else {
+      return await vRegistros.sort((a, b) =>
+        a.ubicacion < b.ubicacion ? 1 : a.ubicacion > b.ubicacion ? -1 : 0
       );
     }
   };
 
+  const mSacarSede = async (vSede) => {
+    return [
+      ...new Set(
+        await vSede.map((item) => {
+          return item;
+        })
+      ),
+    ].reverse();
+  };
   const mSacarInstitucion = async (vInstituciones) => {
     return [
       ...new Set(
@@ -177,17 +200,22 @@ export default function CSalas(props) {
     if (vSalas.length > 0) {
       if (vIsFiltro) {
         setVRegistrosFiltrados([]);
-        mfiltroInstituciones([...vSalas]).then((result) => {
+        mfiltroSede([...vSalas]).then((result) => {
           if (result.length > 0) {
-            mFiltroOrden([...result]).then((result2) => {
+            mFiltroOrdenUbicacion([...result]).then((result2) => {
               Metodos.chunckArrayInGroups([...result2], result2.length).then(
                 (result3) => setVRegistrosFiltrados(result3)
               );
               if (vListaInstituciones.length === 0) {
+                /*
                 mSacarInstitucion([...vInstituciones]).then((result3) => {
-                  result3.push("Todo");
-                  result3 = result3.reverse();
+                */
+                mSacarSede(vSede).then((result3) => {
+                  
                   mFiltroOrden([...result3]).then((result4) => {
+                    result4.reverse();
+                    result4.push("Todo");
+                    result4 = result4.reverse();
                     setVListaInstituciones(result4);
                     setVIsFiltro(false);
                     setVKey(Date.now());
@@ -250,7 +278,7 @@ export default function CSalas(props) {
               options={vListaInstituciones}
               sx={{ width: "auto" }}
               renderInput={(params) => (
-                <Mui.TextField {...params} label="Institución" />
+                <Mui.TextField {...params} label="Sede" />
               )}
               value={vInstitucionSeleccionada}
               inputValue={vInstitucionSeleccionada}
