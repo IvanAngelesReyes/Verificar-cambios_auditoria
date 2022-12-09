@@ -63,8 +63,10 @@ export default function CRecuperaContra(){
                   break;
                 case "modconencontradook":
                   break;
+                //Consejeros
                 case "conerrorcontra":
                   console.log("Entro a switch como consejero")
+                  Puts.mRPsswdConsejeros(vEmail)
                   break;
                 case "auxerrorcontra":
                   console.log("Entro a switch como auxiliar")

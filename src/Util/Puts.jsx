@@ -226,9 +226,10 @@ export async function mRPsswdModeradores(vCorreo) {
     .then(data =>{
       console.log(data)
       let vData = data
+      console.log(":::Recupera Contra Moderadores:::")
       console.log("vData correo " + vData.msg)
       console.log("vData pasword " + vData.passwordT)
-      Posts.mEnviarCorreo(7, vData.msg, vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -247,6 +248,11 @@ export async function mRPsswdAdmins(vCorreo) {
     .then((response) => response.json())
     .then(data =>{
       console.log(data)
+      let vData = data
+      console.log(":::Recupera Contra Admins:::")
+      console.log("vData correo " + vData.msg)
+      console.log("vData pasword " + vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -265,6 +271,11 @@ export async function mRPsswdAuxiliares(vCorreo) {
     .then((response) => response.json())
     .then(data =>{
       console.log(data)
+      let vData = data
+      console.log(":::Recupera Contra Auxiliares:::")
+      console.log("vData correo " + vData.msg)
+      console.log("vData pasword " + vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -283,5 +294,10 @@ export async function mRPsswdConsejeros(vCorreo) {
     .then((response) => response.json())
     .then(data =>{
       console.log(data)
+      let vData = data
+      console.log(":::Recupera Contra Consejero:::")
+      console.log("vData correo " + vData.msg)
+      console.log("vData pasword " + vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
