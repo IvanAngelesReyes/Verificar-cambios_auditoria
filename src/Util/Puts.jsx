@@ -229,7 +229,7 @@ export async function mRPsswdModeradores(vCorreo) {
       console.log(":::Recupera Contra Moderadores:::")
       console.log("vData correo " + vData.msg)
       console.log("vData pasword " + vData.passwordT)
-      //Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -252,7 +252,7 @@ export async function mRPsswdAdmins(vCorreo) {
       console.log(":::Recupera Contra Admins:::")
       console.log("vData correo " + vData.msg)
       console.log("vData pasword " + vData.passwordT)
-      //Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -275,7 +275,7 @@ export async function mRPsswdAuxiliares(vCorreo) {
       console.log(":::Recupera Contra Auxiliares:::")
       console.log("vData correo " + vData.msg)
       console.log("vData pasword " + vData.passwordT)
-      //Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
 
@@ -298,6 +298,6 @@ export async function mRPsswdConsejeros(vCorreo) {
       console.log(":::Recupera Contra Consejero:::")
       console.log("vData correo " + vData.msg)
       console.log("vData pasword " + vData.passwordT)
-      //Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
+      Posts.mEnviarCorreo("7", vData.msg, vData.passwordT)
     })
 }
