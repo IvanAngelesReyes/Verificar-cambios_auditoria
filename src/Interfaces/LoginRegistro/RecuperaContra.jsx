@@ -59,7 +59,6 @@ export default function CRecuperaContra(){
                 case "moderrorcontra":
                   console.log("Entro a switch como moderador")
                   Puts.mRPsswdModeradores(vEmail)
-           
                   break;
                 case "modconencontradook":
                   break;
@@ -83,7 +82,7 @@ export default function CRecuperaContra(){
               }
             };
             Posts.mBuscarURPswd(vEmail2, mSeleccionarURecuperaPswd);
-            
+            alert("Revisa tu correo ;D")
             //Puts.mRPsswdModeradores(vEmail)
           }
     }
@@ -133,6 +132,8 @@ export default function CRecuperaContra(){
         </section>
 
     );
+
+
 
 
     function verificaCampos(vEmail) {
