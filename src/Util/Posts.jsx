@@ -491,8 +491,8 @@ export async function mBuscarURPswd(vLogin, mSeleccionarURecuperaPswd) {
                   }else{
                     console.log("NO ENCONTRADO EN AUXILIARES, CONTINUAR BUSQUEDA---");
 
-                    mLoginAdmin(vLogin).then((respuestaad) => {
-                      if (respuestaad.r === "adminencontradook") {
+                    mLoginAdminRC(vLogin).then((respuestaad) => {
+                      if (respuestaad.r === "adminerrorcontra") {
                         console.log("ENCONTRADO EN ADMINS, DETENER BUSQUEDA");
                         respuestaad.r = "ventanaadmin";
                         //mSeleccionarFrame(respuestaad);
@@ -508,4 +508,32 @@ export async function mBuscarURPswd(vLogin, mSeleccionarURecuperaPswd) {
      } }
     
   });
+}
+
+//Login de administradores para parte Recuperar Contraseña
+export async function mLoginAdminRC(vLogin) {
+  let r = { usuario: "", r: "" };
+  await fetch(Variables.v_URL_API2 + "/api/auth/login/admin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(vLogin),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let vResponse = data;
+      console.log(vResponse);
+
+      r.r = Metodos.verificaRAdminRC(vResponse);
+
+      console.log("RAdmin: " + r.r);
+
+      if (r.r === "adminencontradook") {
+        r.usuario = vResponse.vAdmin;
+        console.log(vResponse);
+      }
+      console.table(r)
+    });
+  return r;
 }

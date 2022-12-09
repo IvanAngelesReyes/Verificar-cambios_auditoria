@@ -68,17 +68,22 @@ export default function CRecuperaContra(){
                   console.log("Entro a switch como consejero")
                   Puts.mRPsswdConsejeros(vEmail)
                   break;
+                //Auxiliar
                 case "auxerrorcontra":
                   console.log("Entro a switch como auxiliar")
+                  Puts.mRPsswdAuxiliares(vEmail)
                   break;
-                case "adminerrorcontra":
-                  console.log("Entro a switch como auxiliar")
+                //Admin
+                case "ventanaadmin":
+                  console.log("Entro a switch como admin")
+                  Puts.mRPsswdAdmins(vEmail)
                   break;
                 default:
                   break;
               }
             };
             Posts.mBuscarURPswd(vEmail2, mSeleccionarURecuperaPswd);
+            
             //Puts.mRPsswdModeradores(vEmail)
           }
     }

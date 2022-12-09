@@ -268,3 +268,29 @@ export function verificaRRM(vDatosRegistro,vCorreo){
       } 
   }
 }
+
+//Este metodo es para no mostrar alert en parte de recuperar contraseña
+export function verificaRAdminRC(vResponse){
+
+  let respuesta = vResponse.msg
+
+  //console.log("MSG ---> " + respuesta)
+
+  if(respuesta === "Usuario / Contraseña incorrectos"){
+    console.log("El usuario o contraseña son incorrectos (admin no encontrado)")
+      return "adminnoencontrado";
+  }else{
+
+    if (respuesta === "Usuario / Password incorrectos") {
+      console.log("El usuario o contraseña son incorrectos (admin) ");
+      return "adminerrorcontra";
+    }
+  
+    if(respuesta === "Inicio de sesion correcto"){
+      alert("Bienvenido administrador")
+      return "adminencontradook"
+    }
+
+  }
+
+};
