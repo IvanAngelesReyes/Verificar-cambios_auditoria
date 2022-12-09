@@ -34,8 +34,6 @@ export default function CHome(props) {
     vAltoNav,
     vSalasCargadas,
     mActualziarSalas,
-    setvSalasCargadas,
-    setVIsCargandoSalas,
     vIsCargandoSalas,
     vSede,
     vIsCargandoModeradores,
@@ -147,7 +145,6 @@ export default function CHome(props) {
   };
 
   React.useEffect(() => {
-    Gets.mGetSalas(setvSalasCargadas, setVKey, setVIsCargandoSalas);
     if (vSalas.length > 0) {
       if (vListarSede.length === 0) {
         mSacarSede(vSede).then((result3) => {
@@ -222,6 +219,9 @@ export default function CHome(props) {
           );
         }
       });
+    } else {
+      setvIsCargadoActivo(false);
+      setvIsCargadoInactivo(false);
     }
     if (vSalasCargadas.length > 0) {
       setvSalas(vSalasCargadas);
@@ -269,6 +269,7 @@ export default function CHome(props) {
         mActualziarSalas={mActualziarSalas}
         mActivarFiltros={mActivarFiltros}
         vRegistro={item}
+        {...props}
       />
     ));
   }
@@ -279,6 +280,7 @@ export default function CHome(props) {
         mActualziarSalas={mActualziarSalas}
         mActivarFiltros={mActivarFiltros}
         vRegistro={item}
+        {...props}
       />
     ));
   }
@@ -311,7 +313,7 @@ export default function CHome(props) {
         if (vSalas.length === 0) {
           return (
             <Mui.Typography variant="body1" component="p">
-              {Variables.v_TEXTOS.home_coordinadores.no_salas}
+              {Variables.v_TEXTOS.home_admin.no_salas}
             </Mui.Typography>
           );
         } else {
@@ -352,7 +354,7 @@ export default function CHome(props) {
             } else {
               return (
                 <Mui.Typography variant="body1" component="p">
-                  {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
+                  {Variables.v_TEXTOS.home_admin.no_salas_activas}
                 </Mui.Typography>
               );
             }
@@ -390,7 +392,7 @@ export default function CHome(props) {
             } else {
               return (
                 <Mui.Typography variant="body1" component="p">
-                  {Variables.v_TEXTOS.home_coordinadores.no_salas_activas}
+                  {Variables.v_TEXTOS.home_admin.no_salas_activas}
                 </Mui.Typography>
               );
             }
@@ -428,7 +430,7 @@ export default function CHome(props) {
         if (vSalas.length === 0) {
           return (
             <Mui.Typography variant="body1" component="p">
-              {Variables.v_TEXTOS.home_coordinadores.no_salas}
+              {Variables.v_TEXTOS.home_admin.no_salas}
             </Mui.Typography>
           );
         } else {
@@ -470,7 +472,7 @@ export default function CHome(props) {
             } else {
               return (
                 <Mui.Typography variant="body1" component="p">
-                  {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
+                  {Variables.v_TEXTOS.home_admin.no_salas_inactivas}
                 </Mui.Typography>
               );
             }
@@ -507,7 +509,7 @@ export default function CHome(props) {
             } else {
               return (
                 <Mui.Typography variant="body1" component="p">
-                  {Variables.v_TEXTOS.home_coordinadores.no_salas_inactivas}
+                  {Variables.v_TEXTOS.home_admin.no_salas_inactivas}
                 </Mui.Typography>
               );
             }

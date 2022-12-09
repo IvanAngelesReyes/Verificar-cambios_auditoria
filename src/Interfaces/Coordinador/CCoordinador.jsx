@@ -35,22 +35,59 @@ export default function CCoordinador(props) {
   );
 
   const [vSalasCargadas, setvSalasCargadas] = React.useState([]);
-
   const [vRegistrosCoordinadores, setVRegistrosCoordinadores] = React.useState(
     []
   );
-
   const [vRegistrosModeradores, setVRegistrosModeradores] = React.useState([]);
   const [vRegistrosConsejeros, setVRegistrosConsejeros] = React.useState([]);
   const [vInstituciones, setVInstituciones] = React.useState([]);
+  const [vSede, setVSede] = React.useState([]);
+  //Varaibles para las esperas de peticiones:
+  const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true);
+  const [vIsCargandoModeradores, setVIsCargandoModeradores] =
+    React.useState(true);
 
+  const mBuscarModeradorInstitucion = (vModeradores) => {
+    setVRegistrosModeradores(
+      {vConsultaDataModerador:vModeradores.vConsultaDataModerador.filter(
+        (item) => item.institucion.trim() === vUsuario.institucion.trim()
+      )}
+    );
+    setVIsCargandoModeradores();
+  };
+  
   React.useEffect(() => {
     Gets.mGetCoordinadores(setVRegistrosCoordinadores);
-    Gets.mGetModeradores(setVRegistrosModeradores);
-    Gets.mGetSalas(setvSalasCargadas,setvKeySalas);
+    Gets.mGetModeradores(
+      mBuscarModeradorInstitucion,
+      setVIsCargandoModeradores
+    );
+
+    Gets.mGetSalas(
+      setvSalasCargadas,
+      setvKeySalas,
+      setVIsCargandoSalas,
+      mSacarSede
+    );
     Gets.mGetConsejeros(setVRegistrosConsejeros);
     Gets.mGetUniversidades(setVInstituciones);
   }, []);
+
+  const mSacarSede = (vSalas) => {
+    var vSedeTmp = [];
+    vSalas.map((item) => {
+      if (vSedeTmp.length === 0) {
+        vSedeTmp.push(item.sede);
+      } else {
+        console.log();
+        if (vSedeTmp.find((item2) => item.sede === item2) === undefined) {
+          vSedeTmp.push(item.sede);
+        }
+      }
+    });
+    setVSede(vSedeTmp);
+    return vSedeTmp;
+  };
 
   const [vKey, setvKey] = React.useState(Date.now());
   const [vKeySalas, setvKeySalas] = React.useState(Date.now());
@@ -72,7 +109,7 @@ export default function CCoordinador(props) {
 
   const mCargarSalas = (vSalasNuevas) => {
     setvSalasCargadas([...vSalasCargadas, ...vSalasNuevas]);
-    setvKey(Date.now(0))
+    setvKey(Date.now(0));
   };
 
   const mActualziarSalas = (vSalaActualizada, setvActualizarHome) => {
@@ -93,6 +130,8 @@ export default function CCoordinador(props) {
     setvAcctualizarEstado(vActualiador);
   };
 
+  
+
   const mMenuItems = () => {
     return [
       {
@@ -103,12 +142,35 @@ export default function CCoordinador(props) {
       {
         icon: <Icon.AssistantPhoto />,
         texto: Variables.v_MenuCoordinador.item2,
-        mAccion: mSetvContenido,
+        mAccion: (vContenido) => {
+          setVIsCargandoSalas(true);
+          setVIsCargandoModeradores(true);
+          Gets.mGetSalas(
+            setvSalasCargadas,
+            setvKeySalas,
+            setVIsCargandoSalas,
+            mSacarSede
+          );
+          Gets.mGetModeradores(
+            mBuscarModeradorInstitucion,
+            setVIsCargandoModeradores
+          );
+          mSetvContenido(vContenido);
+        },
       },
       {
         icon: <Icon.AccountBalance />,
         texto: Variables.v_MenuCoordinador.item3,
-        mAccion: mSetvContenido,
+        mAccion: (vContenido) => {
+          setVIsCargandoSalas(true);
+          Gets.mGetSalas(
+            setvSalasCargadas,
+            setvKey,
+            setVIsCargandoSalas,
+            mSacarSede
+          );
+          mSetvContenido(vContenido);
+        },
       },
     ];
   };
@@ -130,56 +192,67 @@ export default function CCoordinador(props) {
         return (
           <CHome
             key={vKeySalas}
+            vUsuario={vUsuario}
             vSalasCargadas={vSalasCargadas}
             setvSalasCargadas={setvSalasCargadas}
             vAltoNav={vAltoNav}
             vAnchoNav={vAnchoNav}
             mActualziarSalas={mActualziarSalas}
             setvAcctualizarEstado={mActualizarEstado}
+            setVIsCargandoSalas={setVIsCargandoSalas}
+            vIsCargandoSalas={vIsCargandoSalas}
+            vSede={vSede}
+            vRegistrosModeradores={vRegistrosModeradores}
+            vIsCargandoModeradores={vIsCargandoModeradores}
           />
         );
-        case Variables.v_MenuCoordinador.item3:
-          let tmp = [];
-          tmp = vRegistrosConsejeros.vConsejeros;        ;
-          let consejeros = tmp.map(m=>{
-            return {apellido_materno:m.apellido_materno,
-              apellido_materno:m.apellido_materno,
-              apellido_paterno:m.apellido_paterno,
-              area_interes_1:m.area_interes_1,
-              area_interes_2:m.area_interes_2,
-              correo:m.correo,
-              estado:m.estado,
-              imagen:m.imagen,
-              institucion:m.institucion,
-              nombre:m.nombre,
-              consejero: true,
-              salas: "",
-              rol:m.rol,
-              uid:m.uid};
-          });
-          consejeros = [].concat(consejeros,vRegistrosModeradores.vConsultaDataModerador);
-          let RegistrosModeradores = {
-            msg : "",
-            vConsultaDataModerador : consejeros
+      case Variables.v_MenuCoordinador.item3:
+        let tmp = [];
+        tmp = vRegistrosConsejeros.vConsejeros;
+        let consejeros = tmp.map((m) => {
+          return {
+            apellido_materno: m.apellido_materno,
+            apellido_materno: m.apellido_materno,
+            apellido_paterno: m.apellido_paterno,
+            area_interes_1: m.area_interes_1,
+            area_interes_2: m.area_interes_2,
+            correo: m.correo,
+            estado: m.estado,
+            imagen: m.imagen,
+            institucion: m.institucion,
+            nombre: m.nombre,
+            consejero: true,
+            salas: "",
+            rol: m.rol,
+            uid: m.uid,
           };
-          return (
-            <>
-              <CCRUDModeradoresYConsejero
-                {...props}
-                vUsuario={vUsuario}
-                vInstituciones={vInstituciones}
-                setvAcctualizarEstado={mActualizarEstado}
-                vRegistrosCoordinadores={vRegistrosCoordinadores}
-                setVRegistrosCoordinadores={mActualziarCoordinarodes}
-                mRefresaacarPantalla={mRefresaacarPantalla}
-                vRegistrosModeradores={RegistrosModeradores}
-                setVRegistrosModeradores={mActualizarModeradores}
-                vRegistrosConsejeros={vRegistrosConsejeros}
-                setVRegistrosConsejeros={mActualizarConsejeros}
-              />
-            </>
-          );
-        default:
+        });
+        consejeros = [].concat(
+          consejeros,
+          vRegistrosModeradores.vConsultaDataModerador
+        );
+        let RegistrosModeradores = {
+          msg: "",
+          vConsultaDataModerador: consejeros,
+        };
+        return (
+          <>
+            <CCRUDModeradoresYConsejero
+              {...props}
+              vUsuario={vUsuario}
+              vInstituciones={vInstituciones}
+              setvAcctualizarEstado={mActualizarEstado}
+              vRegistrosCoordinadores={vRegistrosCoordinadores}
+              setVRegistrosCoordinadores={mActualziarCoordinarodes}
+              mRefresaacarPantalla={mRefresaacarPantalla}
+              vRegistrosModeradores={RegistrosModeradores}
+              setVRegistrosModeradores={mActualizarModeradores}
+              vRegistrosConsejeros={vRegistrosConsejeros}
+              setVRegistrosConsejeros={mActualizarConsejeros}
+            />
+          </>
+        );
+      default:
     }
   };
 

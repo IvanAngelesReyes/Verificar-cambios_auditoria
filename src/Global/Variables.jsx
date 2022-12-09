@@ -111,7 +111,14 @@ export const v_TEXTOS = {
   },
   home_coordinadores: {
     no_salas:
-      "Por el momento no hay salas agregadas, vaya al apartado Salas y cargue las salas mediante un csv.",
+      "Por el momento no hay salas agregadas.",
+    no_salas_inactivas: "Por el momento no hay salas inactivas.",
+    no_salas_activas:
+      "Por el momento no hay salas activas, las salas inactivas las deben abrir.",
+  },
+  home_admin: {
+    no_salas:
+      "Por el momento no hay salas agregadas.",
     no_salas_inactivas: "Por el momento no hay salas inactivas.",
     no_salas_activas:
       "Por el momento no hay salas activas, las salas inactivas las deben abrir.",

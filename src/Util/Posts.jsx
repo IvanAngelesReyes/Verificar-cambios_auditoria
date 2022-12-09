@@ -290,6 +290,7 @@ export function mEnviarCorreo(vTipoCorreo, vTo, passwd) {
 
   switch (vTipoCorreo) {
     case "9":
+    case "7":
     case "2":
       formData.append("vTipoCorreo", vTipoCorreo);
       formData.append("vTo", vTo);

@@ -33,6 +33,39 @@ export const generatePasswordRand = (length, type) => {
   return pass;
 };
 
+export const mObtenerMes = (vNum) => {
+  console.log(vNum);
+  switch (vNum) {
+    case 0:
+      return "enero"
+    case 1:
+      return "febrero"
+    case 2:
+      return "marzo"
+    case 3:
+      return "abril"
+    case 4:
+      return "mayo"
+    case 5:
+      return "junio"
+    case 6:
+      return "julio"
+    case 7:
+      return "agosto"
+    case"":
+      return "septiembre"
+    case 9:
+      return "octubre"
+    case 10:
+      return "noviembre"
+    case 11:
+      return "diciembre"
+
+    default:
+      break;
+  }
+}
+
 export const chunckArrayInGroups = async (arr, size) => {
   size = size >= 20 ? 20 : size;
   var chunk = [],

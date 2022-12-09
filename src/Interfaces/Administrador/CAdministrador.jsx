@@ -49,7 +49,8 @@ export default function CAdministrador(props) {
 
   //Varaibles para las esperas de peticiones:
   const [vIsCargandoSalas, setVIsCargandoSalas] = React.useState(true);
-  const [vIsCargandoModeradores, setVIsCargandoModeradores] = React.useState(true);
+  const [vIsCargandoModeradores, setVIsCargandoModeradores] =
+    React.useState(true);
 
   React.useEffect(() => {
     Gets.mGetAuxiliares(setVRegistrosAuxiliares);
@@ -79,12 +80,11 @@ export default function CAdministrador(props) {
         vSedeTmp.push(item.sede);
       } else {
         console.log();
-        if (vSedeTmp.find((item2) => item.sede === item2) === undefined) {
+        if (vSedeTmp.find((item2) => item.sede === item2)===undefined) {
           vSedeTmp.push(item.sede);
         }
       }
     });
-    console.log(vSedeTmp);
     setVSede(vSedeTmp);
     return vSedeTmp;
   };
@@ -141,12 +141,35 @@ export default function CAdministrador(props) {
       {
         icon: <Icon.AssistantPhoto />,
         texto: Variables.v_MenuAdministrador.item2,
-        mAccion: mSetvContenido,
+        mAccion: (vContenido) => {
+          setVIsCargandoSalas(true);
+          setVIsCargandoModeradores(true);
+          Gets.mGetSalas(
+            setvSalasCargadas,
+            setvKeySalas,
+            setVIsCargandoSalas,
+            mSacarSede
+          );
+          Gets.mGetModeradores(
+            setVRegistrosModeradores,
+            setVIsCargandoModeradores
+          );
+          mSetvContenido(vContenido);
+        },
       },
       {
         icon: <Icon.AccountBalance />,
         texto: Variables.v_MenuAdministrador.item3,
-        mAccion: mSetvContenido,
+        mAccion: (vContenido) => {
+          setVIsCargandoSalas(true);
+          Gets.mGetSalas(
+            setvSalasCargadas,
+            setvKey,
+            setVIsCargandoSalas,
+            mSacarSede
+            )
+            mSetvContenido(vContenido);
+        },
       },
       {
         icon: <Icon.Mail />,
@@ -171,13 +194,13 @@ export default function CAdministrador(props) {
       case Variables.v_MenuAdministrador.item1:
         return (
           <CDialogPerfilAdministrador
-          setvAcctualizarEstado={mActualizarEstado}
-          vAltoNav={vAltoNav}
-          vAnchoNav={vAnchoNav}
-          mSetvFramePrincipal={mSetvFramePrincipal}
-          vUsuario={vUsuario}
-          mRefresaacarPantalla={mRefresaacarPantalla}
-        />
+            setvAcctualizarEstado={mActualizarEstado}
+            vAltoNav={vAltoNav}
+            vAnchoNav={vAnchoNav}
+            mSetvFramePrincipal={mSetvFramePrincipal}
+            vUsuario={vUsuario}
+            mRefresaacarPantalla={mRefresaacarPantalla}
+          />
         );
       case Variables.v_MenuAdministrador.item2:
         return (
@@ -194,6 +217,8 @@ export default function CAdministrador(props) {
             vSede={vSede}
             vRegistrosModeradores={vRegistrosModeradores}
             vIsCargandoModeradores={vIsCargandoModeradores}
+            vUsuario={vUsuario}
+            vInstituciones={vInstituciones}
           />
         );
       case Variables.v_MenuAdministrador.item3:
@@ -234,7 +259,6 @@ export default function CAdministrador(props) {
           />
         );
       case Variables.v_MenuAdministrador.item6:
-        
         return (
           <>
             <CUsuarios
@@ -251,7 +275,7 @@ export default function CAdministrador(props) {
             />
           </>
         );
-        default:
+      default:
     }
   };
 

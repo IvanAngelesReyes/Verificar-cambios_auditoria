@@ -10,11 +10,27 @@ import * as Gets from "../../Util/Gets";
 function mValidarRegistro(vRegistro, vModeradores, setvErrores) {
   let b = false;
   let vErroresTmp = {
+    institucion: { estado: false, texto: "" },
     nombre: { estado: false, texto: "" },
     ape_paterno: { estado: false, texto: "" },
     ape_materno: { estado: false, texto: "" },
     correo: { estado: false, texto: "" },
   };
+  console.log(vRegistro.institucion.length);
+  console.log(vRegistro.institucion);
+  if (vRegistro.institucion.length>0) {
+    b = true;
+    vErroresTmp = {
+      ...vErroresTmp,
+      institucion: { estado: false, texto: "" },
+    };
+  } else {
+    b = false;
+    vErroresTmp = {
+      ...vErroresTmp,
+      institucion: { estado: true, texto: "Debe seleccionar su institución." },
+    };
+  }
   if (vRegistro.nombre !== "") {
     b = true;
     vErroresTmp = {
@@ -28,8 +44,7 @@ function mValidarRegistro(vRegistro, vModeradores, setvErrores) {
       nombre: { estado: true, texto: "Debe escribir su nombre." },
     };
   }
-
-  if (vRegistro.ape_paterno !== "") {
+  if (vRegistro.apellido_paterno !== "") {
     b = true;
     vErroresTmp = {
       ...vErroresTmp,
@@ -45,7 +60,7 @@ function mValidarRegistro(vRegistro, vModeradores, setvErrores) {
       },
     };
   }
-  if (vRegistro.ape_materno !== "") {
+  if (vRegistro.apellido_materno !== "") {
     b = true;
     vErroresTmp = {
       ...vErroresTmp,
@@ -77,8 +92,9 @@ function mValidarRegistro(vRegistro, vModeradores, setvErrores) {
     };
   }
   if (
-    vModeradores.filter((item) => item.correo === vRegistro.correo) ===
-    undefined
+    vModeradores.filter((item) => {
+      return vRegistro.correo === item.correo;
+    }).length === 0
   ) {
     b = true;
     vErroresTmp = { ...vErroresTmp, correo: { estado: false, texto: "" } };
@@ -109,10 +125,28 @@ function mLimpiarDatos(
   mSetInstitucion("");
 }
 
+function mInstituciones(vInstituciones, vRegistrosAuxiliares) {
+  var vInstitucionesTmp = [];
+  vInstituciones.map((item, index) => {
+    vInstitucionesTmp.push(
+      <Mui.MenuItem value={item.nombre}>{item.nombre}</Mui.MenuItem>
+    );
+  });
+  return vInstitucionesTmp;
+}
+
 export default function CDialogDetallesSala(props) {
-  const { vSala, mActualziarSalas, setVKey, vRegistrosModeradores } = props;
+  const {
+    vSala,
+    mActualziarSalas,
+    setVKey,
+    vRegistrosModeradores,
+    vUsuario,
+    vInstituciones,
+  } = props;
   const [open, setOpen] = React.useState(false);
 
+  const [vInstitucion, setvInstitucion] = React.useState("");
   const [vNombre, setvNombre] = React.useState("");
   const [vApePaterno, setvApePaterno] = React.useState("");
   const [vApeMaterno, setvApeMaterno] = React.useState("");
@@ -124,6 +158,7 @@ export default function CDialogDetallesSala(props) {
   );
 
   const [vErrores, setvErrores] = React.useState({
+    institucion: { estado: false, texto: "" },
     nombre: { estado: false, texto: "" },
     ape_paterno: { estado: false, texto: "" },
     ape_materno: { estado: false, texto: "" },
@@ -158,6 +193,17 @@ export default function CDialogDetallesSala(props) {
     );
   }, [vSala?.moderador, vSala?.moderador.length]);
 
+  const handleChange = (event) => {
+    console.log(event.target.name);
+    switch (event.target.name) {
+      case Variables.v_TEXTOS.institucion:
+        setvInstitucion(event.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -170,7 +216,7 @@ export default function CDialogDetallesSala(props) {
     if (vModeradorSeleccionado.nombre === undefined) {
       const vRegistro = {
         uid: Date.now(),
-        institucion: vSala.institucion,
+        institucion: vInstitucion,
         nombre: vNombre,
         apellido_paterno: vApePaterno,
         apellido_materno: vApeMaterno,
@@ -206,20 +252,24 @@ export default function CDialogDetallesSala(props) {
         console.log("datos incorrectos, no se registro al coordinador");
       }
     } else {
-      var mAgregarModerador = (vModeradorRegistrado) => {
-        vSala.moderador = vModeradorRegistrado.uid;
-        Posts.mEnviarCorreo(
-          "2",
-          vModeradorRegistrado.correo,
-          "Ya cuenta con una contraseña establecida"
-        );
-        Puts.mModifcarSalas(vSala);
+      if (vModeradorSeleccionado.salas !== "PENDIENTE") {
+        vModeradorSeleccionado.salas =
+          vModeradorSeleccionado.salas + ", " + vSala._id;
+      } else {
+        vModeradorSeleccionado.salas = vSala._id;
+      }
+      Puts.mModificarModerador(vModeradorSeleccionado);
+      vSala.moderador = vModeradorSeleccionado.uid;
+      Posts.mEnviarCorreo(
+        "2",
+        vModeradorSeleccionado.correo,
+        "Ya cuenta con una contraseña establecida"
+      );
+      Puts.mModifcarSalas(vSala);
 
-        mActualziarSalas(vSala, setVKey);
-        mLimpiarDatos(setvNombre, setvCorreo);
-        handleClose();
-      };
-      console.log(vModeradorSeleccionado);
+      mActualziarSalas(vSala, setVKey);
+      mLimpiarDatos(setvNombre, setvCorreo);
+      handleClose();
     }
   };
 
@@ -316,6 +366,32 @@ export default function CDialogDetallesSala(props) {
             )}
             {vModeradorSeleccionado.nombre === undefined && (
               <>
+                {vUsuario.rol === undefined ? (
+                  <Mui.FormControl fullWidth>
+                    <Mui.InputLabel required id="label-institucion">
+                      {Variables.v_TEXTOS.institucion}
+                    </Mui.InputLabel>
+                    <Mui.Select
+                      error={vErrores.institucion.estado}
+                      helperText={vErrores.institucion.texto}
+                      sx={{ width: "100%" }}
+                      labelId="label-institucion"
+                      name={Variables.v_TEXTOS.institucion}
+                      value={vInstitucion}
+                      label={Variables.v_TEXTOS.institucion}
+                      onChange={handleChange}
+                    >
+                      {mInstituciones(vInstituciones)}
+                    </Mui.Select>
+                  </Mui.FormControl>
+                ) : (
+                  <Mui.TextField
+                    disabled
+                    label={"Institución"}
+                    value={vUsuario.institucion}
+                    onChange={(evt) => setvNombre(evt.target.value)}
+                  />
+                )}
                 <Mui.TextField
                   error={vErrores.nombre.estado}
                   helperText={vErrores.nombre.texto}

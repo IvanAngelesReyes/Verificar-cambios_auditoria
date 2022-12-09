@@ -18,13 +18,40 @@ import React from "react";
 import * as Mui from "@mui/material";
 import * as Puts from "../../../Util/Puts";
 import * as Variables from "../../../Global/Variables";
+import * as Metodos from "../../../Global/Metodos";
 
 export default function CSalaActiva(props) {
-  const { vRegistro, mActualziarSalas, setVKey, mActivarFiltros } = props;
+  const {
+    vRegistro,
+    mActualziarSalas,
+    setVKey,
+    mActivarFiltros,
+    vRegistrosModeradores,
+  } = props;
+
+  const [vModerador, setvModerador] = React.useState({});
+  const [vKeyModerador, setvKeyModerador] = React.useState(Date.now());
+
+  React.useEffect(() => {
+    if (vRegistro?.moderador !== undefined && vRegistro?.moderador.length > 0) {
+      setvModerador(
+        vRegistrosModeradores.vConsultaDataModerador.filter(
+          (item) => item.uid === vRegistro?.moderador
+        )[0]
+      );
+      setvKeyModerador(Date.now())
+    }
+  }, [vRegistro?.moderador, vRegistro?.moderador.length]);
 
   const handleClick = () => {
     vRegistro.estado = "Cerrada";
-    vRegistro.fecha_cierre = "18 de enero de 2022";
+    var vFechaFinal = new Date()
+    vRegistro.fecha_cierre =
+      vFechaFinal.getDate() +
+      " de " +
+      Metodos.mObtenerMes(vFechaFinal.getMonth()) +
+      " de " +
+      vFechaFinal.getFullYear();
     Puts.mModifcarSalas(vRegistro);
     mActualziarSalas(vRegistro, setVKey);
     mActivarFiltros();
@@ -50,9 +77,16 @@ export default function CSalaActiva(props) {
           alignItems="stretch"
         >
           <Mui.TextField
+            key={vKeyModerador}
             id="standard-read-only-input"
-            label={Variables.v_TEXTOS.detalles_sala.texto6}
-            defaultValue={vRegistro.fecha}
+            label={Variables.v_TEXTOS.detalles_sala.texto16}
+            defaultValue={
+              vModerador.nombre +
+              " " +
+              vModerador.apellido_paterno +
+              " " +
+              vModerador.apellido_materno
+            }
             InputProps={{
               readOnly: true,
             }}
