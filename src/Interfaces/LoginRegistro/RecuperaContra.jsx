@@ -53,7 +53,7 @@ export default function CRecuperaContra(){
 
         if (verificaCampos(vEmail) === true) {
             var mSeleccionarURecuperaPswd = (vRes) => {
-              console.log("vRes ---> " + vRes.r);
+              console.log("vRes --->" + vRes.r);
               switch (vRes.r) {
                 //Moderador
                 case "moderrorcontra":
